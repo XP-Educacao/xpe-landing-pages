@@ -1,0 +1,22 @@
+# Saída do build de todas as páginas (gerada pelo scripts/build-all.mjs)
+/_site/
+
+# Instalações acidentais na raiz (cada página tem o seu próprio package.json)
+/node_modules/
+/package-lock.json
+
+# Dependências e builds dentro das páginas
+node_modules/
+dist/
+coverage/
+
+# Variáveis de ambiente e arquivos locais
+.env
+.env.*
+!.env.example
+*.local
+
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+*.log

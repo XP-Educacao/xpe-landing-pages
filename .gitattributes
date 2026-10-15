@@ -1,0 +1,16 @@
+# Todos os arquivos de texto ficam com quebra de linha LF, inclusive no Windows.
+# Assim o Prettier (npm run check) passa igual no seu computador e no GitHub.
+* text=auto eol=lf
+
+# Binários: nunca converter.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.mp4 binary
+*.zip binary
