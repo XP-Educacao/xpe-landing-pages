@@ -27,8 +27,13 @@ describe('parseCourse — valid content', () => {
   it('reads the sequential release, durations and course settings', () => {
     const course = expectCourse(parseCourse(cloneRawCourse()));
     expect(course.lessons.every((lesson) => lesson.release.type === 'sequential')).toBe(true);
-    // Content changes over time: only check that every duration was parsed (ms > 0).
-    expect(course.lessons.every((lesson) => (lesson.videoDurationMs ?? 0) > 0)).toBe(true);
+    // Content changes over time ("em breve" lessons may have no duration yet):
+    // only check that every filled duration was parsed (ms > 0).
+    expect(
+      course.lessons.every(
+        (lesson) => lesson.videoDurationMs === null || lesson.videoDurationMs > 0,
+      ),
+    ).toBe(true);
     expect(course.progression).toEqual({ unlockNextOn: 'play' });
     expect(course.features).toEqual({ allowManualComplete: false });
     expect(course.sound).toEqual({ enabledByDefault: true, volume: 0.12 });
@@ -271,6 +276,20 @@ describe('parseCourse — invalid content (friendly errors)', () => {
 });
 
 describe('parseCourse — expandable content pages', () => {
+  /** The real content may have no page material yet ("em breve"), so these tests add their own. */
+  function courseWithGuidePage() {
+    const raw = cloneRawCourse() as unknown as {
+      lessons: { materials: Record<string, unknown>[] }[];
+    };
+    raw.lessons[0]!.materials[1] = {
+      id: 'guia',
+      label: 'Guia de Abertura',
+      icon: 'guide',
+      page: 'guia-de-abertura',
+    };
+    return raw;
+  }
+
   const guide = {
     intro: 'Introdução',
     blocks: [
@@ -283,7 +302,7 @@ describe('parseCourse — expandable content pages', () => {
 
   it('resolves "page" into the content page with defaults', () => {
     const material = expectCourse(
-      parseCourse(cloneRawCourse(), { ...PAGES, 'guia-de-abertura': guide }),
+      parseCourse(courseWithGuidePage(), { ...PAGES, 'guia-de-abertura': guide }),
     ).lessons[0]?.materials.find((item) => item.id === 'guia');
     expect(material?.url).toBeNull();
     expect(material?.page).toMatchObject({
@@ -308,7 +327,7 @@ describe('parseCourse — expandable content pages', () => {
   });
 
   it('points to a missing page file', () => {
-    const issue = expectIssues(parseCourse(cloneRawCourse(), {}))[0];
+    const issue = expectIssues(parseCourse(courseWithGuidePage(), {}))[0];
     expect(issue?.location).toBe('lessons[0] (aula-1) › materials[1].page');
     expect(issue?.message).toMatch(/src\/content\/pages\/guia-de-abertura\.json/);
   });
@@ -322,7 +341,7 @@ describe('parseCourse — expandable content pages', () => {
       ],
     };
     const messages = expectIssues(
-      parseCourse(cloneRawCourse(), { 'guia-de-abertura': broken }),
+      parseCourse(courseWithGuidePage(), { 'guia-de-abertura': broken }),
     ).map((issue) => issue.message);
     expect(messages[0]).toMatch(
       /^pages\/guia-de-abertura\.json › blocks\[1\]\.src — Link inválido/,
@@ -333,9 +352,7 @@ describe('parseCourse — expandable content pages', () => {
   });
 
   it('rejects a material with both "url" and "page"', () => {
-    const raw = cloneRawCourse() as unknown as {
-      lessons: { materials: Record<string, unknown>[] }[];
-    };
+    const raw = courseWithGuidePage();
     raw.lessons[0]!.materials[1]!.url = 'https://exemplo.com';
     expect(expectIssues(parseCourse(raw))[0]?.message).toMatch(/OU "page"/);
   });
