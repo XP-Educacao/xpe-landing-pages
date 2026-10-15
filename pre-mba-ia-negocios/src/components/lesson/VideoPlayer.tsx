@@ -20,11 +20,7 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ video, ...props }: VideoPlayerProps) {
-  return video ? (
-    <PlayableVideo video={video} {...props} />
-  ) : (
-    <VideoComingSoon />
-  );
+  return video ? <PlayableVideo video={video} {...props} /> : <VideoComingSoon />;
 }
 
 type FocusTarget = 'facade' | 'miniToggle';

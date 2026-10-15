@@ -137,7 +137,8 @@ export const uiText = {
 
   community: {
     placeholderTitle: 'Compartilhe suas ideias e aprendizados',
-    placeholderDescription: 'Em breve será um espaço para trocar experiências, compartilhar reflexões e aprender em conjunto.',
+    placeholderDescription:
+      'Em breve será um espaço para trocar experiências, compartilhar reflexões e aprender em conjunto.',
     iframeTitle: (title: string) => `Mural da comunidade: ${title}`,
     openInNewTab: 'Abrir o mural em nova aba',
   },
