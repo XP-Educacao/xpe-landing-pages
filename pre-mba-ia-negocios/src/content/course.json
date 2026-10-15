@@ -72,7 +72,7 @@
       "title": "Em breve",
       "subtitle": "",
       "description": "",
-      "release": { "type": "sequential" },
+      "release": { "type": "locked" },
       "video": {
         "provider": "spalla",
         "embedUrl": "",
@@ -95,7 +95,7 @@
       "title": "Em breve",
       "subtitle": "",
       "description": "",
-      "release": { "type": "sequential" },
+      "release": { "type": "locked" },
       "video": {
         "provider": "spalla",
         "embedUrl": "",
@@ -118,7 +118,7 @@
       "title": "Em breve",
       "subtitle": "",
       "description": "",
-      "release": { "type": "sequential" },
+      "release": { "type": "locked" },
       "video": {
         "provider": "spalla",
         "embedUrl": "",
@@ -141,7 +141,7 @@
       "title": "Em breve",
       "subtitle": "",
       "description": "",
-      "release": { "type": "sequential" },
+      "release": { "type": "locked" },
       "video": {
         "provider": "spalla",
         "embedUrl": "",
