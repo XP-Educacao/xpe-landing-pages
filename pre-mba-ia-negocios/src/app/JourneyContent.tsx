@@ -27,7 +27,7 @@ interface JourneyContentProps {
 
 export function JourneyContent({ course, viewModel }: JourneyContentProps) {
   const { timezone, completionThreshold } = course.journey;
-  const { allowPlaybackSimulation, progressRepository, clock } = useAppServices();
+  const { progressRepository, clock } = useAppServices();
   const interactions = useJourneyInteractions(course, viewModel);
   const materialVisits = useMaterialVisits(progressRepository, course.journey.id, clock);
 
@@ -141,13 +141,6 @@ export function JourneyContent({ course, viewModel }: JourneyContentProps) {
           visitedMaterialIds={materialVisits.visitedIn(selectedLesson.id)}
           onMaterialVisit={materialVisits.markVisited}
           playback={playbackFor(selectedLesson.id)}
-          onSimulatePlay={
-            allowPlaybackSimulation
-              ? () => {
-                  playback.activate(selectedLesson.id);
-                }
-              : undefined
-          }
         />
       ) : (
         <LessonEmptyState nextReleaseAt={viewModel.nextReleaseAt} timeZone={timezone} />

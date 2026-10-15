@@ -87,7 +87,7 @@ export const uiText = {
     play: (title: string) => `Reproduzir o vídeo: ${title}`,
     releasedBadge: (order: number) => `${lessonLabel(order)} • Liberada`,
     iframeTitle: (title: string) => `Vídeo da aula: ${title}`,
-    comingSoonTitle: 'Vídeo em breve',
+    comingSoonTitle: 'Videoaula em breve',
     comingSoonDescription: 'O vídeo desta aula será publicado aqui assim que estiver disponível.',
     expand: 'Modo expandido',
     shrink: 'Largura padrão',
@@ -106,7 +106,6 @@ export const uiText = {
       spalla: 'Assistir na Spalla',
     } satisfies Record<VideoProvider, string>,
     captionsLabel: 'Português',
-    simulatePlay: 'Simular reprodução',
   },
 
   completion: {
@@ -137,8 +136,8 @@ export const uiText = {
   },
 
   community: {
-    placeholderTitle: 'Espaço para incorporar o Padlet',
-    placeholderDescription: 'O mural interativo aparecerá aqui após a configuração do embed.',
+    placeholderTitle: 'Compartilhe suas ideias e aprendizados',
+    placeholderDescription: 'Em breve será um espaço para trocar experiências, compartilhar reflexões e aprender em conjunto.',
     iframeTitle: (title: string) => `Mural da comunidade: ${title}`,
     openInNewTab: 'Abrir o mural em nova aba',
   },

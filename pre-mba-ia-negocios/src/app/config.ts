@@ -12,8 +12,6 @@ export interface AppConfig {
   readonly features: {
     /** Enables `?today=AAAA-MM-DD` and `?speed=N`. Default: on in development, off in production. */
     readonly allowDateOverride: boolean;
-    /** "Simular reprodução" on lessons without video. Default: on in development only. */
-    readonly allowPlaybackSimulation: boolean;
   };
 }
 
@@ -23,9 +21,6 @@ const envSchema = z.object({
   VITE_ACCESS_PROVIDER: z.enum(['static', 'api']).default('static'),
   VITE_ACCESS_API_BASE_URL: z.string().trim().default(''),
   VITE_ALLOW_DATE_OVERRIDE: z
-    .union([z.literal('').transform(() => undefined), booleanFlag])
-    .optional(),
-  VITE_ALLOW_PLAYBACK_SIMULATION: z
     .union([z.literal('').transform(() => undefined), booleanFlag])
     .optional(),
 });
@@ -39,7 +34,6 @@ export function readAppConfig(env: ImportMetaEnv & { readonly DEV: boolean }): A
     clockSpeedParam: 'speed',
     features: {
       allowDateOverride: parsed.VITE_ALLOW_DATE_OVERRIDE ?? env.DEV,
-      allowPlaybackSimulation: parsed.VITE_ALLOW_PLAYBACK_SIMULATION ?? env.DEV,
     },
   };
 }

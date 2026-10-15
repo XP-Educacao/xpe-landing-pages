@@ -38,6 +38,5 @@ export function createAppServices(
     accessProvider: createAccessProvider(config, journey, clock),
     progressRepository: createProgressRepository(),
     unlockSound: new WebAudioUnlockSound(),
-    allowPlaybackSimulation: config.features.allowPlaybackSimulation,
   };
 }

@@ -91,7 +91,7 @@ A aula vira **"Assistido"** sozinha quando o tempo assistido chega a `duration �
 - Spalla (sem eventos do player): conta o tempo corrido desde o play.
 - Sem `duration`: vale a posição informada pelo player (YouTube/Vimeo/MP4) ou o botão manual.
 
-Para testar sem esperar o vídeo: `npm run dev` e abra `http://localhost:5173/?speed=60` (1 segundo real = 1 minuto). Em desenvolvimento, aulas sem vídeo mostram **"Simular reprodução"**.
+Para testar sem esperar o vídeo: `npm run dev` e abra `http://localhost:5173/?speed=60` (1 segundo real = 1 minuto). Esse atalho acelera o tempo contado durante a reprodução de um vídeo; aulas sem vídeo não iniciam a contagem automaticamente.
 
 > O desbloqueio é experiência de uso: o progresso fica no navegador e pode ser burlado. Bloqueio real depende da API da fase 2.
 
