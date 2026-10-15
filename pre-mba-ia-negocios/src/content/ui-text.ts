@@ -42,6 +42,7 @@ export const uiText = {
     releaseOn: (date: string) => `Liberação: ${date}`,
     awaitingEnrollment: 'Liberação conforme a data da sua inscrição',
     awaitingPreviousLesson: 'Desbloqueie a aula anterior',
+    awaitingPublication: 'Disponível em breve',
     awaitingTrigger: {
       play: 'Dê play na aula anterior',
       watched: 'Conclua a aula anterior',
@@ -80,6 +81,7 @@ export const uiText = {
       title: 'Sua jornada começa em breve',
       firstReleaseOn: (date: string) => `A primeira aula será liberada em ${date}.`,
       awaitingEnrollment: 'As aulas serão liberadas de acordo com a data da sua inscrição.',
+      awaitingPublication: 'As aulas serão publicadas em breve. Volte para conferir.',
     },
   },
 

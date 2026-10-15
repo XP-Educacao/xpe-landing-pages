@@ -95,6 +95,20 @@ Para testar sem esperar o vídeo: `npm run dev` e abra `http://localhost:5173/?s
 
 > O desbloqueio é experiência de uso: o progresso fica no navegador e pode ser burlado. Bloqueio real depende da API da fase 2.
 
+## b1) Travar uma aula até publicar ("em breve")
+
+Para deixar uma aula fechada para todos até o conteúdo ficar pronto, use:
+
+```json
+"release": { "type": "locked" }
+```
+
+- O card mostra **"Disponível em breve"** e o botão "Liberar aula" não aparece, mesmo que o aluno já tenha dado play na aula anterior.
+- As aulas seguintes também ficam bloqueadas, porque dependem desta. Para publicar aos poucos, trave todas as que ainda não estão prontas.
+- **Para liberar**, troque `"locked"` por `"sequential"` (o aluno libera pelo botão, como de costume) ou por uma data (`fixed_date`, abaixo), faça o commit e o push. Exemplo de commit: `feat(pre-mba-ia-negocios): liberar aula 2`.
+- Quem já tinha liberado ou assistido a aula antes da trava volta a vê-la bloqueada; o progresso fica salvo e reaparece quando a aula for liberada.
+- Se todas as aulas estiverem travadas, a página mostra "As aulas serão publicadas em breve".
+
 ## b2) Liberação por data (opcional)
 
 Para voltar a liberar uma aula por data, troque o `release` dela. A aula é liberada **à 00:00 do dia, no fuso `journey.timezone` (America/Sao_Paulo)**, independentemente do fuso do aluno.

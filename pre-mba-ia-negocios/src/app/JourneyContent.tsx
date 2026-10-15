@@ -143,7 +143,11 @@ export function JourneyContent({ course, viewModel }: JourneyContentProps) {
           playback={playbackFor(selectedLesson.id)}
         />
       ) : (
-        <LessonEmptyState nextReleaseAt={viewModel.nextReleaseAt} timeZone={timezone} />
+        <LessonEmptyState
+          nextReleaseAt={viewModel.nextReleaseAt}
+          lessonStates={lessonStates}
+          timeZone={timezone}
+        />
       )}
 
       <p className="sr-only" aria-live="polite" role="status">

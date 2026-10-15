@@ -26,7 +26,9 @@ describe('parseCourse — valid content', () => {
 
   it('reads the sequential release, durations and course settings', () => {
     const course = expectCourse(parseCourse(cloneRawCourse()));
-    expect(course.lessons.every((lesson) => lesson.release.type === 'sequential')).toBe(true);
+    // Content changes over time (lessons may stay "locked" until published): only check the rules.
+    const releaseTypes = new Set(['sequential', 'locked', 'fixed_date', 'enrollment_offset']);
+    expect(course.lessons.every((lesson) => releaseTypes.has(lesson.release.type))).toBe(true);
     // Content changes over time ("em breve" lessons may have no duration yet):
     // only check that every filled duration was parsed (ms > 0).
     expect(
@@ -83,6 +85,12 @@ describe('parseCourse — valid content', () => {
     expect(release?.type === 'fixed_date' && release.date.toISOString()).toBe(
       '2026-10-20T03:00:00.000Z',
     );
+  });
+
+  it('accepts a manual lock ("locked") until the content is published', () => {
+    const raw = cloneRawCourse() as unknown as { lessons: { release: unknown }[] };
+    raw.lessons[1]!.release = { type: 'locked' };
+    expect(expectCourse(parseCourse(raw)).lessons[1]?.release).toEqual({ type: 'locked' });
   });
 
   it('accepts enrollment_offset releases (phase 2)', () => {
@@ -235,7 +243,7 @@ describe('parseCourse — invalid content (friendly errors)', () => {
     raw.lessons[1]!.video = { provider: 'tiktok', videoId: 'x' };
     const messages = expectIssues(parseCourse(raw)).map((issue) => issue.message);
     expect(messages).toContain(
-      'Tipo de liberação inválido. Use "sequential", "fixed_date" ou "enrollment_offset".',
+      'Tipo de liberação inválido. Use "sequential", "locked", "fixed_date" ou "enrollment_offset".',
     );
     expect(messages).toContain(
       'Provedor de vídeo inválido. Use "youtube", "vimeo", "mp4" ou "spalla".',
