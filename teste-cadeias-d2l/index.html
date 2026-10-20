@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <!-- Nenhuma chamada de rede é permitida: os valores recebidos não saem do navegador. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Teste das cadeias de substituição · D2L</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">XP Educação · teste técnico</p>
+      <h1>Teste das cadeias de substituição do D2L</h1>
+      <p id="summary" class="summary" role="status">Lendo os parâmetros…</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>Cadeia no D2L</th>
+              <th>Valor recebido</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <dl class="context">
+        <div>
+          <dt>Aberta dentro de um iframe (widget)?</dt>
+          <dd id="ctx-iframe">—</dd>
+        </div>
+        <div>
+          <dt>Parâmetros chegaram em</dt>
+          <dd id="ctx-source">—</dd>
+        </div>
+      </dl>
+
+      <p class="privacy">
+        Esta página não envia nem guarda nada: ela não consegue fazer chamadas de rede e apaga os valores do
+        endereço logo depois de ler. Se for compartilhar um print, cubra os valores.
+      </p>
+
+      <section class="howto" aria-labelledby="howto-title">
+        <h2 id="howto-title">Como testar no D2L</h2>
+        <p>
+          <strong>1. Widget personalizado (recomendado).</strong> Em <em>Widgets</em> › <em>Criar widget</em>,
+          no conteúdo HTML, cole:
+        </p>
+        <pre id="snippet-widget"></pre>
+        <p>
+          <strong>2. Link personalizado na barra de navegação.</strong> Em <em>Links</em> ›
+          <em>Criar link personalizado</em>, use como URL:
+        </p>
+        <pre id="snippet-url"></pre>
+        <p class="hint">
+          Se a página mostrar <code>{UserId}</code> literal, o D2L não substituiu a cadeia naquele lugar.
+          Em tópicos de Conteúdo, as cadeias de usuário e de função não funcionam.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
