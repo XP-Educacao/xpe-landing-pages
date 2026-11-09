@@ -1,0 +1,159 @@
+{
+  "journey": {
+    "id": "advisor-experience",
+    "eyebrow": "XP EDUCAÇÃO · CARREIRA NO MERCADO FINANCEIRO",
+    "title": "Advisor Experience",
+    "description": "Uma experiência de conteúdo para quem quer construir carreira no mercado financeiro. Assista aos webinars no seu ritmo, conheça de perto a metodologia da Formação Advisor 3.0 e descubra o seu próximo passo na assessoria de investimentos.",
+    "highlights": ["13 dias de acesso gratuito", "4 webinars", "Assista quando e onde quiser"],
+    "timezone": "America/Sao_Paulo",
+    "completionThreshold": 0.75,
+    "header": {
+      "brandName": "XP Educação",
+      "logoUrl": "",
+      "label": "Jornada de aprendizagem"
+    }
+  },
+  "progression": { "unlockNextOn": "play" },
+  "features": { "allowManualComplete": true },
+  "sound": { "enabledByDefault": true, "volume": 0.12 },
+  "animation": { "unlockOverlayMs": 4000 },
+  "reward": {
+    "enabled": true,
+    "unlockWhen": "all_watched",
+    "icon": "gift",
+    "title": "Desconto desbloqueado!",
+    "description": "Você assistiu a todos os webinars. Seu próximo passo está aqui.",
+    "cta": {
+      "label": "Acessar a surpresa preparada para você",
+      "url": "https://xpeducacao.com.br/pos-graduacao/mba?utm_source=produto&utm_medium=d2l&utm_term=per_meta_paid_pos_tech-ia_all_int_2&utm_campaign=per_meta_paid_pos_tech-ia&utm_content=per_meta_paid_pos_tech-ia_all_int_2_estatico_arquitetura-software-comparativo&gad_source=1&gad_campaignid=23684130701&gbraid=0AAAAACUXhW6lN-gf364KTw3y0-5Ci7Ucm&gclid=Cj0KCQjwkOvTBhDgARIsAKUNyRuAS6uADpJw6lzFyWxKaPpqsR0Td-XbdnyxKBiT0VH606eVe4QauUYaArGLEALw_wcB",
+      "pendingLabel": "Acessar a surpresa preparada para você"
+    },
+    "announce": "Desconto desbloqueado. Um novo card foi adicionado ao final da jornada.",
+    "overlayNote": "Uma surpresa especial foi desbloqueada na jornada.",
+    "teaser": "",
+    "progress": { "label": "", "valueText": "Desconto incluído." }
+  },
+  "lessons": [
+    {
+      "id": "aula-1",
+      "order": 1,
+      "numbered": false,
+      "title": "Boas-vindas e o futuro dos negócios",
+      "subtitle": "Comece sua jornada e conheça as oportunidades da IA nos negócios.",
+      "description": "Seja bem-vindo ao Pré-MBA em IA para Negócios! Nesta aula inaugural, apresentamos a proposta pedagógica da formação, o impacto da inteligência artificial na rotina executiva e a dinâmica de liberação das próximas etapas práticas.",
+      "release": { "type": "sequential" },
+      "video": {
+        "provider": "spalla",
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
+        "duration": "04:38"
+      },
+      "materials": [
+        {
+          "id": "texto-apoio",
+          "label": "Texto de Apoio da Aula",
+          "icon": "text",
+          "url": ""
+        },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "id": "aula-2",
+      "order": 2,
+      "title": "Diagnosticar ",
+      "subtitle": "Dominando o Uso Estratético da IA",
+      "description": "",
+      "release": { "type": "sequential" },
+      "video": {
+        "provider": "spalla",
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7609-7391-8287-a4d9cd4ba5de;&subtitleLanguage=null",
+        "duration": "07:47"
+      },
+      "materials": [
+        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95827%3FfilterOnDatesAndDepth%3D1"
+        }
+      ]
+    },
+    {
+      "id": "aula-3",
+      "order": 3,
+      "title": "Analisar",
+      "subtitle": "Primeiros Passos com Dados e Prompts",
+      "description": "",
+      "release": { "type": "sequential" },
+      "video": {
+        "provider": "spalla",
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7392-af5f-8acda0aa78c2;&subtitleLanguage=null",
+        "duration": "08:13"
+      },
+      "materials": [
+        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95829%3FfilterOnDatesAndDepth%3D1"
+        }
+      ]
+    },
+    {
+      "id": "aula-4",
+      "order": 4,
+      "title": "Decidir",
+      "subtitle": "Dominando a Criação de Dashboards",
+      "description": "",
+      "release": { "type": "sequential" },
+      "video": {
+        "provider": "spalla",
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7391-b93b-e4ddf6b4566f;&subtitleLanguage=null",
+        "duration": "06:40"
+      },
+      "materials": [
+        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95831%3FfilterOnDatesAndDepth%3D1"
+        }
+      ]
+    },
+    {
+      "id": "aula-5",
+      "order": 5,
+      "title": "Otimizar",
+      "subtitle": "Criando Rotinas e Análises Inteligentes",
+      "description": "",
+      "release": { "type": "sequential" },
+      "video": {
+        "provider": "spalla",
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
+        "duration": "04:38"
+      },
+      "materials": [
+        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95833%3FfilterOnDatesAndDepth%3D1"
+        }
+      ]
+    }
+  ]
+}
