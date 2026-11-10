@@ -82,7 +82,12 @@
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95827%3FfilterOnDatesAndDepth%3D1" }
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95827%3FfilterOnDatesAndDepth%3D1"
+        }
       ],
       "community": {
         "title": "Comunidade e interações",
@@ -105,7 +110,12 @@
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95829%3FfilterOnDatesAndDepth%3D1" }
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95829%3FfilterOnDatesAndDepth%3D1"
+        }
       ],
       "community": {
         "title": "Comunidade e interações",
@@ -128,7 +138,12 @@
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95831%3FfilterOnDatesAndDepth%3D1" }
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95831%3FfilterOnDatesAndDepth%3D1"
+        }
       ],
       "community": {
         "title": "Comunidade e interações",
@@ -151,7 +166,12 @@
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95833%3FfilterOnDatesAndDepth%3D1" }
+        {
+          "id": "slides",
+          "label": "Apresentação de Slides",
+          "icon": "slides",
+          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95833%3FfilterOnDatesAndDepth%3D1"
+        }
       ],
       "community": {
         "title": "Comunidade e interações",
