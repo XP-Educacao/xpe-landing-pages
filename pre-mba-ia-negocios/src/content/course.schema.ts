@@ -127,6 +127,8 @@ function createLessonSchema(pages: RawContentPages) {
       .number()
       .int({ error: 'A ordem deve ser um número inteiro (1, 2, 3...).' })
       .min(1, { error: 'A ordem começa em 1.' }),
+    /** `false`: the card shows no "Aula N" and the numbering starts at the next lesson. */
+    numbered: z.boolean().default(true),
     title: requiredText,
     subtitle: optionalText,
     description: optionalText,
@@ -249,7 +251,19 @@ function findDuplicates(values: readonly (string | number)[]): Set<string | numb
 type RawLesson = z.output<ReturnType<typeof createLessonSchema>>;
 
 function toLesson({ video, ...lesson }: RawLesson, release: ReleaseRule): Lesson {
-  return { ...lesson, release, video: video.source, videoDurationMs: video.durationMs };
+  return {
+    ...lesson,
+    number: null, // assigned after sorting (see numberLessons)
+    release,
+    video: video.source,
+    videoDurationMs: video.durationMs,
+  };
+}
+
+/** "Aula 1, 2, 3..." skipping unnumbered lessons (e.g. an opening lesson). */
+function numberLessons(sorted: readonly Lesson[]): Lesson[] {
+  let count = 0;
+  return sorted.map((lesson) => ({ ...lesson, number: lesson.numbered ? ++count : null }));
 }
 
 /** Course schema for a given set of content pages (`pages/*.json`). */
@@ -331,7 +345,7 @@ export function createCourseSchema(pages: RawContentPages = {}) {
       sound,
       animation,
       reward: raw.reward, // `icon` is ignored: only one icon today (lucide Gift)
-      lessons: lessons.sort((a, b) => a.order - b.order),
+      lessons: numberLessons(lessons.sort((a, b) => a.order - b.order)),
     };
   });
 }

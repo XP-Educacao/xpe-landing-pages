@@ -12,7 +12,7 @@ const MIN_THUMBNAIL_WIDTH = 121;
 interface VideoFacadeProps {
   readonly video: VideoSource;
   readonly lessonTitle: string;
-  readonly lessonOrder: number;
+  readonly lessonNumber: number | null;
   readonly onPlay: () => void;
   readonly ref?: Ref<HTMLButtonElement>;
 }
@@ -21,7 +21,7 @@ interface VideoFacadeProps {
  * Lightweight placeholder (thumbnail + play button). The heavy player iframe is only
  * created after the click, which keeps the first load fast inside the LMS.
  */
-export function VideoFacade({ video, lessonTitle, lessonOrder, onPlay, ref }: VideoFacadeProps) {
+export function VideoFacade({ video, lessonTitle, lessonNumber, onPlay, ref }: VideoFacadeProps) {
   const [candidates] = useState(() => getThumbnailCandidates(video));
   const [candidateIndex, setCandidateIndex] = useState(0);
   const thumbnail = candidates[candidateIndex];
@@ -67,7 +67,7 @@ export function VideoFacade({ video, lessonTitle, lessonOrder, onPlay, ref }: Vi
         <Play aria-hidden="true" className="ml-1 size-7 fill-current md:size-8" />
       </span>
       <span className="absolute bottom-4 left-4 rounded-md bg-white px-2.5 py-1 text-[11px] font-bold tracking-wide text-brand-700 uppercase">
-        {uiText.video.releasedBadge(lessonOrder)}
+        {uiText.video.releasedBadge(lessonNumber)}
       </span>
     </button>
   );

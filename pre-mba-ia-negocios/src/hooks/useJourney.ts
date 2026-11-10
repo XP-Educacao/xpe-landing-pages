@@ -50,7 +50,8 @@ export type JourneyViewModel =
 /** Screen-reader event; `id` changes on every event so repeated texts are announced again. */
 export interface LessonAnnouncement {
   readonly kind: 'unlocked' | 'completed';
-  readonly order: number;
+  /** "Aula N" of the lesson; `null` = unnumbered lesson. */
+  readonly number: number | null;
   readonly id: number;
 }
 
@@ -92,8 +93,8 @@ export function useJourney(course: Course): JourneyViewModel {
   const [announcement, setAnnouncement] = useState<LessonAnnouncement | null>(null);
   const announce = useCallback(
     (kind: LessonAnnouncement['kind'], lessonId: LessonId) => {
-      const order = course.lessons.find((lesson) => lesson.id === lessonId)?.order ?? 0;
-      setAnnouncement((previous) => ({ kind, order, id: (previous?.id ?? 0) + 1 }));
+      const number = course.lessons.find((lesson) => lesson.id === lessonId)?.number ?? null;
+      setAnnouncement((previous) => ({ kind, number, id: (previous?.id ?? 0) + 1 }));
     },
     [course.lessons],
   );

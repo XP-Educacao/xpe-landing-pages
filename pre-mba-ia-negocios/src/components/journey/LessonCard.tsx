@@ -117,12 +117,15 @@ export function LessonCard({
       <span className={cn('grid size-9 place-items-center rounded-full', ICON_CLASS[status])}>
         <StatusIcon aria-hidden="true" className="size-[18px]" />
       </span>
-      <span className="mt-4 text-[11px] font-semibold tracking-[0.08em] text-neutral-500 uppercase">
-        {copy.lessonLabel(lesson.order)}
-      </span>
+      {lesson.number !== null && (
+        <span className="mt-4 text-[11px] font-semibold tracking-[0.08em] text-neutral-500 uppercase">
+          {copy.lessonLabel(lesson.number)}
+        </span>
+      )}
       <span
         className={cn(
           'mt-1 line-clamp-2 text-[15px] leading-snug font-semibold tracking-[-0.01em]',
+          lesson.number === null && 'mt-4',
           isLocked ? 'text-neutral-600' : 'text-ink-950',
         )}
       >

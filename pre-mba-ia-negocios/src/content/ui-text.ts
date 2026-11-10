@@ -11,7 +11,7 @@ function plural(count: number, singular: string, pluralForm: string): string {
   return count === 1 ? singular : pluralForm;
 }
 
-const lessonLabel = (order: number) => `Aula ${order}`;
+const lessonLabel = (number: number) => `Aula ${number}`;
 
 export const uiText = {
   page: {
@@ -61,16 +61,21 @@ export const uiText = {
   },
 
   unlock: {
-    title: (order: number) => `${lessonLabel(order)} liberada!`,
+    title: (number: number | null) =>
+      number === null ? 'Aula liberada!' : `${lessonLabel(number)} liberada!`,
     chip: (released: number, total: number) =>
       `${released} de ${total} ${plural(total, 'aula liberada', 'aulas liberadas')}`,
-    announce: (order: number) => `${lessonLabel(order)} liberada`,
-    completedAnnounce: (order: number) => `${lessonLabel(order)} concluída`,
+    announce: (number: number | null) =>
+      number === null ? 'Aula liberada' : `${lessonLabel(number)} liberada`,
+    completedAnnounce: (number: number | null) =>
+      number === null ? 'Aula concluída' : `${lessonLabel(number)} concluída`,
   },
 
   lessonPanel: {
-    tag: (order: number, isCompleted: boolean) =>
-      `${lessonLabel(order)} · ${isCompleted ? 'Concluída' : 'Conteúdo liberado'}`,
+    tag: (number: number | null, isCompleted: boolean) => {
+      const status = isCompleted ? 'Concluída' : 'Conteúdo liberado';
+      return number === null ? status : `${lessonLabel(number)} · ${status}`;
+    },
     expandAll: 'Expandir tudo',
     collapseAll: 'Recolher tudo',
     sections: {
@@ -87,7 +92,8 @@ export const uiText = {
 
   video: {
     play: (title: string) => `Reproduzir o vídeo: ${title}`,
-    releasedBadge: (order: number) => `${lessonLabel(order)} • Liberada`,
+    releasedBadge: (number: number | null) =>
+      number === null ? 'Liberada' : `${lessonLabel(number)} • Liberada`,
     iframeTitle: (title: string) => `Vídeo da aula: ${title}`,
     comingSoonTitle: 'Videoaula em breve',
     comingSoonDescription: 'O vídeo desta aula será publicado aqui assim que estiver disponível.',

@@ -110,6 +110,10 @@ export interface Community {
 export interface Lesson {
   readonly id: LessonId;
   readonly order: number;
+  /** `false` for an opening lesson shown without "Aula N" (e.g. boas-vindas). */
+  readonly numbered: boolean;
+  /** Number shown to learners ("Aula N"), counting only numbered lessons; `null` = none. */
+  readonly number: number | null;
   readonly title: string;
   readonly subtitle: string;
   readonly description: string;

@@ -25,7 +25,7 @@ export function LessonPanelHeader({
   return (
     <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
-        <Badge size="sm">{copy.tag(lesson.order, isCompleted)}</Badge>
+        <Badge size="sm">{copy.tag(lesson.number, isCompleted)}</Badge>
         <h2
           id={titleId}
           className="mt-4 text-2xl leading-tight font-bold tracking-[-0.025em] text-balance text-ink-950 md:text-[2rem]"

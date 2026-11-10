@@ -45,7 +45,7 @@ interface UnlockCelebrationProps {
  * from the journey live region. Only transform/opacity are animated (see `.unlock-*` CSS).
  */
 export function UnlockCelebration({ celebration, isClosing, onClose }: UnlockCelebrationProps) {
-  const { order, lessonTitle, released, total, isReducedMotion } = celebration;
+  const { number, lessonTitle, released, total, isReducedMotion } = celebration;
   const [confetti] = useState(() => (isReducedMotion ? [] : createConfetti()));
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -86,7 +86,7 @@ export function UnlockCelebration({ celebration, isClosing, onClose }: UnlockCel
           </span>
         </div>
         <p className="unlock-text mt-6 text-3xl font-bold tracking-[-0.02em]">
-          {uiText.unlock.title(order)}
+          {uiText.unlock.title(number)}
         </p>
         <p className="unlock-text unlock-text-2 mx-auto mt-2 max-w-sm text-base text-neutral-300">
           {lessonTitle}

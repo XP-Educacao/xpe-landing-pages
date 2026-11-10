@@ -15,7 +15,8 @@ import { VideoFacade } from './video/VideoFacade.tsx';
 interface VideoPlayerProps {
   readonly video: VideoSource | null;
   readonly lessonTitle: string;
-  readonly lessonOrder: number;
+  /** "Aula N" shown on the facade; `null` = unnumbered lesson. */
+  readonly lessonNumber: number | null;
   readonly playback: VideoPlaybackHandlers;
 }
 
@@ -53,7 +54,7 @@ const MINI_PLAYER_MIN_HEIGHT = 140;
 function PlayableVideo({
   video,
   lessonTitle,
-  lessonOrder,
+  lessonNumber,
   playback,
 }: VideoPlayerProps & { readonly video: VideoSource }) {
   // Spalla shows its own cover image: its player is mounted directly, without our facade.
@@ -282,7 +283,7 @@ function PlayableVideo({
                 ref={facadeRef}
                 video={video}
                 lessonTitle={lessonTitle}
-                lessonOrder={lessonOrder}
+                lessonNumber={lessonNumber}
                 onPlay={() => {
                   onActivate();
                   player.activate();

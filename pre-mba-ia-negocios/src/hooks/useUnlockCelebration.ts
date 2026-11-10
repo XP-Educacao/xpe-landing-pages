@@ -13,7 +13,8 @@ const CLOSE_GUARD_MS = 400;
 
 export interface Celebration {
   readonly lessonId: LessonId;
-  readonly order: number;
+  /** "Aula N" of the unlocked lesson; `null` = unnumbered lesson. */
+  readonly number: number | null;
   readonly lessonTitle: string;
   readonly released: number;
   readonly total: number;

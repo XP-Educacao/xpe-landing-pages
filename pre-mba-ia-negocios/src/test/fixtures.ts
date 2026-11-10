@@ -19,6 +19,8 @@ export function createLesson(overrides: Partial<Lesson> & { release?: ReleaseRul
   return {
     id: 'aula-1',
     order: 1,
+    numbered: true,
+    number: 1,
     title: 'Aula de teste',
     subtitle: '',
     description: '',

@@ -153,8 +153,8 @@ export function JourneyContent({ course, viewModel }: JourneyContentProps) {
       <p className="sr-only" aria-live="polite" role="status">
         {announcement &&
           (announcement.kind === 'unlocked'
-            ? uiText.unlock.announce(announcement.order)
-            : uiText.unlock.completedAnnounce(announcement.order))}
+            ? uiText.unlock.announce(announcement.number)
+            : uiText.unlock.completedAnnounce(announcement.number))}
       </p>
       <p className="sr-only" aria-live="polite">
         {reward.wasRevealed ? course.reward.announce : ''}

@@ -24,7 +24,7 @@
     "description": "Você concluiu o desbloqueio das cinco aulas. Seu próximo passo está aqui.",
     "cta": {
       "label": "Acesse seu desconto para o MBA",
-      "url": "https://xpeducacao.com.br/pos-graduacao/mba?utm_source=produto&utm_medium=d2l&utm_term=per_meta_paid_pos_tech-ia_all_int_2&utm_campaign=per_meta_paid_pos_tech-ia&utm_content=per_meta_paid_pos_tech-ia_all_int_2_estatico_arquitetura-software-comparativo&gad_source=1&gad_campaignid=23684130701&gbraid=0AAAAACUXhW6lN-gf364KTw3y0-5Ci7Ucm&gclid=Cj0KCQjwkOvTBhDgARIsAKUNyRuAS6uADpJw6lzFyWxKaPpqsR0Td-XbdnyxKBiT0VH606eVe4QauUYaArGLEALw_wcB",
+      "url": "https://ad.posgraduacao.xpeducacao.com.br/mba-ia-negocios-15off",
       "pendingLabel": "Acesse seu desconto para o MBA"
     },
     "announce": "Desconto desbloqueado. Um novo card foi adicionado ao final da jornada.",
@@ -36,14 +36,15 @@
     {
       "id": "aula-1",
       "order": 1,
+      "numbered": false,
       "title": "Boas-vindas e o futuro dos negócios",
       "subtitle": "Comece sua jornada e conheça as oportunidades da IA nos negócios.",
       "description": "Seja bem-vindo ao Pré-MBA em IA para Negócios! Nesta aula inaugural, apresentamos a proposta pedagógica da formação, o impacto da inteligência artificial na rotina executiva e a dinâmica de liberação das próximas etapas práticas.",
       "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "",
-        "duration": "12:30"
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
+        "duration": "04:38"
       },
       "materials": [
         {
@@ -69,19 +70,19 @@
     {
       "id": "aula-2",
       "order": 2,
-      "title": "Em breve",
-      "subtitle": "",
-      "description": "",
-      "release": { "type": "locked" },
+      "title": "Diagnosticar ",
+      "subtitle": "Dominando o Uso Estratético da IA",
+      "description": "Aula 1: IA Estratégica: Diagnóstico e Identificação de Oportunidades",
+      "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "",
-        "duration": ""
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7609-7391-8287-a4d9cd4ba5de;&subtitleLanguage=null",
+        "duration": "07:47"
       },
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "" }
+        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95827%3FfilterOnDatesAndDepth%3D1" }
       ],
       "community": {
         "title": "Comunidade e interações",
@@ -92,19 +93,19 @@
     {
       "id": "aula-3",
       "order": 3,
-      "title": "Em breve",
-      "subtitle": "",
-      "description": "",
-      "release": { "type": "locked" },
+      "title": "Analisar",
+      "subtitle": "Primeiros Passos com Dados e Prompts",
+      "description": "Aula 2: Dados e Prompts: Transformando Informações em Insights",
+      "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "",
-        "duration": ""
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7392-af5f-8acda0aa78c2;&subtitleLanguage=null",
+        "duration": "08:13"
       },
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "" }
+        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95829%3FfilterOnDatesAndDepth%3D1" }
       ],
       "community": {
         "title": "Comunidade e interações",
@@ -115,19 +116,19 @@
     {
       "id": "aula-4",
       "order": 4,
-      "title": "Em breve",
-      "subtitle": "",
-      "description": "",
-      "release": { "type": "locked" },
+      "title": "Decidir",
+      "subtitle": "Dominando a Criação de Dashboards",
+      "description": "Aula 3: Dashboards Inteligentes: Da Análise à Tomada de Decisão",
+      "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "",
-        "duration": ""
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7391-b93b-e4ddf6b4566f;&subtitleLanguage=null",
+        "duration": "06:40"
       },
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "" }
+        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95831%3FfilterOnDatesAndDepth%3D1" }
       ],
       "community": {
         "title": "Comunidade e interações",
@@ -138,19 +139,19 @@
     {
       "id": "aula-5",
       "order": 5,
-      "title": "Em breve",
-      "subtitle": "",
-      "description": "",
-      "release": { "type": "locked" },
+      "title": "Otimizar",
+      "subtitle": "Criando Rotinas e Análises Inteligentes",
+      "description": "Aula 4: Gestão Inteligente: Automatizando Rotinas e Gerando Resultados",
+      "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "",
-        "duration": ""
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
+        "duration": "04:38"
       },
       "materials": [
         { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
         { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "" }
+        { "id": "slides", "label": "Apresentação de Slides", "icon": "slides", "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95833%3FfilterOnDatesAndDepth%3D1" }
       ],
       "community": {
         "title": "Comunidade e interações",

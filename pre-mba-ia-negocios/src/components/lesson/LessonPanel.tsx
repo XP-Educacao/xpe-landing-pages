@@ -68,7 +68,7 @@ export function LessonPanel({
               key={lesson.id}
               video={lesson.video}
               lessonTitle={lesson.title}
-              lessonOrder={lesson.order}
+              lessonNumber={lesson.number}
               playback={playback}
             />
             <LessonCompletion

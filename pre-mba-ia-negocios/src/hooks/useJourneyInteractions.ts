@@ -83,7 +83,7 @@ export function useJourneyInteractions(course: Course, viewModel: JourneyViewMod
     viewModel.announce('unlocked', lessonId);
     celebration.start({
       lessonId,
-      order: state.lesson.order,
+      number: state.lesson.number,
       lessonTitle: state.lesson.title,
       released: viewModel.progress.released + 1,
       total: viewModel.progress.total,
