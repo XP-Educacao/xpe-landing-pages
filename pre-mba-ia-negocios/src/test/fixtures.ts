@@ -28,7 +28,6 @@ export function createLesson(overrides: Partial<Lesson> & { release?: ReleaseRul
     video: null,
     videoDurationMs: null,
     materials: [],
-    community: { title: 'Comunidade', description: '', embedUrl: null },
     ...overrides,
   };
 }

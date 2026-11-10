@@ -31,7 +31,7 @@ Quem roda o projeto localmente (`npm run dev`) vê a mesma lista de erros na pr�
 | 5   | Vídeo                            | `lessons[].video`                                         |
 | 6   | Descrição                        | `lessons[].description`                                   |
 | 7   | Materiais de apoio               | `lessons[].materials[]`                                   |
-| 8   | Comunidade (Padlet)              | `lessons[].community`                                     |
+| 8   | Comunidade (Padlet)              | `community` (um só bloco, vale para todas as aulas)       |
 
 Regras de JSON que mais causam erro: textos sempre entre **aspas duplas**; **vírgula** entre itens, mas nunca depois do último; `""` (vazio) significa "em breve".
 
@@ -50,18 +50,14 @@ Copie o bloco de uma aula existente, cole depois do último `}` da lista `lesson
   "description": "Nesta aula bônus, você aplica o método da jornada a um desafio da sua empresa.",
   "release": { "type": "fixed_date", "date": "2026-11-17" },
   "video": { "provider": "youtube", "videoId": "", "thumbnail": "" },
-  "materials": [{ "id": "roteiro", "label": "Roteiro do Projeto", "icon": "exercise", "url": "" }],
-  "community": {
-    "title": "Comunidade e interações",
-    "description": "Compartilhe o rascunho do seu projeto.",
-    "embedUrl": ""
-  }
+  "materials": [{ "id": "roteiro", "label": "Roteiro do Projeto", "icon": "exercise", "url": "" }]
 }
 ```
 
 - `id`: único, só minúsculas, números e hífens (`aula-6`). Não altere o `id` de aulas já publicadas: o progresso dos alunos é salvo por ele.
 - `order`: número único; define a posição do card (a ordem no arquivo não importa).
 - A barra de progresso ganha um segmento novo automaticamente.
+- A comunidade **não** vai dentro da aula: a nova aula já mostra a mesma comunidade das outras (veja [e)](#e-configurar-o-padlet)).
 
 ## b) Liberação sequencial (padrão) e duração do vídeo
 
@@ -239,7 +235,7 @@ O conteúdo fica em `src/content/pages/guia-de-abertura.json`. Para criar outro,
 
 1. No Padlet, abra o mural › **Compartilhar** › **Incorporar no seu blog ou site**.
 2. Do código copiado, pegue **apenas** o endereço dentro de `src="..."` (algo como `https://padlet.com/embed/abc123xyz`).
-3. Cole em `embedUrl`:
+3. Cole em `embedUrl` do bloco `community`, no topo do `course.json` (logo antes de `"lessons"`). É **um bloco só**: o mesmo mural aparece em todas as aulas.
 
 ```json
 "community": {
@@ -248,6 +244,8 @@ O conteúdo fica em `src/content/pages/guia-de-abertura.json`. Para criar outro,
   "embedUrl": "https://padlet.com/embed/abc123xyz"
 }
 ```
+
+Não coloque `community` dentro de uma aula: o site avisa com um erro explicando onde configurar.
 
 Com `embedUrl` vazio, a página mostra o espaço tracejado "Espaço para incorporar o Padlet". Qualquer outro serviço com embed `https://` (Google Forms, Miro, Mentimeter...) também funciona.
 

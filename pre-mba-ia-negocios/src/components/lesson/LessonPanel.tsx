@@ -1,7 +1,7 @@
 import { FolderOpen, MessagesSquare, MonitorPlay } from 'lucide-react';
 
 import { uiText } from '@/content/ui-text.ts';
-import type { LessonId, LessonState } from '@/domain/types.ts';
+import type { Community, LessonId, LessonState } from '@/domain/types.ts';
 import { useCollapse } from '@/hooks/useCollapse.ts';
 import { ANCHORS } from '@/lib/anchors.ts';
 
@@ -26,6 +26,8 @@ interface LessonPanelProps {
   /** Support materials already opened in this lesson (green check). */
   readonly visitedMaterialIds: ReadonlySet<string>;
   readonly onMaterialVisit: (lessonId: LessonId, materialId: string) => void;
+  /** Same community for every lesson (the embed is not reloaded when switching lessons). */
+  readonly community: Community;
 }
 
 export function LessonPanel({
@@ -36,6 +38,7 @@ export function LessonPanel({
   playback,
   visitedMaterialIds,
   onMaterialVisit,
+  community,
 }: LessonPanelProps) {
   const { lesson } = state;
   const isCompleted = state.status === 'completed';
@@ -105,11 +108,11 @@ export function LessonPanel({
         <CollapsibleSection
           section="community"
           collapse={collapse}
-          title={lesson.community.title}
-          description={lesson.community.description}
+          title={community.title}
+          description={community.description}
           icon={MessagesSquare}
         >
-          <CommunityEmbed community={lesson.community} />
+          <CommunityEmbed community={community} />
         </CollapsibleSection>
       </div>
     </article>

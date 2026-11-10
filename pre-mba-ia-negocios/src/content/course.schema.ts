@@ -114,6 +114,7 @@ function createMaterialSchema(pages: RawContentPages) {
     });
 }
 
+/** One community for the whole journey (top-level `community`, shown in every lesson). */
 const communitySchema = z.strictObject({
   title: requiredText,
   description: optionalText,
@@ -140,7 +141,14 @@ function createLessonSchema(pages: RawContentPages) {
         error: `Cada aula pode ter no máximo ${MAX_MATERIALS_PER_LESSON} materiais.`,
       })
       .default([]),
-    community: communitySchema,
+    /** Not per lesson anymore: friendly pointer to the shared top-level block. */
+    community: z
+      .never({
+        error:
+          'A comunidade é a mesma para todas as aulas: configure-a uma vez só, em ' +
+          '"community" (no topo do course.json, antes de "lessons").',
+      })
+      .optional(),
   });
 }
 
@@ -276,6 +284,7 @@ export function createCourseSchema(pages: RawContentPages = {}) {
       sound: soundSchema,
       animation: animationSchema,
       reward: rewardSchema,
+      community: communitySchema,
       lessons: z
         .array(createLessonSchema(pages))
         .min(1, { error: 'Cadastre pelo menos uma aula.' }),
@@ -345,6 +354,7 @@ export function createCourseSchema(pages: RawContentPages = {}) {
       sound,
       animation,
       reward: raw.reward, // `icon` is ignored: only one icon today (lucide Gift)
+      community: raw.community,
       lessons: numberLessons(lessons.sort((a, b) => a.order - b.order)),
     };
   });

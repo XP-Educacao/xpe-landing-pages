@@ -24,13 +24,18 @@
     "description": "Você concluiu o desbloqueio das cinco aulas. Seu próximo passo está aqui.",
     "cta": {
       "label": "Acesse seu desconto para o MBA",
-      "url": "https://ad.posgraduacao.xpeducacao.com.br/mba-ia-negocios-15off",
+      "url": "https://ad.cursos.xpeducacao.com.br/pre-mba-dados-com-ia",
       "pendingLabel": "Acesse seu desconto para o MBA"
     },
     "announce": "Desconto desbloqueado. Um novo card foi adicionado ao final da jornada.",
     "overlayNote": "Uma surpresa especial foi desbloqueada na jornada.",
     "teaser": "Ao liberar a última aula, uma surpresa especial aparecerá na jornada.",
     "progress": { "label": "", "valueText": "Desconto incluído." }
+  },
+  "community": {
+    "title": "Comunidade e interações",
+    "description": "",
+    "embedUrl": "https://padlet.com/xpeducacaocfp/forum-de-duvidas-pre-mba-s025c676a3spbist6icr"
   },
   "lessons": [
     {
@@ -60,12 +65,7 @@
           "icon": "slides",
           "url": ""
         }
-      ],
-      "community": {
-        "title": "Comunidade e interações",
-        "description": "Em breve",
-        "embedUrl": ""
-      }
+      ]
     },
     {
       "id": "aula-2",
@@ -88,12 +88,7 @@
           "icon": "slides",
           "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95827%3FfilterOnDatesAndDepth%3D1"
         }
-      ],
-      "community": {
-        "title": "Comunidade e interações",
-        "description": "Em breve",
-        "embedUrl": ""
-      }
+      ]
     },
     {
       "id": "aula-3",
@@ -116,12 +111,7 @@
           "icon": "slides",
           "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95829%3FfilterOnDatesAndDepth%3D1"
         }
-      ],
-      "community": {
-        "title": "Comunidade e interações",
-        "description": "Em breve",
-        "embedUrl": ""
-      }
+      ]
     },
     {
       "id": "aula-4",
@@ -144,12 +134,7 @@
           "icon": "slides",
           "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95831%3FfilterOnDatesAndDepth%3D1"
         }
-      ],
-      "community": {
-        "title": "Comunidade e interações",
-        "description": "Em breve",
-        "embedUrl": ""
-      }
+      ]
     },
     {
       "id": "aula-5",
@@ -172,12 +157,7 @@
           "icon": "slides",
           "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95833%3FfilterOnDatesAndDepth%3D1"
         }
-      ],
-      "community": {
-        "title": "Comunidade e interações",
-        "description": "Em breve",
-        "embedUrl": ""
-      }
+      ]
     }
   ]
 }

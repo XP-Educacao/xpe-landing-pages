@@ -111,11 +111,28 @@ describe('parseCourse — valid content', () => {
       duration: '',
     };
     raw.lessons[0]!.materials[0]!.url = '';
-    raw.lessons[0]!.community.embedUrl = '';
-    const lesson = expectCourse(parseCourse(raw)).lessons[0];
+    raw.community.embedUrl = '';
+    const course = expectCourse(parseCourse(raw));
+    const lesson = course.lessons[0];
     expect(lesson?.video).toBeNull();
     expect(lesson?.materials[0]?.url).toBeNull();
-    expect(lesson?.community.embedUrl).toBeNull();
+    expect(course.community.embedUrl).toBeNull();
+  });
+
+  it('reads ONE community, shared by every lesson', () => {
+    const raw = cloneRawCourse();
+    raw.community = {
+      title: 'Mural da turma',
+      description: 'Compartilhe suas ideias.',
+      embedUrl: 'https://padlet.com/embed/abc123xyz',
+    };
+    const course = expectCourse(parseCourse(raw));
+    expect(course.community).toEqual({
+      title: 'Mural da turma',
+      description: 'Compartilhe suas ideias.',
+      embedUrl: 'https://padlet.com/embed/abc123xyz',
+    });
+    expect(course.lessons.some((item) => 'community' in item)).toBe(false);
   });
 
   it('normalizes a pasted YouTube URL into its video ID', () => {
@@ -206,6 +223,23 @@ describe('parseCourse — invalid content (friendly errors)', () => {
       location: 'lessons[0] (aula-1) › title',
       message: 'Campo obrigatório ausente.',
     });
+  });
+
+  it('requires the shared community block', () => {
+    const raw = cloneRawCourse() as unknown as Record<string, unknown>;
+    delete raw.community;
+    expect(expectIssues(parseCourse(raw))).toEqual([
+      { location: 'community', message: 'Campo obrigatório ausente.' },
+    ]);
+  });
+
+  it('points a per-lesson community to the shared block', () => {
+    const raw = cloneRawCourse() as unknown as { lessons: Record<string, unknown>[] };
+    raw.lessons[1]!.community = { title: 'Comunidade', description: '', embedUrl: '' };
+    const issues = expectIssues(parseCourse(raw));
+    expect(issues).toHaveLength(1);
+    expect(issues[0]?.location).toBe('lessons[1] (aula-2) › community');
+    expect(issues[0]?.message).toMatch(/mesma para todas as aulas/);
   });
 
   it('reports typos in field names', () => {

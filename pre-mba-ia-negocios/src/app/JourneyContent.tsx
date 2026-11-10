@@ -140,6 +140,7 @@ export function JourneyContent({ course, viewModel }: JourneyContentProps) {
           onSetCompleted={viewModel.setLessonCompleted}
           visitedMaterialIds={materialVisits.visitedIn(selectedLesson.id)}
           onMaterialVisit={materialVisits.markVisited}
+          community={course.community}
           playback={playbackFor(selectedLesson.id)}
         />
       ) : (

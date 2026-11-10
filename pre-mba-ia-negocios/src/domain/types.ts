@@ -100,6 +100,7 @@ export interface ContentPage {
   readonly blocks: readonly ContentBlock[];
 }
 
+/** Community wall (Padlet), the SAME for every lesson: `course.json` › `community`. */
 export interface Community {
   readonly title: string;
   readonly description: string;
@@ -123,7 +124,6 @@ export interface Lesson {
   /** Expected video length (`video.duration`), used to count the watched time. `null` = unknown. */
   readonly videoDurationMs: number | null;
   readonly materials: readonly Material[];
-  readonly community: Community;
 }
 
 export interface JourneyHeader {
@@ -195,6 +195,8 @@ export interface Reward {
 
 export interface Course extends CourseSettings {
   readonly reward: Reward;
+  /** Shared by every lesson (configured once). */
+  readonly community: Community;
   readonly journey: Journey;
   /** Always sorted by `order`. */
   readonly lessons: readonly Lesson[];
