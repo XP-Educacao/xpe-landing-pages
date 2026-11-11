@@ -20,8 +20,6 @@ Quem roda o projeto localmente (`npm run dev`) vê a mesma lista de erros na pr�
 
 ## Mapa: o que cada campo controla
 
-![Mapa do conteúdo](images/mapa-do-conteudo.jpg)
-
 | Nº  | Na página                        | Campo no `course.json`                                    |
 | --- | -------------------------------- | --------------------------------------------------------- |
 | 1   | Topo escuro (hero)               | `journey.eyebrow`, `journey.title`, `journey.description` |
@@ -30,7 +28,6 @@ Quem roda o projeto localmente (`npm run dev`) vê a mesma lista de erros na pr�
 | 4   | Título e subtítulo da aula       | `lessons[].title`, `lessons[].subtitle`                   |
 | 5   | Vídeo                            | `lessons[].video`                                         |
 | 6   | Descrição                        | `lessons[].description`                                   |
-| 7   | Materiais de apoio               | `lessons[].materials[]`                                   |
 
 Regras de JSON que mais causam erro: textos sempre entre **aspas duplas**; **vírgula** entre itens, mas nunca depois do último; `""` (vazio) significa "em breve".
 
@@ -48,8 +45,7 @@ Copie o bloco de uma aula existente, cole depois do último `}` da lista `lesson
   "subtitle": "Estruture um caso real com o que você aprendeu.",
   "description": "Nesta aula bônus, você aplica o método da jornada a um desafio da sua empresa.",
   "release": { "type": "fixed_date", "date": "2026-11-17" },
-  "video": { "provider": "youtube", "videoId": "", "thumbnail": "" },
-  "materials": [{ "id": "roteiro", "label": "Roteiro do Projeto", "icon": "exercise", "url": "" }]
+  "video": { "provider": "youtube", "videoId": "", "thumbnail": "" }
 }
 ```
 
@@ -129,74 +125,7 @@ Para conferir antes de publicar: `npm run dev` e abra `http://localhost:5173/?to
 
 A aula abre 10 dias após a inscrição do aluno (à 00:00). Enquanto a fase 2 não estiver ativa, essas aulas aparecem bloqueadas com "Liberação conforme a data da sua inscrição".
 
-## c) Subir o link de um material
-
-```json
-{
-  "id": "slides",
-  "label": "Apresentação de Slides",
-  "icon": "slides",
-  "url": "https://exemplo.com/slides.pdf"
-}
-```
-
-- `url` vazio (`""`) mostra o botão desabilitado com **Em breve**.
-- Links precisam começar com `https://`. Também é possível hospedar o arquivo aqui: coloque-o em `public/materiais/aula-1/slides.pdf` e use `"url": "materiais/aula-1/slides.pdf"`.
-- Até 8 materiais por aula. Links abrem em nova aba.
-- `id` único dentro da aula; `label` é o texto do botão.
-
-Ícones disponíveis em `icon`:
-
-| Chave         | Uso sugerido       | Chave      | Uso sugerido        |
-| ------------- | ------------------ | ---------- | ------------------- |
-| `text`        | Texto de apoio     | `link`     | Link externo        |
-| `guide`       | Guia, glossário    | `download` | Arquivo para baixar |
-| `slides`      | Apresentação       | `exercise` | Exercício, roteiro  |
-| `spreadsheet` | Planilha, matriz   | `template` | Modelo, canvas      |
-| `video`       | Vídeo complementar | `tip`      | Dica, insight       |
-| `audio`       | Podcast, áudio     |            |                     |
-
-Precisa de outro ícone? Peça ao time técnico (é uma linha em `src/lib/material-icons.ts`).
-
-### Material com conteúdo na própria página (ex.: Guia de Abertura)
-
-Em vez de `url`, use `page` com o nome de um arquivo da pasta `src/content/pages/`. O botão passa a **expandir** o conteúdo logo abaixo dos materiais (um de cada vez):
-
-```json
-{ "id": "guia", "label": "Guia de Abertura", "icon": "guide", "page": "guia-de-abertura" }
-```
-
-O conteúdo fica em `src/content/pages/guia-de-abertura.json`. Para criar outro, copie `src/content/pages/exemplo-todos-os-blocos.json` (traz todos os blocos), renomeie e aponte o `page` para ele.
-
-```json
-{
-  "intro": "Texto de abertura (opcional).",
-  "tone": "brand",
-  "blocks": [
-    { "type": "heading", "text": "Título" },
-    { "type": "text", "text": "Parágrafo com **negrito** e [link](https://exemplo.com)." }
-  ]
-}
-```
-
-| Bloco     | Campos                                                                                                                                         |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `heading` | `text`; `level`: `2` (título, padrão) ou `3` (subtítulo)                                                                                       |
-| `text`    | `text` — aceita `**negrito**` e `[texto](link)`                                                                                                |
-| `list`    | `items` (lista de textos); `style`: `bullet` (padrão), `number` ou `check`                                                                     |
-| `image`   | `src` (https ou arquivo em `public/`), `alt` (obrigatório, para acessibilidade), `caption`, `size`: `full`/`medium`                            |
-| `video`   | `title` e `video` no mesmo formato do vídeo da aula (YouTube, Vimeo, Spalla ou MP4)                                                            |
-| `buttons` | `items`: até 6 botões com `label`, `url`, `icon` (mesmos ícones dos materiais), `style`: `primary`/`secondary`, `download`: `true` para baixar |
-| `callout` | `text`, `title` (opcional), `tone`: `info`, `tip` (dica) ou `warning` (atenção)                                                                |
-| `divider` | linha separadora                                                                                                                               |
-
-- `tone` da página: `brand` (verde suave, padrão), `neutral` (cinza) ou `plain` (branco).
-- Arquivos para baixar: coloque em `public/materiais/...` e use `"url": "materiais/arquivo.pdf", "download": true`.
-- Vídeos dentro da página são complementares: **não contam** como tempo assistido da aula.
-- Erros apontam o arquivo e o bloco, ex.: `lessons[0] (aula-1) › materials[1].page — pages/guia-de-abertura.json › blocks[3].src — Link inválido`.
-- Visual (cores, espaçamentos, tamanhos): tudo em `src/components/content/content-styles.ts`.
-
-## d) Trocar o vídeo
+## c) Trocar o vídeo
 
 **YouTube** (cole o ID ou o link completo; os dois funcionam):
 
@@ -245,4 +174,4 @@ O conteúdo fica em `src/content/pages/guia-de-abertura.json`. Para criar outro,
 | `Campo desconhecido: "subtitel"` | Erro de digitação no nome do campo.                                   |
 | `Data inválida...`               | Use `"AAAA-MM-DD"` (ex.: `"2026-10-27"`).                             |
 | `Link inválido...`               | O link precisa começar com `https://`.                                |
-| `O id "aula-2" está repetido...` | Cada aula (e cada material dentro da aula) precisa de `id` único.     |
+| `O id "aula-2" está repetido...` | Cada aula precisa de um `id` único.                                   |

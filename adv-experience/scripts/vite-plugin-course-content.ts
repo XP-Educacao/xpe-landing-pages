@@ -1,4 +1,4 @@
-import { readdir, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import type { Plugin } from 'vite';
@@ -6,41 +6,11 @@ import type { Plugin } from 'vite';
 import { type ContentIssue, parseCourse } from '../src/content/course.schema.ts';
 
 const COURSE_FILE = 'src/content/course.json';
-const PAGES_DIR = 'src/content/pages';
-
-interface LoadedPages {
-  readonly pages: Record<string, unknown>;
-  readonly files: string[];
-  readonly issues: ContentIssue[];
-}
-
-/** Reads `src/content/pages/*.json` (rich content of expandable materials). */
-async function loadPages(pagesDir: string): Promise<LoadedPages> {
-  const names = await readdir(pagesDir).catch(() => [] as string[]);
-  const loaded: LoadedPages = { pages: {}, files: [], issues: [] };
-  for (const name of names.filter((file) => file.endsWith('.json'))) {
-    const filePath = path.join(pagesDir, name);
-    loaded.files.push(filePath);
-    try {
-      loaded.pages[name.replace(/\.json$/, '')] = JSON.parse(await readFile(filePath, 'utf8'));
-    } catch (error) {
-      const reason = error instanceof Error ? error.message : String(error);
-      loaded.issues.push({
-        location: `pages/${name}`,
-        message: `O arquivo não é um JSON válido (${reason}).`,
-      });
-    }
-  }
-  return loaded;
-}
 
 type CourseCheck =
   { ok: true; title: string; description: string } | { ok: false; issues: readonly ContentIssue[] };
 
-async function checkCourseFile(filePath: string, pagesDir: string): Promise<CourseCheck> {
-  const { pages, issues: pageIssues } = await loadPages(pagesDir);
-  if (pageIssues.length > 0) return { ok: false, issues: pageIssues };
-
+async function checkCourseFile(filePath: string): Promise<CourseCheck> {
   let raw: unknown;
   try {
     raw = JSON.parse(await readFile(filePath, 'utf8'));
@@ -52,7 +22,7 @@ async function checkCourseFile(filePath: string, pagesDir: string): Promise<Cour
     };
   }
 
-  const result = parseCourse(raw, pages);
+  const result = parseCourse(raw);
   if (!result.ok) return { ok: false, issues: result.issues };
   return {
     ok: true,
@@ -84,27 +54,24 @@ function escapeHtml(value: string): string {
  */
 export function courseContentPlugin(): Plugin {
   let courseFilePath = COURSE_FILE;
-  let pagesDir = PAGES_DIR;
   let isBuild = false;
 
   return {
     name: 'xp:course-content',
     configResolved(config) {
       courseFilePath = path.join(config.root, COURSE_FILE);
-      pagesDir = path.join(config.root, PAGES_DIR);
       isBuild = config.command === 'build';
     },
     async buildStart() {
       this.addWatchFile(courseFilePath);
-      for (const file of (await loadPages(pagesDir)).files) this.addWatchFile(file);
-      const check = await checkCourseFile(courseFilePath, pagesDir);
+      const check = await checkCourseFile(courseFilePath);
       if (check.ok) return;
       const report = formatReport(check.issues);
       if (isBuild) this.error(report);
       else this.warn(report);
     },
     async transformIndexHtml(html) {
-      const check = await checkCourseFile(courseFilePath, pagesDir);
+      const check = await checkCourseFile(courseFilePath);
       const title = check.ok ? check.title : 'Jornada de aprendizagem';
       const description = check.ok ? check.description : '';
       return html

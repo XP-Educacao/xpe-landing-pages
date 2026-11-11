@@ -1,11 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { cloneRawCourse } from '../test/fixtures.ts';
-import { type CourseParseResult, parseCourse as parseWithPages } from './course.schema.ts';
-import { loadContentPages } from './load-course.ts';
-
-const PAGES = loadContentPages();
-const parseCourse = (raw: unknown, pages = PAGES) => parseWithPages(raw, pages);
+import { type CourseParseResult, parseCourse } from './course.schema.ts';
 
 function expectIssues(result: CourseParseResult) {
   if (result.ok) throw new Error('Expected the course to be invalid');
@@ -107,7 +103,7 @@ describe('parseCourse — valid content', () => {
     });
   });
 
-  it('turns empty links into null ("coming soon")', () => {
+  it('turns an empty video source into null ("coming soon")', () => {
     const raw = cloneRawCourse();
     (raw.lessons[0] as { video: unknown }).video = {
       provider: 'youtube',
@@ -115,11 +111,9 @@ describe('parseCourse — valid content', () => {
       thumbnail: '',
       duration: '',
     };
-    raw.lessons[0]!.materials[0]!.url = '';
 
     const lesson = expectCourse(parseCourse(raw)).lessons[0];
     expect(lesson?.video).toBeNull();
-    expect(lesson?.materials[0]?.url).toBeNull();
   });
 
   it('normalizes a pasted YouTube URL into its video ID', () => {
@@ -164,14 +158,6 @@ describe('parseCourse — valid content', () => {
       embedUrl:
         'https://beyond.spalla.io/player/?video=019dac2f-eb29-747c-bdcd-c76269c44d6a;&subtitleLanguage=null',
     });
-  });
-
-  it('accepts files from the public folder as material links', () => {
-    const raw = cloneRawCourse();
-    raw.lessons[0]!.materials[0]!.url = 'materiais/aula-1/texto-de-apoio.pdf';
-    expect(expectCourse(parseCourse(raw)).lessons[0]?.materials[0]?.url).toBe(
-      'materiais/aula-1/texto-de-apoio.pdf',
-    );
   });
 });
 
@@ -218,20 +204,6 @@ describe('parseCourse — invalid content (friendly errors)', () => {
     expect(expectIssues(parseCourse(raw))[0]?.message).toMatch(/Campo desconhecido: "subtitel"/);
   });
 
-  it('rejects icons outside the icon map', () => {
-    const raw = cloneRawCourse();
-    raw.lessons[0]!.materials[0]!.icon = 'rocket';
-    const issue = expectIssues(parseCourse(raw))[0];
-    expect(issue?.location).toBe('lessons[0] (aula-1) › materials[0].icon');
-    expect(issue?.message).toMatch(/Ícone inválido/);
-  });
-
-  it('rejects insecure (http) links', () => {
-    const raw = cloneRawCourse();
-    raw.lessons[0]!.materials[0]!.url = 'http://exemplo.com/arquivo.pdf';
-    expect(expectIssues(parseCourse(raw))[0]?.message).toMatch(/Link inválido/);
-  });
-
   it('rejects duplicated lesson ids and orders', () => {
     const raw = cloneRawCourse();
     raw.lessons[1]!.id = 'aula-1';
@@ -272,111 +244,8 @@ describe('parseCourse — invalid content (friendly errors)', () => {
     expect(locations).toEqual(['journey.timezone', 'journey.completionThreshold']);
   });
 
-  it('rejects more than 8 materials in a lesson', () => {
-    const raw = cloneRawCourse();
-    const material = raw.lessons[0]!.materials[0]!;
-    raw.lessons[0]!.materials = Array.from({ length: 9 }, (_, index) => ({
-      ...material,
-      id: `material-${index}`,
-    }));
-    expect(expectIssues(parseCourse(raw))[0]?.message).toMatch(/no máximo 8 materiais/);
-  });
-
   it('rejects content that is not an object', () => {
     expect(expectIssues(parseCourse(null))[0]?.location).toBe('course.json');
-  });
-});
-
-describe('parseCourse — expandable content pages', () => {
-  /** The real content may have no page material yet ("em breve"), so these tests add their own. */
-  function courseWithGuidePage() {
-    const raw = cloneRawCourse() as unknown as {
-      lessons: { materials: Record<string, unknown>[] }[];
-    };
-    raw.lessons[0]!.materials[1] = {
-      id: 'guia',
-      label: 'Guia de Abertura',
-      icon: 'guide',
-      page: 'guia-de-abertura',
-    };
-    return raw;
-  }
-
-  const guide = {
-    intro: 'Introdução',
-    blocks: [
-      { type: 'heading', text: 'Título' },
-      { type: 'text', text: 'Texto com **negrito** e [link](https://exemplo.com).' },
-      { type: 'buttons', items: [{ label: 'Baixar', url: 'materiais/guia.pdf', download: true }] },
-      { type: 'video', title: 'Vídeo', video: { provider: 'youtube', videoId: 'M7lc1UVf-VE' } },
-    ],
-  };
-
-  it('resolves "page" into the content page with defaults', () => {
-    const material = expectCourse(
-      parseCourse(courseWithGuidePage(), { ...PAGES, 'guia-de-abertura': guide }),
-    ).lessons[0]?.materials.find((item) => item.id === 'guia');
-    expect(material?.url).toBeNull();
-    expect(material?.page).toMatchObject({
-      id: 'guia-de-abertura',
-      intro: 'Introdução',
-      tone: 'brand',
-    });
-    expect(material?.page?.blocks[0]).toEqual({ type: 'heading', text: 'Título', level: 2 });
-    expect(material?.page?.blocks[2]).toEqual({
-      type: 'buttons',
-      items: [
-        {
-          label: 'Baixar',
-          url: 'materiais/guia.pdf',
-          icon: 'link',
-          style: 'secondary',
-          download: true,
-        },
-      ],
-    });
-    expect(material?.page?.blocks[3]).toMatchObject({ video: { provider: 'youtube' } });
-  });
-
-  it('points to a missing page file', () => {
-    const issue = expectIssues(parseCourse(courseWithGuidePage(), {}))[0];
-    expect(issue?.location).toBe('lessons[0] (aula-1) › materials[1].page');
-    expect(issue?.message).toMatch(/src\/content\/pages\/guia-de-abertura\.json/);
-  });
-
-  it('points to the exact block and field of an invalid page', () => {
-    const broken = {
-      blocks: [
-        { type: 'text', text: 'ok' },
-        { type: 'image', src: 'http://inseguro.com/a.png', alt: 'Foto' },
-        { type: 'text', text: '[x](http://inseguro.com)' },
-      ],
-    };
-    const messages = expectIssues(
-      parseCourse(courseWithGuidePage(), { 'guia-de-abertura': broken }),
-    ).map((issue) => issue.message);
-    expect(messages[0]).toMatch(
-      /^pages\/guia-de-abertura\.json › blocks\[1\]\.src — Link inválido/,
-    );
-    expect(messages[1]).toMatch(
-      /^pages\/guia-de-abertura\.json › blocks\[2\]\.text — Link inválido no texto/,
-    );
-  });
-
-  it('rejects a material with both "url" and "page"', () => {
-    const raw = courseWithGuidePage();
-    raw.lessons[0]!.materials[1]!.url = 'https://exemplo.com';
-    expect(expectIssues(parseCourse(raw))[0]?.message).toMatch(/OU "page"/);
-  });
-
-  it('accepts every bundled page file (including the example with all blocks)', () => {
-    for (const [id, page] of Object.entries(PAGES)) {
-      const raw = cloneRawCourse() as unknown as {
-        lessons: { materials: Record<string, unknown>[] }[];
-      };
-      raw.lessons[0]!.materials[1]!.page = id;
-      expectCourse(parseCourse(raw, { ...PAGES, [id]: page }));
-    }
   });
 });
 

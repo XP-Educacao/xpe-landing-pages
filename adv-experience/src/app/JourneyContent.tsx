@@ -13,11 +13,9 @@ import { LessonPanel } from '@/components/lesson/LessonPanel.tsx';
 import type { VideoPlaybackHandlers } from '@/components/lesson/video/player-iframe.ts';
 import { uiText } from '@/content/ui-text.ts';
 import type { Course, LessonId } from '@/domain/types.ts';
-import { useAppServices } from '@/hooks/useAppServices.ts';
 import { useCarousel, useIsDesktop } from '@/hooks/useCarousel.ts';
 import type { JourneyViewModel } from '@/hooks/useJourney.ts';
 import { useJourneyInteractions } from '@/hooks/useJourneyInteractions.ts';
-import { useMaterialVisits } from '@/hooks/useMaterialVisits.ts';
 import { useReward } from '@/hooks/useReward.ts';
 import { ANCHORS } from '@/lib/anchors.ts';
 
@@ -33,9 +31,7 @@ interface JourneyContentProps {
 
 export function JourneyContent({ course, viewModel, onAccessReward }: JourneyContentProps) {
   const { timezone, completionThreshold } = course.journey;
-  const { progressRepository, clock } = useAppServices();
   const interactions = useJourneyInteractions(course, viewModel);
-  const materialVisits = useMaterialVisits(progressRepository, course.journey.id, clock);
 
   // 6th card ("Próximo passo" → reward) + carousel. The reward is derived from the lesson statuses.
   const listRef = useRef<HTMLOListElement>(null);
@@ -146,8 +142,6 @@ export function JourneyContent({ course, viewModel, onAccessReward }: JourneyCon
           completionThreshold={completionThreshold}
           allowManualComplete={course.features.allowManualComplete}
           onSetCompleted={viewModel.setLessonCompleted}
-          visitedMaterialIds={materialVisits.visitedIn(selectedLesson.id)}
-          onMaterialVisit={materialVisits.markVisited}
           playback={playbackFor(selectedLesson.id)}
         />
       ) : (

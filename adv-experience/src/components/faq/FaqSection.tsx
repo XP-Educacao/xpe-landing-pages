@@ -4,6 +4,8 @@ import { useId, useState } from 'react';
 import { faqContent as content } from '@/content/faq.ts';
 import { cn } from '@/lib/cn.ts';
 
+import { FaqAnswer } from './FaqAnswer.tsx';
+
 /** "Dúvidas frequentes": accordion; each question opens and closes on its own. */
 export function FaqSection() {
   const baseId = useId();
@@ -41,7 +43,8 @@ export function FaqSection() {
           const panelId = `${baseId}-resposta-${index}`;
           return (
             <li
-              key={item.question}
+              // Index too: two questions with the same text must not collide while drafting.
+              key={`${index}-${item.question}`}
               className={cn(
                 'rounded-tile border bg-white transition-[border-color,box-shadow] duration-200 ease-out',
                 isOpen
@@ -83,9 +86,9 @@ export function FaqSection() {
                 className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-200 ease-out starting:grid-rows-[0fr]"
               >
                 <div className="overflow-hidden">
-                  <p className="px-4 pb-4 text-[15px] leading-relaxed text-neutral-600 sm:px-5 md:text-base">
-                    {item.answer}
-                  </p>
+                  <div className="px-4 pb-4 sm:px-5 sm:pb-5">
+                    <FaqAnswer answer={item.answer} />
+                  </div>
                 </div>
               </div>
             </li>

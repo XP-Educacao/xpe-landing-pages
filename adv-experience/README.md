@@ -2,9 +2,7 @@
 
 Página única (one-page) da jornada **Pré-MBA em IA para Negócios**, com 5 aulas liberadas semanalmente. É aberta dentro do Brightspace (D2L) por link ou iframe e hospedada no **GitHub Pages** (100% estático).
 
-![Mapa da página](docs/images/mapa-do-conteudo.jpg)
-
-> **Atualizações semanais/mensais (datas, títulos, vídeos, links, materiais, Padlet) são feitas editando um único arquivo: [`src/content/course.json`](src/content/course.json).** Veja o [Guia de conteúdo](docs/CONTENT_GUIDE.md).
+> **Atualizações semanais/mensais (datas, títulos, vídeos, links e Padlet) são feitas editando um único arquivo: [`src/content/course.json`](src/content/course.json).** Veja o [Guia de conteúdo](docs/CONTENT_GUIDE.md).
 
 ## Stack
 
@@ -71,18 +69,107 @@ Todas são opcionais (veja [`.env.example`](.env.example)).
 
 ## Onde mexer
 
-| Quero mudar…                                        | Arquivo                                    |
-| --------------------------------------------------- | ------------------------------------------ |
-| Datas, títulos, vídeos, materiais, Padlet           | `src/content/course.json`                  |
-| Textos fixos da interface (botões, rótulos, avisos) | `src/content/ui-text.ts`                   |
-| Cores, sombras (design tokens)                      | `src/styles/tokens.css`                    |
-| Ícones disponíveis para materiais                   | `src/lib/material-icons.ts`                |
-| Regras de liberação e progresso                     | `src/domain/` (funções puras, com testes)  |
-| Integração com a API (fase 2)                       | `src/services/access/ApiAccessProvider.ts` |
+| Quero mudar…                                        | Arquivo                                                       |
+| --------------------------------------------------- | ------------------------------------------------------------- |
+| Datas, títulos, vídeos e Padlet                     | `src/content/course.json`                                     |
+| Textos fixos da interface (botões, rótulos, avisos) | `src/content/ui-text.ts`                                      |
+| Perguntas e respostas do FAQ ("Dúvidas frequentes") | `src/content/faq.ts` ([veja abaixo](#faq-dúvidas-frequentes)) |
+| Cores, sombras (design tokens)                      | `src/styles/tokens.css`                                       |
+| Regras de liberação e progresso                     | `src/domain/` (funções puras, com testes)                     |
+| Integração com a API (fase 2)                       | `src/services/access/ApiAccessProvider.ts`                    |
+
+## FAQ (Dúvidas frequentes)
+
+O FAQ fica sempre no fim da página. Perguntas e respostas são editadas em [`src/content/faq.ts`](src/content/faq.ts), e o contador abaixo do título ("N dúvidas frequentes.") se ajusta sozinho.
+
+Cada pergunta tem `question` (a pergunta) e `answer` (a resposta):
+
+```ts
+{
+  question: 'Carga horária?',
+  answer: 'Os 4 webinars totalizam 4 horas de conteúdo.',
+},
+```
+
+### Resposta com blocos
+
+Para respostas mais ricas, `answer` vira uma lista de blocos entre colchetes. Os blocos podem ser misturados dentro de `answer: [ ... ]`, na ordem que você quiser:
+
+| Bloco            | Como escrever                             | Aparece como                           |
+| ---------------- | ----------------------------------------- | -------------------------------------- |
+| Parágrafo        | `'Texto.'`                                | texto normal                           |
+| Lista de tópicos | `{ topics: [ ... ] }`                     | tópicos em blocos com marcador verde   |
+| Destaque         | `{ label: 'Importante', note: 'Texto.' }` | caixa colorida com ícone de informação |
+| Complementar     | `{ small: 'Texto.' }`                     | texto pequeno e discreto               |
+
+Exemplo:
+
+```ts
+{
+  question: 'O que o curso oferece (atributos)?',
+  answer: [
+    'Acesso aos 4 webinars:',
+    {
+      topics: [
+        { title: 'Playbook XP', description: 'Descrição curta.', complement: 'Detalhe extra.' },
+        { title: 'O Advisor do Futuro' },
+      ],
+    },
+    { label: 'Importante', note: 'Esses webinars foram gravados por especialistas.' },
+    { small: 'Texto complementar, menor e discreto.' },
+  ],
+},
+```
+
+### Tópicos
+
+Cada tópico pode ser só um texto (`'Tópico'`) ou ter até três partes:
+
+| Campo         | Obrigatório | Aparece como                            |
+| ------------- | ----------- | --------------------------------------- |
+| `title`       | sim         | título em negrito                       |
+| `description` | não         | descrição em cinza, logo abaixo         |
+| `complement`  | não         | informação extra, menor e mais discreta |
+
+### Opções da lista de tópicos
+
+Todas são opcionais e ficam dentro do bloco, ao lado de `topics`:
+
+| Opção       | Valores                                  | Padrão    | Para que serve                                                                                                                                                      |
+| ----------- | ---------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `layout`    | `'cards'`, `'list'`, `'timeline'`        | `'cards'` | `cards`: um bloco por tópico, em grade · `list`: painel único, uma linha por tópico · `timeline`: etapas ligadas por uma linha (use só quando **existe uma ordem**) |
+| `marker`    | `'check'`, `'play'`, `'dot'`, `'number'` | `'check'` | ícone à esquerda de cada tópico; `number` mostra 01, 02, 03… (padrão na `timeline`)                                                                                 |
+| `itemLabel` | qualquer texto, ex.: `'Webinar'`         | —         | rótulo pequeno acima de cada título; só ganha número ("WEBINAR 1") com `marker: 'number'`                                                                           |
+| `title`     | qualquer texto                           | —         | pequeno título acima da lista                                                                                                                                       |
+| `columns`   | `1` ou `2`                               | `2`       | colunas no desktop (só no `cards`); no celular é sempre 1                                                                                                           |
+
+Exemplo (é o da pergunta "Quais são os módulos do curso?"):
+
+```ts
+{
+  layout: 'list',
+  marker: 'play',
+  topics: [{ title: 'Playbook XP' }, { title: 'O Advisor do Futuro' }],
+},
+```
+
+### Opções do destaque
+
+| Opção   | Valores                            | Padrão    | Para que serve                                                       |
+| ------- | ---------------------------------- | --------- | -------------------------------------------------------------------- |
+| `label` | qualquer texto                     | —         | palavra em negrito antes do texto: "Importante", "Atenção", "Dica"…  |
+| `tone`  | `'brand'`, `'neutral'`, `'reward'` | `'brand'` | cor da caixa: verde, cinza ou roxo (o roxo do card do próximo passo) |
+
+### Dicas para editar sem erro
+
+- Campos vazios (`''`) não aparecem na página. Dá para deixar `description: ''` em branco enquanto o texto não está pronto.
+- Textos sempre entre **aspas simples** (`'...'`) e com **vírgula** entre os itens.
+- Se o texto tiver apóstrofo ('), escreva `\'` no lugar.
+- Se a página quebrar depois de uma edição, `npm run dev` mostra no terminal a linha com o problema (geralmente aspas ou vírgula faltando).
 
 ## Aviso importante: liberação por data é só experiência de uso
 
-Nesta fase, o bloqueio das aulas é **visual (UX)**. Todo o conteúdo do `course.json` (incluindo links de vídeos e materiais de aulas futuras) é público: fica no repositório e no JavaScript publicado. **Não coloque links que não possam ser vistos antes da data.** Bloqueio real só virá com o backend ([roadmap da API](docs/API_ROADMAP.md)).
+Nesta fase, o bloqueio das aulas é **visual (UX)**. Todo o conteúdo do `course.json` (incluindo links de vídeos de aulas futuras) é público: fica no repositório e no JavaScript publicado. **Não coloque links que não possam ser vistos antes da data.** Bloqueio real só virá com o backend ([roadmap da API](docs/API_ROADMAP.md)).
 
 Privacidade (LGPD): a página não coleta dados pessoais. O progresso fica apenas no navegador do aluno (`localStorage`, chave `xp-premba:v1:progress`) e os vídeos do YouTube usam o domínio `youtube-nocookie.com`.
 

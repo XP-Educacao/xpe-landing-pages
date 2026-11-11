@@ -1,17 +1,5 @@
 import rawCourse from './course.json';
-import { type CourseParseResult, parseCourse, type RawContentPages } from './course.schema.ts';
-
-/** Every `pages/<id>.json` is bundled; a material uses one with `"page": "<id>"`. */
-const PAGE_FILES = import.meta.glob<unknown>('./pages/*.json', { eager: true, import: 'default' });
-
-export function loadContentPages(): RawContentPages {
-  return Object.fromEntries(
-    Object.entries(PAGE_FILES).map(([path, page]) => [
-      path.replace(/^\.\/pages\//, '').replace(/\.json$/, ''),
-      page,
-    ]),
-  );
-}
+import { type CourseParseResult, parseCourse } from './course.schema.ts';
 
 /**
  * The course is bundled with the app (static hosting), so it is parsed once at startup.
@@ -19,5 +7,5 @@ export function loadContentPages(): RawContentPages {
  * and any future content source (e.g. a CMS) with the same friendly error screen.
  */
 export function loadCourse(): CourseParseResult {
-  return parseCourse(rawCourse, loadContentPages());
+  return parseCourse(rawCourse);
 }

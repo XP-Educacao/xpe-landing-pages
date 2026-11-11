@@ -26,9 +26,9 @@ Antes de abrir um Pull Request: `npm run check && npm run build`. O CI roda os m
 | ------------ | ----------------------------------------- | ----------------------------------------------- |
 | `feat`       | Nova funcionalidade                       | `feat(video): add captions to mp4 player`       |
 | `fix`        | Correção de bug                           | `fix(progress): keep selection after unmarking` |
-| `content`    | Mudança só no `course.json`/textos        | `content: release lesson 3 materials`           |
+| `content`    | Mudança só no `course.json`/textos        | `content: release lesson 3 video`               |
 | `refactor`   | Mudança interna sem alterar comportamento | `refactor(domain): extract lesson selection`    |
-| `test`       | Testes                                    | `test(schema): cover duplicated material ids`   |
+| `test`       | Testes                                    | `test(schema): cover duplicated lesson ids`     |
 | `docs`       | Documentação                              | `docs: explain padlet embed`                    |
 | `chore`/`ci` | Build, dependências, workflows            | `ci: cache npm in deploy workflow`              |
 

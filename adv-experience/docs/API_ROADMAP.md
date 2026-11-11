@@ -73,4 +73,4 @@ Recomendado na mesma entrega:
 
 ## Segurança: o que a fase 2 resolve (e o que não)
 
-A fase 2 calcula a liberação com dados confiáveis, mas **os links continuam públicos** enquanto estiverem no `course.json`. Para bloqueio real, a API também deve entregar as URLs de vídeo e materiais **somente das aulas liberadas** (ex.: `GET /api/v1/journeys/{id}/lessons/{lessonId}/content`), e o `course.json` passa a guardar apenas metadados.
+A fase 2 calcula a liberação com dados confiáveis, mas **os links continuam públicos** enquanto estiverem no `course.json`. Para bloqueio real, a API também deve entregar as URLs de vídeo **somente das aulas liberadas** (ex.: `GET /api/v1/journeys/{id}/lessons/{lessonId}/content`), e o `course.json` passa a guardar apenas metadados.

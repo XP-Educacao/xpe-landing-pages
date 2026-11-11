@@ -23,10 +23,6 @@ const progressPayloadSchema = z.object({
   version: z.literal(CURRENT_PROGRESS_VERSION),
   journeys: z.record(z.string(), z.record(z.string(), lessonProgressSchema)),
   preferences: z.object({ soundEnabled: z.boolean().optional() }).default({}),
-  /** `{ [journeyId]: { [lessonId]: { [materialId]: visitedAt } } }` — optional, no migration. */
-  materialVisits: z
-    .record(z.string(), z.record(z.string(), z.record(z.string(), z.string())))
-    .default({}),
   /** `{ [journeyId]: revealedAt }` — the "Seu próximo passo" area was opened; no migration. */
   nextStepRevealed: z.record(z.string(), z.string()).default({}),
 });

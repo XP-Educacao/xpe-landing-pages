@@ -27,7 +27,6 @@ export function createLesson(overrides: Partial<Lesson> & { release?: ReleaseRul
     release: { type: 'fixed_date', date: at('2026-10-13') },
     video: null,
     videoDurationMs: null,
-    materials: [],
     ...overrides,
   };
 }

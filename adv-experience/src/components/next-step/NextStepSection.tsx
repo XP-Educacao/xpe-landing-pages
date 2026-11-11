@@ -44,7 +44,7 @@ function ExternalButton({
   return (
     <a href={url} target="_blank" rel="noopener noreferrer" className={className}>
       {children}
-      <span className="sr-only"> {uiText.materials.opensInNewTab}</span>
+      <span className="sr-only"> {uiText.links.opensInNewTab}</span>
     </a>
   );
 }

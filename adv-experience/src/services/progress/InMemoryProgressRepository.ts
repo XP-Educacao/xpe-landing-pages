@@ -1,7 +1,6 @@
 import type {
   JourneyProgressRecord,
   LearnerPreferences,
-  MaterialVisitsRecord,
   ProgressRepository,
 } from './ProgressRepository.ts';
 
@@ -12,7 +11,6 @@ import type {
 export class InMemoryProgressRepository implements ProgressRepository {
   private readonly records = new Map<string, JourneyProgressRecord>();
   private preferences: LearnerPreferences = {};
-  private readonly materialVisits = new Map<string, MaterialVisitsRecord>();
   private readonly nextStepRevealed = new Map<string, string>();
 
   load(journeyId: string): JourneyProgressRecord {
@@ -29,14 +27,6 @@ export class InMemoryProgressRepository implements ProgressRepository {
 
   savePreferences(preferences: LearnerPreferences): void {
     this.preferences = preferences;
-  }
-
-  loadMaterialVisits(journeyId: string): MaterialVisitsRecord {
-    return this.materialVisits.get(journeyId) ?? {};
-  }
-
-  saveMaterialVisits(journeyId: string, record: MaterialVisitsRecord): void {
-    this.materialVisits.set(journeyId, record);
   }
 
   loadNextStepRevealedAt(journeyId: string): string | null {

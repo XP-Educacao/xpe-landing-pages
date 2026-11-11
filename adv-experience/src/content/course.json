@@ -46,22 +46,7 @@
         "provider": "spalla",
         "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
         "duration": "04:38"
-      },
-      "materials": [
-        {
-          "id": "texto-apoio",
-          "label": "Texto de Apoio da Aula",
-          "icon": "text",
-          "url": ""
-        },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        {
-          "id": "slides",
-          "label": "Apresentação de Slides",
-          "icon": "slides",
-          "url": ""
-        }
-      ]
+      }
     },
     {
       "id": "aula-2",
@@ -74,17 +59,7 @@
         "provider": "spalla",
         "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7609-7391-8287-a4d9cd4ba5de;&subtitleLanguage=null",
         "duration": "07:47"
-      },
-      "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        {
-          "id": "slides",
-          "label": "Apresentação de Slides",
-          "icon": "slides",
-          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95827%3FfilterOnDatesAndDepth%3D1"
-        }
-      ]
+      }
     },
     {
       "id": "aula-3",
@@ -97,17 +72,7 @@
         "provider": "spalla",
         "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7392-af5f-8acda0aa78c2;&subtitleLanguage=null",
         "duration": "08:13"
-      },
-      "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        {
-          "id": "slides",
-          "label": "Apresentação de Slides",
-          "icon": "slides",
-          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95829%3FfilterOnDatesAndDepth%3D1"
-        }
-      ]
+      }
     },
     {
       "id": "aula-4",
@@ -120,17 +85,7 @@
         "provider": "spalla",
         "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7391-b93b-e4ddf6b4566f;&subtitleLanguage=null",
         "duration": "06:40"
-      },
-      "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        {
-          "id": "slides",
-          "label": "Apresentação de Slides",
-          "icon": "slides",
-          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95831%3FfilterOnDatesAndDepth%3D1"
-        }
-      ]
+      }
     },
     {
       "id": "aula-5",
@@ -143,17 +98,7 @@
         "provider": "spalla",
         "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
         "duration": "04:38"
-      },
-      "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
-        {
-          "id": "slides",
-          "label": "Apresentação de Slides",
-          "icon": "slides",
-          "url": "https://ava.xpeducacao.com.br/d2l/le/enhancedSequenceViewer/7936?url=https%3A%2F%2F31b3293b-2f2a-4c20-ae81-70694e5d5ddc.sequences.api.brightspace.com%2F7936%2Factivity%2F95833%3FfilterOnDatesAndDepth%3D1"
-        }
-      ]
+      }
     }
   ]
 }

@@ -4,8 +4,6 @@
  *
  * Conventions: `null` means "not provided / coming soon"; dates are `Date` instants.
  */
-import type { MaterialIconKey } from '../lib/material-icons.ts';
-
 export type LessonId = string;
 
 /** How a lesson becomes available. New strategies extend this union (see release-strategies.ts). */
@@ -39,67 +37,6 @@ export type VideoSource =
 
 export type VideoProvider = VideoSource['provider'];
 
-export interface Material {
-  readonly id: string;
-  readonly label: string;
-  readonly icon: MaterialIconKey;
-  /** `null` = "Em breve" (unless the material has a `page`). */
-  readonly url: string | null;
-  /** Rich content shown INSIDE the page when the material is expanded (pages/<id>.json). */
-  readonly page: ContentPage | null;
-}
-
-/** A clickable button inside a content page: download a file or open a link. */
-export interface ContentButton {
-  readonly label: string;
-  /** `https://…` or a file inside `public/`. */
-  readonly url: string;
-  readonly icon: MaterialIconKey;
-  readonly style: 'primary' | 'secondary';
-  /** Asks the browser to download instead of opening (same-site files only). */
-  readonly download: boolean;
-}
-
-/**
- * Building blocks of a content page. Texts accept `**negrito**` and `[texto](link)`.
- * New block = new union member + schema entry + renderer (the compiler points to each one).
- */
-export type ContentBlock =
-  | { readonly type: 'heading'; readonly text: string; readonly level: 2 | 3 }
-  | { readonly type: 'text'; readonly text: string }
-  | {
-      readonly type: 'list';
-      readonly style: 'bullet' | 'number' | 'check';
-      readonly items: readonly string[];
-    }
-  | {
-      readonly type: 'image';
-      readonly src: string;
-      readonly alt: string;
-      readonly caption: string | null;
-      readonly size: 'full' | 'medium';
-    }
-  | { readonly type: 'video'; readonly title: string; readonly video: VideoSource }
-  | { readonly type: 'buttons'; readonly items: readonly ContentButton[] }
-  | {
-      readonly type: 'callout';
-      readonly tone: 'info' | 'tip' | 'warning';
-      readonly title: string | null;
-      readonly text: string;
-    }
-  | { readonly type: 'divider' };
-
-export type ContentPageTone = 'brand' | 'neutral' | 'plain';
-
-export interface ContentPage {
-  /** File name without extension (`pages/guia-de-abertura.json` → "guia-de-abertura"). */
-  readonly id: string;
-  readonly intro: string | null;
-  /** Background/border style of the expanded area (see content-styles.ts). */
-  readonly tone: ContentPageTone;
-  readonly blocks: readonly ContentBlock[];
-}
-
 export interface Lesson {
   readonly id: LessonId;
   readonly order: number;
@@ -115,7 +52,6 @@ export interface Lesson {
   readonly video: VideoSource | null;
   /** Expected video length (`video.duration`), used to count the watched time. `null` = unknown. */
   readonly videoDurationMs: number | null;
-  readonly materials: readonly Material[];
 }
 
 export interface JourneyHeader {

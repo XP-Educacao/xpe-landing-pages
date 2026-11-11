@@ -34,7 +34,6 @@ describe('LocalStorageProgressRepository', () => {
       version: 2,
       journeys: { [JOURNEY]: { 'aula-1': lesson } },
       preferences: {},
-      materialVisits: {},
       nextStepRevealed: {},
     });
     expect(new LocalStorageProgressRepository(storage).load(JOURNEY)).toEqual({
@@ -75,21 +74,6 @@ describe('LocalStorageProgressRepository', () => {
     expect(reloaded.load(JOURNEY)).toEqual({ 'aula-1': lesson });
   });
 
-  it('remembers the support materials the learner opened, next to the progress', () => {
-    const storage = new FakeStorage();
-    const repository = new LocalStorageProgressRepository(storage);
-    expect(repository.loadMaterialVisits(JOURNEY)).toEqual({});
-    repository.save(JOURNEY, { 'aula-1': lesson });
-    repository.saveMaterialVisits(JOURNEY, { 'aula-1': { guia: '2026-10-15T12:00:00.000Z' } });
-
-    const reloaded = new LocalStorageProgressRepository(storage);
-    expect(reloaded.loadMaterialVisits(JOURNEY)).toEqual({
-      'aula-1': { guia: '2026-10-15T12:00:00.000Z' },
-    });
-    expect(reloaded.load(JOURNEY)).toEqual({ 'aula-1': lesson });
-    expect(reloaded.loadMaterialVisits('outra-jornada')).toEqual({});
-  });
-
   it('remembers that the "Seu próximo passo" area was opened, per journey', () => {
     const storage = new FakeStorage();
     const repository = new LocalStorageProgressRepository(storage);
@@ -103,7 +87,7 @@ describe('LocalStorageProgressRepository', () => {
     expect(reloaded.loadNextStepRevealedAt('outra-jornada')).toBeNull();
   });
 
-  it('reads payloads saved before material visits existed (no migration needed)', () => {
+  it('ignores retired fields in existing progress payloads', () => {
     const storage = new FakeStorage();
     storage.setItem(
       PROGRESS_STORAGE_KEY,
@@ -111,11 +95,15 @@ describe('LocalStorageProgressRepository', () => {
         version: 2,
         journeys: { [JOURNEY]: { 'aula-1': lesson } },
         preferences: {},
+        retiredFeatureData: { enabled: true },
       }),
     );
     const repository = new LocalStorageProgressRepository(storage);
     expect(repository.load(JOURNEY)).toEqual({ 'aula-1': lesson });
-    expect(repository.loadMaterialVisits(JOURNEY)).toEqual({});
+    repository.saveNextStepRevealedAt(JOURNEY, '2026-11-07T12:00:00.000Z');
+    expect(JSON.parse(storage.getItem(PROGRESS_STORAGE_KEY) ?? '')).not.toHaveProperty(
+      'retiredFeatureData',
+    );
   });
 
   it('returns empty progress for corrupted data instead of crashing', () => {
@@ -150,7 +138,6 @@ describe('migrateProgressPayload', () => {
     version: 2,
     journeys: { [JOURNEY]: { 'aula-1': lesson } },
     preferences: {},
-    materialVisits: {},
     nextStepRevealed: {},
   };
 

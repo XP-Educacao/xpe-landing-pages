@@ -12,13 +12,9 @@
  */
 import { z } from 'zod';
 
-import type { Course, Lesson, Material, ReleaseRule } from '../domain/types.ts';
-import { MATERIAL_ICON_KEYS } from '../lib/material-icons.ts';
+import type { Course, Lesson, ReleaseRule } from '../domain/types.ts';
 import { isValidTimeZone, parseZonedDateTime } from '../lib/timezone.ts';
-import { contentPageSchema } from './content-page.schema.ts';
 import { optionalLink, optionalText, requiredText, slug, videoSchema } from './fields.schema.ts';
-
-const MAX_MATERIALS_PER_LESSON = 8;
 
 const INVALID_DATE_MESSAGE =
   'Data inválida. Use "AAAA-MM-DD" (meia-noite no fuso da jornada) ou ' +
@@ -54,60 +50,7 @@ const releaseSchema = z.discriminatedUnion(
   },
 );
 
-/** Content pages loaded from `src/content/pages/*.json`, keyed by file name (without .json). */
-export type RawContentPages = Readonly<Record<string, unknown>>;
-
-/**
- * A material is a link (`url`), an expandable content page (`page`) or "Em breve" (neither).
- * Page errors are reported on the material, naming the page file and field.
- */
-function createMaterialSchema(pages: RawContentPages) {
-  return z
-    .strictObject({
-      id: slug,
-      label: requiredText,
-      icon: z.enum(MATERIAL_ICON_KEYS, {
-        error: `Ícone inválido. Use um destes: ${MATERIAL_ICON_KEYS.join(', ')}.`,
-      }),
-      url: optionalLink.default(null),
-      page: slug.optional(),
-    })
-    .transform(({ page: pageId, ...material }, ctx): Material => {
-      if (pageId === undefined) return { ...material, page: null };
-      if (material.url !== null) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['page'],
-          message: 'Use "url" (link) OU "page" (conteúdo na página), não os dois.',
-          input: pageId,
-        });
-        return z.NEVER;
-      }
-      if (!(pageId in pages)) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['page'],
-          message: `Página não encontrada. Crie o arquivo src/content/pages/${pageId}.json.`,
-          input: pageId,
-        });
-        return z.NEVER;
-      }
-      const result = contentPageSchema(pageId).safeParse(pages[pageId], { error: errorMap });
-      if (result.success) return { ...material, page: result.data };
-      for (const issue of result.error.issues) {
-        const field = joinPath(issue.path);
-        ctx.addIssue({
-          code: 'custom',
-          path: ['page'],
-          message: `pages/${pageId}.json${field ? ` › ${field}` : ''} — ${issue.message}`,
-          input: pageId,
-        });
-      }
-      return z.NEVER;
-    });
-}
-
-function createLessonSchema(pages: RawContentPages) {
+function createLessonSchema() {
   return z.strictObject({
     id: slug,
     order: z
@@ -121,12 +64,6 @@ function createLessonSchema(pages: RawContentPages) {
     description: optionalText,
     release: releaseSchema.default({ type: 'sequential' }),
     video: videoSchema.default({ source: null, durationMs: null }),
-    materials: z
-      .array(createMaterialSchema(pages))
-      .max(MAX_MATERIALS_PER_LESSON, {
-        error: `Cada aula pode ter no máximo ${MAX_MATERIALS_PER_LESSON} materiais.`,
-      })
-      .default([]),
   });
 }
 
@@ -253,8 +190,8 @@ function numberLessons(sorted: readonly Lesson[]): Lesson[] {
   return sorted.map((lesson) => ({ ...lesson, number: lesson.numbered ? ++count : null }));
 }
 
-/** Course schema for a given set of content pages (`pages/*.json`). */
-export function createCourseSchema(pages: RawContentPages = {}) {
+/** Schema for the course content file. */
+export function createCourseSchema() {
   const rawCourseSchema = z
     .strictObject({
       journey: journeySchema,
@@ -263,9 +200,7 @@ export function createCourseSchema(pages: RawContentPages = {}) {
       sound: soundSchema,
       animation: animationSchema,
       reward: rewardSchema,
-      lessons: z
-        .array(createLessonSchema(pages))
-        .min(1, { error: 'Cadastre pelo menos uma aula.' }),
+      lessons: z.array(createLessonSchema()).min(1, { error: 'Cadastre pelo menos uma aula.' }),
     })
     .superRefine(({ lessons }, ctx) => {
       const duplicatedIds = findDuplicates(lessons.map((lesson) => lesson.id));
@@ -286,16 +221,6 @@ export function createCourseSchema(pages: RawContentPages = {}) {
             message: `A ordem ${lesson.order} está repetida; cada aula precisa de uma ordem única.`,
           });
         }
-        const duplicatedMaterials = findDuplicates(lesson.materials.map((material) => material.id));
-        lesson.materials.forEach((material, materialIndex) => {
-          if (duplicatedMaterials.has(material.id)) {
-            ctx.addIssue({
-              code: 'custom',
-              path: ['lessons', index, 'materials', materialIndex, 'id'],
-              message: `O id de material "${material.id}" está repetido nesta aula.`,
-            });
-          }
-        });
       });
     });
 
@@ -389,8 +314,8 @@ function describeLocation(path: readonly PropertyKey[], raw: unknown): string {
   return rest.length > 0 ? `${lessonLabel} › ${joinPath(rest)}` : lessonLabel;
 }
 
-export function parseCourse(raw: unknown, pages: RawContentPages = {}): CourseParseResult {
-  const result = createCourseSchema(pages).safeParse(raw, { error: errorMap });
+export function parseCourse(raw: unknown): CourseParseResult {
+  const result = createCourseSchema().safeParse(raw, { error: errorMap });
   if (result.success) return { ok: true, course: result.data };
 
   return {

@@ -2,17 +2,10 @@ import type {
   CompletionSource,
   JourneyProgressRecord,
   LessonCompletion,
-  LessonId,
   LessonProgress,
 } from '@/domain/types.ts';
 
 export type { CompletionSource, JourneyProgressRecord, LessonCompletion, LessonProgress };
-
-/**
- * Support materials the learner opened ("presencialidade"), per lesson:
- * `{ [lessonId]: { [materialId]: visitedAt (ISO-8601) } }`.
- */
-export type MaterialVisitsRecord = Readonly<Record<LessonId, Readonly<Record<string, string>>>>;
 
 /** Learner choices that are not tied to a journey. `undefined` = never chosen. */
 export interface LearnerPreferences {
@@ -29,8 +22,6 @@ export interface ProgressRepository {
   save(journeyId: string, record: JourneyProgressRecord): void;
   loadPreferences(): LearnerPreferences;
   savePreferences(preferences: LearnerPreferences): void;
-  loadMaterialVisits(journeyId: string): MaterialVisitsRecord;
-  saveMaterialVisits(journeyId: string, record: MaterialVisitsRecord): void;
   /** When the learner opened the "Seu próximo passo" area (ISO-8601); `null` = never. */
   loadNextStepRevealedAt(journeyId: string): string | null;
   saveNextStepRevealedAt(journeyId: string, revealedAt: string): void;

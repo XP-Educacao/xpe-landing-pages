@@ -36,7 +36,7 @@ export function SupportBubble() {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`${content.ariaLabel} ${uiText.materials.opensInNewTab}`}
+          aria-label={`${content.ariaLabel} ${uiText.links.opensInNewTab}`}
           className={cn(BUBBLE_CLASS, 'hover:-translate-y-0.5 hover:shadow-float active:scale-95')}
         >
           <WhatsAppIcon className="size-7" />

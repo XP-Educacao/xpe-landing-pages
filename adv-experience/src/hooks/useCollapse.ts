@@ -16,24 +16,17 @@ interface RegionProps {
 
 export interface CollapseController<Section extends string> {
   readonly isOpen: (section: Section) => boolean;
-  readonly areAllOpen: boolean;
-  readonly toggleAll: () => void;
   readonly getTriggerProps: (section: Section) => TriggerProps;
   readonly getRegionProps: (section: Section) => RegionProps;
 }
 
-/**
- * State + accessible wiring for a group of collapsible sections, including
- * "Expandir tudo / Recolher tudo". The animation itself is pure CSS (`collapse-region`).
- */
+/** State + accessible wiring for collapsible sections. The animation is pure CSS. */
 export function useCollapse<Section extends string>(
   sections: readonly Section[],
 ): CollapseController<Section> {
   const baseId = useId();
   const [openSections, setOpenSections] = useState<ReadonlySet<Section>>(() => new Set(sections));
-
   const isOpen = useCallback((section: Section) => openSections.has(section), [openSections]);
-  const areAllOpen = sections.every((section) => openSections.has(section));
 
   const toggle = useCallback((section: Section) => {
     setOpenSections((previous) => {
@@ -44,17 +37,11 @@ export function useCollapse<Section extends string>(
     });
   }, []);
 
-  const toggleAll = useCallback(() => {
-    setOpenSections(areAllOpen ? new Set() : new Set(sections));
-  }, [areAllOpen, sections]);
-
   return useMemo(() => {
     const triggerId = (section: Section) => `${baseId}-${section}-trigger`;
     const regionId = (section: Section) => `${baseId}-${section}-region`;
     return {
       isOpen,
-      areAllOpen,
-      toggleAll,
       getTriggerProps: (section) => ({
         id: triggerId(section),
         'aria-expanded': isOpen(section),
@@ -70,5 +57,5 @@ export function useCollapse<Section extends string>(
         'data-state': isOpen(section) ? 'open' : 'closed',
       }),
     };
-  }, [baseId, isOpen, areAllOpen, toggleAll, toggle]);
+  }, [baseId, isOpen, toggle]);
 }

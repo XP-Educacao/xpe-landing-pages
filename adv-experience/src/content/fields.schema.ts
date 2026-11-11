@@ -1,5 +1,5 @@
 /**
- * Field validators shared by `course.json` and the content pages (`pages/*.json`).
+ * Field validators for `course.json`.
  *
  * NOTE: pure module (no React, no `@/` alias, explicit `.ts` extensions) so Node tooling such
  * as vite.config can load it. See docs/ARCHITECTURE.md › "Import rules".
@@ -11,13 +11,13 @@ import { parseDuration } from '../lib/duration.ts';
 import { extractVimeoReference, extractYouTubeId } from '../lib/video-providers.ts';
 
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-export const RELATIVE_ASSET_PATTERN = /^\/?(?!.*\.\.)[A-Za-z0-9_\-./]+$/;
+const RELATIVE_ASSET_PATTERN = /^\/?(?!.*\.\.)[A-Za-z0-9_\-./]+$/;
 
 // ---------------------------------------------------------------------------------------------
 // Reusable field validators
 // ---------------------------------------------------------------------------------------------
 
-export function isHttpsUrl(value: string): boolean {
+function isHttpsUrl(value: string): boolean {
   try {
     return new URL(value).protocol === 'https:';
   } catch {
@@ -52,7 +52,7 @@ export const optionalLink = z
   .refine((value) => value === '' || isHttpsUrl(value) || RELATIVE_ASSET_PATTERN.test(value), {
     error:
       'Link inválido. Use um endereço completo começando com "https://", um arquivo da pasta public/ ' +
-      '(ex.: "materiais/aula-1.pdf") ou deixe vazio para exibir "Em breve".',
+      '(ex.: "videos/aula-1.mp4") ou deixe vazio para exibir "Em breve".',
   })
   .transform((value) => (value === '' ? null : value));
 

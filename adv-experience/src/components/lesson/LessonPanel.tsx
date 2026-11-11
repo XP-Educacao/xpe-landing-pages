@@ -1,4 +1,4 @@
-import { FolderOpen, MonitorPlay } from 'lucide-react';
+import { MonitorPlay } from 'lucide-react';
 
 import { uiText } from '@/content/ui-text.ts';
 import type { LessonId, LessonState } from '@/domain/types.ts';
@@ -8,11 +8,10 @@ import { ANCHORS } from '@/lib/anchors.ts';
 import { CollapsibleSection } from './CollapsibleSection.tsx';
 import { LessonCompletion } from './LessonCompletion.tsx';
 import { LessonPanelHeader } from './LessonPanelHeader.tsx';
-import { MaterialsList } from './MaterialsList.tsx';
 import type { VideoPlaybackHandlers } from './video/player-iframe.ts';
 import { VideoPlayer } from './VideoPlayer.tsx';
 
-const SECTIONS = ['video', 'materials'] as const;
+const SECTIONS = ['video'] as const;
 const TITLE_ID = `${ANCHORS.lessonPanel}-titulo`;
 
 interface LessonPanelProps {
@@ -22,9 +21,6 @@ interface LessonPanelProps {
   readonly onSetCompleted: (lessonId: LessonId, completed: boolean) => void;
   /** Watched-time hooks of THIS lesson's video (internal, nothing is displayed). */
   readonly playback: VideoPlaybackHandlers;
-  /** Support materials already opened in this lesson (green check). */
-  readonly visitedMaterialIds: ReadonlySet<string>;
-  readonly onMaterialVisit: (lessonId: LessonId, materialId: string) => void;
 }
 
 export function LessonPanel({
@@ -33,8 +29,6 @@ export function LessonPanel({
   allowManualComplete,
   onSetCompleted,
   playback,
-  visitedMaterialIds,
-  onMaterialVisit,
 }: LessonPanelProps) {
   const { lesson } = state;
   const isCompleted = state.status === 'completed';
@@ -47,13 +41,7 @@ export function LessonPanel({
       aria-labelledby={TITLE_ID}
       className="rounded-card border border-neutral-200 bg-white p-5 shadow-soft sm:p-8 md:p-10"
     >
-      <LessonPanelHeader
-        lesson={lesson}
-        titleId={TITLE_ID}
-        isCompleted={isCompleted}
-        areAllSectionsOpen={collapse.areAllOpen}
-        onToggleAllSections={collapse.toggleAll}
-      />
+      <LessonPanelHeader lesson={lesson} titleId={TITLE_ID} isCompleted={isCompleted} />
 
       <div className="mt-8 divide-y divide-neutral-200">
         <CollapsibleSection
@@ -86,20 +74,6 @@ export function LessonPanel({
             </p>
           </div>
         )}
-
-        <CollapsibleSection
-          section="materials"
-          collapse={collapse}
-          title={copy.sections.materials}
-          icon={FolderOpen}
-        >
-          <MaterialsList
-            key={lesson.id}
-            materials={lesson.materials}
-            visitedIds={visitedMaterialIds}
-            onVisit={(materialId) => onMaterialVisit(lesson.id, materialId)}
-          />
-        </CollapsibleSection>
       </div>
     </article>
   );

@@ -100,11 +100,8 @@ export const uiText = {
       const status = isCompleted ? 'Concluída' : 'Conteúdo liberado';
       return number === null ? status : `Webinar ${number} · ${status}`;
     },
-    expandAll: 'Expandir tudo',
-    collapseAll: 'Recolher tudo',
     sections: {
       video: 'Videoaula',
-      materials: 'Materiais de apoio ao aluno',
     },
     emptyState: {
       title: 'Sua jornada começa em breve',
@@ -159,11 +156,8 @@ export const uiText = {
       `Mostrando ${from} a ${to} de ${total} cards`,
   },
 
-  materials: {
-    comingSoon: 'Em breve',
+  links: {
     opensInNewTab: '(abre em nova aba)',
-    visited: 'Material acessado',
-    empty: 'Os materiais desta aula serão publicados em breve.',
   },
 
   footer: {
