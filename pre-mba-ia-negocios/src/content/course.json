@@ -80,8 +80,17 @@
         "duration": "07:47"
       },
       "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "texto-apoio",
+          "label": "Texto de Apoio da Aula",
+          "icon": "text",
+          "url": ""
+        },
+        { "id": "guia", 
+           "label": "Guia de abertura", 
+           "icon": "text", 
+           "url": "" 
+        },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
@@ -103,8 +112,16 @@
         "duration": "08:13"
       },
       "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "texto-apoio",
+          "label": "Texto de Apoio da Aula",
+          "icon": "text",
+          "url": ""
+        },
+        { "id": "guia", 
+           "label": "Guia de abertura", 
+            "icon": "text", 
+            "url": "" },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
@@ -126,8 +143,16 @@
         "duration": "06:40"
       },
       "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "texto-apoio",
+          "label": "Texto de Apoio da Aula",
+          "icon": "text",
+          "url": ""
+        },
+        { "id": "guia", 
+          "label": "Guia de abertura", 
+          "icon": "text", 
+          "url": "" },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
@@ -149,8 +174,17 @@
         "duration": "04:38"
       },
       "materials": [
-        { "id": "texto-apoio", "label": "Texto de Apoio da Aula", "icon": "text", "url": "" },
-        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
+        {
+          "id": "texto-apoio",
+          "label": "Texto de Apoio da Aula",
+          "icon": "text",
+          "url": ""
+        },
+        { "id": "guia", 
+           "label": "Guia de abertura", 
+           "icon": "text", 
+           "url": "" 
+        },
         {
           "id": "slides",
           "label": "Apresentação de Slides",

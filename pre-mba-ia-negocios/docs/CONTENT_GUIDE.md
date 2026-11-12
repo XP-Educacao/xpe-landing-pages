@@ -33,7 +33,7 @@ Quem roda o projeto localmente (`npm run dev`) vê a mesma lista de erros na pr�
 | 7   | Materiais de apoio               | `lessons[].materials[]`                                   |
 | 8   | Comunidade (Padlet)              | `community` (um só bloco, vale para todas as aulas)       |
 
-Regras de JSON que mais causam erro: textos sempre entre **aspas duplas**; **vírgula** entre itens, mas nunca depois do último; `""` (vazio) significa "em breve".
+Regras de JSON que mais causam erro: textos sempre entre **aspas duplas**; **vírgula** entre itens, mas nunca depois do último; `""` (vazio) significa "em breve" (exceto nos materiais de apoio: lá, `""` esconde o botão; veja [c)](#c-subir-o-link-de-um-material)).
 
 ---
 
@@ -50,7 +50,9 @@ Copie o bloco de uma aula existente, cole depois do último `}` da lista `lesson
   "description": "Nesta aula bônus, você aplica o método da jornada a um desafio da sua empresa.",
   "release": { "type": "fixed_date", "date": "2026-11-17" },
   "video": { "provider": "youtube", "videoId": "", "thumbnail": "" },
-  "materials": [{ "id": "roteiro", "label": "Roteiro do Projeto", "icon": "exercise", "url": "" }]
+  "materials": [
+    { "id": "roteiro", "label": "Roteiro do Projeto", "icon": "exercise", "url": "Em breve" }
+  ]
 }
 ```
 
@@ -142,9 +144,17 @@ A aula abre 10 dias após a inscrição do aluno (à 00:00). Enquanto a fase 2 n
 }
 ```
 
-- `url` vazio (`""`) mostra o botão desabilitado com **Em breve**.
+O `url` define como o material aparece:
+
+| `url`                                   | Na página                                                             |
+| --------------------------------------- | --------------------------------------------------------------------- |
+| `"https://..."` ou arquivo de `public/` | Botão que abre o link em nova aba                                     |
+| `"Em breve"`                            | Botão cinza, desabilitado, com a etiqueta **Em breve**                |
+| `""` (vazio) ou sem `url`               | **Não aparece.** O material fica guardado no arquivo para usar depois |
+
+- Se nenhum material da aula aparecer, a seção "Materiais de apoio" some dessa aula.
 - Links precisam começar com `https://`. Também é possível hospedar o arquivo aqui: coloque-o em `public/materiais/aula-1/slides.pdf` e use `"url": "materiais/aula-1/slides.pdf"`.
-- Até 8 materiais por aula. Links abrem em nova aba.
+- Até 8 materiais **visíveis** por aula (os vazios não contam).
 - `id` único dentro da aula; `label` é o texto do botão.
 
 Ícones disponíveis em `icon`:

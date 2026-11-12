@@ -140,7 +140,6 @@ export const uiText = {
     comingSoon: 'Em breve',
     opensInNewTab: '(abre em nova aba)',
     visited: 'Material acessado',
-    empty: 'Os materiais desta aula serão publicados em breve.',
   },
 
   community: {

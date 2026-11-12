@@ -37,6 +37,11 @@ function isSpallaEmbedUrl(value: string): boolean {
   }
 }
 
+/** https link or a file inside `public/`. */
+function isContentLink(value: string): boolean {
+  return isHttpsUrl(value) || RELATIVE_ASSET_PATTERN.test(value);
+}
+
 export const slug = z.string().trim().regex(SLUG_PATTERN, {
   error: 'Use apenas letras minúsculas, números e hífens (ex.: "aula-1").',
 });
@@ -49,12 +54,42 @@ export const optionalText = z.string().trim().default('');
 export const optionalLink = z
   .string()
   .trim()
-  .refine((value) => value === '' || isHttpsUrl(value) || RELATIVE_ASSET_PATTERN.test(value), {
+  .refine((value) => value === '' || isContentLink(value), {
     error:
       'Link inválido. Use um endereço completo começando com "https://", um arquivo da pasta public/ ' +
       '(ex.: "materiais/aula-1.pdf") ou deixe vazio para exibir "Em breve".',
   })
   .transform((value) => (value === '' ? null : value));
+
+/** What a material's `url` means on the page. */
+export type MaterialLink =
+  | { readonly state: 'link'; readonly url: string }
+  | { readonly state: 'coming_soon' } // greyed-out tile with the "Em breve" tag
+  | { readonly state: 'hidden' }; // not shown (the entry stays in the file for later)
+
+export const HIDDEN_MATERIAL: MaterialLink = { state: 'hidden' };
+
+/** "Em breve" in any case and spacing ("em breve", "EM BREVE"...). */
+const COMING_SOON_PATTERN = /^em\s+breve$/i;
+
+/**
+ * Material `url`: "https://..." or a file in `public/` → link; "Em breve" → greyed out;
+ * "" → not shown at all (kept in course.json, ready to be used later).
+ */
+export const materialUrl = z
+  .string()
+  .trim()
+  .refine((value) => value === '' || COMING_SOON_PATTERN.test(value) || isContentLink(value), {
+    error:
+      'Link inválido. Use um endereço completo começando com "https://", um arquivo da pasta ' +
+      'public/ (ex.: "materiais/aula-1.pdf"), "Em breve" (aparece em cinza) ou deixe vazio ' +
+      'para não exibir o material.',
+  })
+  .transform((value): MaterialLink => {
+    if (value === '') return HIDDEN_MATERIAL;
+    if (COMING_SOON_PATTERN.test(value)) return { state: 'coming_soon' };
+    return { state: 'link', url: value };
+  });
 
 /** "" → null; only https is accepted because the page runs inside an https LMS iframe. */
 export const optionalEmbedUrl = z

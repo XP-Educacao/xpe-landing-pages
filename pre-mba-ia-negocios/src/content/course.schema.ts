@@ -17,6 +17,8 @@ import { MATERIAL_ICON_KEYS } from '../lib/material-icons.ts';
 import { isValidTimeZone, parseZonedDateTime } from '../lib/timezone.ts';
 import { contentPageSchema } from './content-page.schema.ts';
 import {
+  HIDDEN_MATERIAL,
+  materialUrl,
   optionalEmbedUrl,
   optionalLink,
   optionalText,
@@ -65,8 +67,9 @@ const releaseSchema = z.discriminatedUnion(
 export type RawContentPages = Readonly<Record<string, unknown>>;
 
 /**
- * A material is a link (`url`), an expandable content page (`page`) or "Em breve" (neither).
- * Page errors are reported on the material, naming the page file and field.
+ * A material is a link (`url`), an expandable content page (`page`), "Em breve" (greyed out)
+ * or hidden (`url` empty or missing → `null`, dropped from the lesson). Page errors are
+ * reported on the material, naming the page file and field.
  */
 function createMaterialSchema(pages: RawContentPages) {
   return z
@@ -76,12 +79,15 @@ function createMaterialSchema(pages: RawContentPages) {
       icon: z.enum(MATERIAL_ICON_KEYS, {
         error: `Ícone inválido. Use um destes: ${MATERIAL_ICON_KEYS.join(', ')}.`,
       }),
-      url: optionalLink.default(null),
+      url: materialUrl.default(HIDDEN_MATERIAL),
       page: slug.optional(),
     })
-    .transform(({ page: pageId, ...material }, ctx): Material => {
-      if (pageId === undefined) return { ...material, page: null };
-      if (material.url !== null) {
+    .transform(({ page: pageId, url: link, ...material }, ctx): Material | null => {
+      if (pageId === undefined) {
+        if (link.state === 'hidden') return null; // not shown on the page
+        return { ...material, url: link.state === 'link' ? link.url : null, page: null };
+      }
+      if (link.state !== 'hidden') {
         ctx.addIssue({
           code: 'custom',
           path: ['page'],
@@ -100,7 +106,7 @@ function createMaterialSchema(pages: RawContentPages) {
         return z.NEVER;
       }
       const result = contentPageSchema(pageId).safeParse(pages[pageId], { error: errorMap });
-      if (result.success) return { ...material, page: result.data };
+      if (result.success) return { ...material, url: null, page: result.data };
       for (const issue of result.error.issues) {
         const field = joinPath(issue.path);
         ctx.addIssue({
@@ -135,12 +141,8 @@ function createLessonSchema(pages: RawContentPages) {
     description: optionalText,
     release: releaseSchema.default({ type: 'sequential' }),
     video: videoSchema.default({ source: null, durationMs: null }),
-    materials: z
-      .array(createMaterialSchema(pages))
-      .max(MAX_MATERIALS_PER_LESSON, {
-        error: `Cada aula pode ter no máximo ${MAX_MATERIALS_PER_LESSON} materiais.`,
-      })
-      .default([]),
+    /** Hidden materials stay `null` until the end so error paths keep the file's indexes. */
+    materials: z.array(createMaterialSchema(pages)).default([]),
     /** Not per lesson anymore: friendly pointer to the shared top-level block. */
     community: z
       .never({
@@ -258,13 +260,14 @@ function findDuplicates(values: readonly (string | number)[]): Set<string | numb
 
 type RawLesson = z.output<ReturnType<typeof createLessonSchema>>;
 
-function toLesson({ video, ...lesson }: RawLesson, release: ReleaseRule): Lesson {
+function toLesson({ video, materials, ...lesson }: RawLesson, release: ReleaseRule): Lesson {
   return {
     ...lesson,
     number: null, // assigned after sorting (see numberLessons)
     release,
     video: video.source,
     videoDurationMs: video.durationMs,
+    materials: materials.filter((material) => material !== null), // `url: ""` = hidden
   };
 }
 
@@ -308,9 +311,19 @@ export function createCourseSchema(pages: RawContentPages = {}) {
             message: `A ordem ${lesson.order} está repetida; cada aula precisa de uma ordem única.`,
           });
         }
-        const duplicatedMaterials = findDuplicates(lesson.materials.map((material) => material.id));
+        const visibleMaterials = lesson.materials.filter((material) => material !== null);
+        if (visibleMaterials.length > MAX_MATERIALS_PER_LESSON) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['lessons', index, 'materials'],
+            message:
+              `Cada aula pode exibir no máximo ${MAX_MATERIALS_PER_LESSON} materiais ` +
+              '(os com "url" vazio ficam ocultos e não contam).',
+          });
+        }
+        const duplicatedMaterials = findDuplicates(visibleMaterials.map((material) => material.id));
         lesson.materials.forEach((material, materialIndex) => {
-          if (duplicatedMaterials.has(material.id)) {
+          if (material && duplicatedMaterials.has(material.id)) {
             ctx.addIssue({
               code: 'custom',
               path: ['lessons', index, 'materials', materialIndex, 'id'],

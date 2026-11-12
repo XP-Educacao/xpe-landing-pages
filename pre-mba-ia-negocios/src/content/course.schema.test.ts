@@ -110,13 +110,36 @@ describe('parseCourse — valid content', () => {
       thumbnail: '',
       duration: '',
     };
-    raw.lessons[0]!.materials[0]!.url = '';
     raw.community.embedUrl = '';
     const course = expectCourse(parseCourse(raw));
-    const lesson = course.lessons[0];
-    expect(lesson?.video).toBeNull();
-    expect(lesson?.materials[0]?.url).toBeNull();
+    expect(course.lessons[0]?.video).toBeNull();
     expect(course.community.embedUrl).toBeNull();
+  });
+
+  it('keeps "Em breve" materials (greyed out) and hides the empty ones', () => {
+    const raw = cloneRawCourse() as unknown as { lessons: { materials: unknown[] }[] };
+    raw.lessons[0]!.materials = [
+      { id: 'texto', label: 'Texto', icon: 'text', url: 'https://exemplo.com/texto.pdf' },
+      { id: 'guia', label: 'Guia', icon: 'guide', url: ' em  BREVE ' },
+      { id: 'slides', label: 'Slides', icon: 'slides', url: '' },
+      { id: 'planilha', label: 'Planilha', icon: 'spreadsheet' },
+    ];
+    const materials = expectCourse(parseCourse(raw)).lessons[0]?.materials;
+    expect(materials?.map((material) => [material.id, material.url])).toEqual([
+      ['texto', 'https://exemplo.com/texto.pdf'],
+      ['guia', null],
+    ]);
+  });
+
+  it('keeps the file index in errors after a hidden material', () => {
+    const raw = cloneRawCourse() as unknown as { lessons: { materials: unknown[] }[] };
+    raw.lessons[0]!.materials = [
+      { id: 'oculto', label: 'Oculto', icon: 'text', url: '' },
+      { id: 'quebrado', label: 'Quebrado', icon: 'text', url: 'http://exemplo.com' },
+    ];
+    const issue = expectIssues(parseCourse(raw))[0];
+    expect(issue?.location).toBe('lessons[0] (aula-1) › materials[1].url');
+    expect(issue?.message).toMatch(/"Em breve" \(aparece em cinza\)/);
   });
 
   it('reads ONE community, shared by every lesson', () => {
@@ -302,14 +325,18 @@ describe('parseCourse — invalid content (friendly errors)', () => {
     expect(locations).toEqual(['journey.timezone', 'journey.completionThreshold']);
   });
 
-  it('rejects more than 8 materials in a lesson', () => {
-    const raw = cloneRawCourse();
-    const material = raw.lessons[0]!.materials[0]!;
-    raw.lessons[0]!.materials = Array.from({ length: 9 }, (_, index) => ({
-      ...material,
-      id: `material-${index}`,
-    }));
-    expect(expectIssues(parseCourse(raw))[0]?.message).toMatch(/no máximo 8 materiais/);
+  it('rejects more than 8 VISIBLE materials in a lesson (hidden ones do not count)', () => {
+    const raw = cloneRawCourse() as unknown as { lessons: { materials: unknown[] }[] };
+    const material = (id: string, url: string) => ({ id, label: 'Material', icon: 'text', url });
+    const eight = Array.from({ length: 8 }, (_, index) =>
+      material(`material-${index}`, 'Em breve'),
+    );
+    raw.lessons[0]!.materials = [...eight, material('oculto', '')];
+    expectCourse(parseCourse(raw));
+    raw.lessons[0]!.materials = [...eight, material('extra', 'Em breve')];
+    const issue = expectIssues(parseCourse(raw))[0];
+    expect(issue?.location).toBe('lessons[0] (aula-1) › materials');
+    expect(issue?.message).toMatch(/no máximo 8 materiais/);
   });
 
   it('rejects content that is not an object', () => {
@@ -404,7 +431,7 @@ describe('parseCourse — expandable content pages', () => {
       const raw = cloneRawCourse() as unknown as {
         lessons: { materials: Record<string, unknown>[] }[];
       };
-      raw.lessons[0]!.materials[1]!.page = id;
+      raw.lessons[0]!.materials[1] = { id: 'guia', label: 'Guia', icon: 'guide', page: id };
       expectCourse(parseCourse(raw, { ...PAGES, [id]: page }));
     }
   });

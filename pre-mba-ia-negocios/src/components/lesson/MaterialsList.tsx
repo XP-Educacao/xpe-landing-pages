@@ -143,8 +143,9 @@ interface MaterialsListProps {
 }
 
 /**
- * Buttons generated from `materials[]` (1-8 items, responsive grid). Materials with a `page`
- * expand their content right below the grid (one at a time).
+ * Buttons generated from the VISIBLE `materials[]` (1-8 items, responsive grid; materials left
+ * empty in course.json never get here). Materials with a `page` expand their content right
+ * below the grid (one at a time).
  */
 export function MaterialsList({ materials, visitedIds, onVisit }: MaterialsListProps) {
   const [openId, setOpenId] = useState<string | null>(null);
@@ -176,10 +177,6 @@ export function MaterialsList({ materials, visitedIds, onVisit }: MaterialsListP
       onVisit?.(materialId);
     }, VISIT_DELAY_MS);
   };
-
-  if (materials.length === 0) {
-    return <p className="text-sm text-neutral-600">{uiText.materials.empty}</p>;
-  }
 
   return (
     <div className="flex flex-col gap-4">

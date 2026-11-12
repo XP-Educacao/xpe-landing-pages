@@ -43,7 +43,10 @@ export interface Material {
   readonly id: string;
   readonly label: string;
   readonly icon: MaterialIconKey;
-  /** `null` = "Em breve" (unless the material has a `page`). */
+  /**
+   * `null` = "Em breve" (unless the material has a `page`). Materials left empty in
+   * course.json (`"url": ""`) are hidden: they never reach the lesson.
+   */
   readonly url: string | null;
   /** Rich content shown INSIDE the page when the material is expanded (pages/<id>.json). */
   readonly page: ContentPage | null;

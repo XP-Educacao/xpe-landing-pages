@@ -91,19 +91,22 @@ export function LessonPanel({
           </div>
         )}
 
-        <CollapsibleSection
-          section="materials"
-          collapse={collapse}
-          title={copy.sections.materials}
-          icon={FolderOpen}
-        >
-          <MaterialsList
-            key={lesson.id}
-            materials={lesson.materials}
-            visitedIds={visitedMaterialIds}
-            onVisit={(materialId) => onMaterialVisit(lesson.id, materialId)}
-          />
-        </CollapsibleSection>
+        {/* No visible material (all left empty in course.json): the section is not needed. */}
+        {lesson.materials.length > 0 && (
+          <CollapsibleSection
+            section="materials"
+            collapse={collapse}
+            title={copy.sections.materials}
+            icon={FolderOpen}
+          >
+            <MaterialsList
+              key={lesson.id}
+              materials={lesson.materials}
+              visitedIds={visitedMaterialIds}
+              onVisit={(materialId) => onMaterialVisit(lesson.id, materialId)}
+            />
+          </CollapsibleSection>
+        )}
 
         <CollapsibleSection
           section="community"
