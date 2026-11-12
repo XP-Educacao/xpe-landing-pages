@@ -86,11 +86,7 @@
           "icon": "text",
           "url": ""
         },
-        { "id": "guia", 
-           "label": "Guia de abertura", 
-           "icon": "text", 
-           "url": "" 
-        },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
@@ -118,10 +114,7 @@
           "icon": "text",
           "url": ""
         },
-        { "id": "guia", 
-           "label": "Guia de abertura", 
-            "icon": "text", 
-            "url": "" },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
@@ -149,10 +142,7 @@
           "icon": "text",
           "url": ""
         },
-        { "id": "guia", 
-          "label": "Guia de abertura", 
-          "icon": "text", 
-          "url": "" },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
@@ -180,11 +170,7 @@
           "icon": "text",
           "url": ""
         },
-        { "id": "guia", 
-           "label": "Guia de abertura", 
-           "icon": "text", 
-           "url": "" 
-        },
+        { "id": "guia", "label": "Guia de abertura", "icon": "text", "url": "" },
         {
           "id": "slides",
           "label": "Apresentação de Slides",
