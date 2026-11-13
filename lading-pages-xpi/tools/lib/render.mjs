@@ -2,7 +2,7 @@
  * HTML do hub. Recebe os dados já validados (tools/lib/config.mjs) e devolve a página inteira.
  *
  * Decisões:
- *   - Barra branca no topo com o logo da XP Inc. (como no xpinc.com), depois a faixa preta.
+ *   - O topo é só a faixa preta. O logo da XP Inc. é opcional e, se houver, fica dentro dela.
  *   - Cada card é um <article> com o nome do time num <h3>; o link fica no nome e um ::after
  *     estica a área clicável para o card todo (leitor de tela ouve só o nome do time).
  *   - O logo do time é decorativo (alt vazio): o nome já está no título do card.
@@ -62,9 +62,10 @@ function renderTeam(team, { textos, d2l }) {
           </li>`;
 }
 
+/** Logo da XP Inc. dentro da faixa preta (versão para fundo escuro). Sem logo, nada é exibido. */
 function renderBrand({ nome, logoSrc }) {
-  if (logoSrc) return `<img class="marca__logo" src="${attr(logoSrc)}" alt="${attr(nome)}" />`;
-  return `<span class="marca__nome">${html(nome)}</span>`;
+  if (!logoSrc) return '';
+  return `\n            <p class="marca"><img class="marca__logo" src="${attr(logoSrc)}" alt="${attr(nome)}" /></p>`;
 }
 
 /**
@@ -131,14 +132,9 @@ export function renderPage({ data, css, cssHash, script }) {
   <body>
     <a class="pular" href="#times">Ir para a lista de times</a>
     <div class="hub">
-      <header class="cabecalho">
-        <div class="topo">
-          <p class="topo__conteudo marca">${renderBrand(marca)}</p>
-        </div>
-        <div class="hero">
-          <div class="hero__conteudo">${textos.rotulo ? `\n            <p class="hero__rotulo">${html(textos.rotulo)}</p>` : ''}
-            <h1 class="hero__titulo">${html(textos.titulo)}</h1>${textos.subtitulo ? `\n            <p class="hero__subtitulo">${html(textos.subtitulo)}</p>` : ''}${searchBox}
-          </div>
+      <header class="hero">
+        <div class="hero__conteudo">${renderBrand(marca)}${textos.rotulo ? `\n            <p class="hero__rotulo">${html(textos.rotulo)}</p>` : ''}
+          <h1 class="hero__titulo">${html(textos.titulo)}</h1>${textos.subtitulo ? `\n          <p class="hero__subtitulo">${html(textos.subtitulo)}</p>` : ''}${searchBox}
         </div>
       </header>
 

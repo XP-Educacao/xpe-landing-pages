@@ -4,7 +4,7 @@ Coloque aqui os logos e depois escreva **só o nome do arquivo** em `times.confi
 
 | Onde aparece | Campo na config | Versão do logo | Tamanho do espaço |
 |---|---|---|---|
-| Barra branca do topo | `marca.logo` | para **fundo claro** (preta) | 28 px de altura, até 220 px de largura |
+| Faixa preta do topo (opcional) | `marca.logo` | para **fundo escuro** (branca) | 28 px de altura, até 220 px de largura |
 | Card de cada time (fundo branco) | `logo` dentro do time | para **fundo claro** | 80 px de altura, até 240 px de largura |
 
 Dicas:
@@ -18,7 +18,7 @@ Dicas:
 Exemplo:
 
 ```js
-marca: { nome: 'XP Inc.', logo: 'logo-xp-inc.png' },
+marca: { nome: 'XP Inc.', logo: 'logo-xp-inc-branco.png' },
 …
 { nome: 'Academy', home: 12345, logo: 'logo-academy.png' },
 ```

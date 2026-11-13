@@ -29,13 +29,13 @@ export default {
   },
 
   marca: {
-    /* Nome exibido no topo quando não há logo. */
+    /* Nome da marca (lido por leitores de tela no logo, se houver logo). */
     nome: 'XP Inc.',
 
-    /* Logo da XP Inc., na barra BRANCA do topo: use a versão PRETA (para fundo claro).
-       Coloque o arquivo (.svg, .png, .webp ou .jpg) na pasta imagens/ e escreva só o nome dele.
-       Exemplo: 'logo-xp-inc.svg'. Vazio = mostra o nome acima, em texto. */
-    logo: 'logo-xp-inc.png',
+    /* Logo OPCIONAL da XP Inc., dentro da faixa PRETA do topo: precisa ser a versão BRANCA
+       (para fundo escuro). A versão preta (logo-xp-inc.png) some no preto, por isso está vazio.
+       Coloque o arquivo na pasta imagens/ e escreva só o nome dele. Vazio = sem logo no topo. */
+    logo: '',
   },
 
   textos: {

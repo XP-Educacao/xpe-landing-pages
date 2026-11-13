@@ -124,10 +124,10 @@ Coloque os arquivos na pasta **`imagens/`** e escreva só o nome deles na config
 
 | Onde aparece | Campo | Versão do logo |
 |---|---|---|
-| Barra branca do topo | `marca.logo` | **preta** (fundo claro) |
+| Faixa preta do topo (opcional) | `marca.logo` | **branca** (fundo escuro) |
 | Card de cada time | `logo` do time | para **fundo claro** (o card é branco) |
 
-Sem logo, o topo mostra o nome “XP Inc.” em texto e o card mostra a sigla do time. O `check` avisa se o arquivo não existir ou tiver mais de 300 KB.
+Sem `marca.logo`, o topo fica só com o texto (hoje está assim, porque o logo da XP Inc. disponível é o preto). Sem `logo` no time, o card mostra a sigla. O `check` avisa se o arquivo não existir ou tiver mais de 300 KB.
 
 ## Identidade visual
 

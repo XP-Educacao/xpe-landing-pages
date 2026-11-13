@@ -209,6 +209,13 @@ test('logo de time: arquivo precisa existir em imagens/ e não pode ter pasta no
   }
 });
 
+test('sem logo da marca, o topo não mostra nada no lugar dele', () => {
+  const { data } = validate(baseConfig());
+  const html = renderPage({ data, css: '', cssHash: 'sha256-x', script: '' });
+  assert.doesNotMatch(html, /class="marca/);
+  assert.doesNotMatch(html, /class="topo/);
+});
+
 test('com logo, o card mostra a imagem (decorativa); sem logo, mostra a sigla', () => {
   const { data } = validate(baseConfig());
   data.times[0].logoSrc = 'assets/img/logo.svg?v=abc';
@@ -245,7 +252,8 @@ test('a página da demo: hash do CSS confere com a CSP, logos publicados, links 
   assert.equal((site.html.match(/class="time__link"/g) ?? []).length, 3);
   assert.equal((site.html.match(/target="_top"/g) ?? []).length, 3);
   assert.equal((site.html.match(/class="time__logo-img"/g) ?? []).length, 2);
-  assert.match(site.html, /<img class="marca__logo" src="assets\/img\/exemplo-logo-marca\.svg\?v=[0-9a-f]{10}" alt="XP Inc\." \/>/);
+  assert.match(site.html, /<header class="hero">\s*<div class="hero__conteudo">\s*<p class="marca"><img class="marca__logo" src="assets\/img\/exemplo-logo-marca\.svg\?v=[0-9a-f]{10}" alt="XP Inc\." \/><\/p>/);
+  assert.doesNotMatch(site.html, /class="topo/, 'sem barra branca no topo');
   assert.ok(site.files.has('assets/img/exemplo-logo-time.svg'));
   assert.ok(site.files.has('assets/img/exemplo-logo-marca.svg'));
   assert.match(site.html, /class="times__grade times__grade--fixa"/);
