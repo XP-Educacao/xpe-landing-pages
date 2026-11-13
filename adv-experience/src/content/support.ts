@@ -5,6 +5,7 @@
  * `null` = the button is shown but not clickable ("Link em breve").
  */
 export const supportContent = {
+  url: 'https://api.whatsapp.com/send/?phone=5531983269441&text=Quero%20tirar%20d%C3%BAvidas',
   phone: null as string | null,
   /** Message already typed when the chat opens. */
   message: 'Olá! Tenho uma dúvida sobre a Advisor Experience.',

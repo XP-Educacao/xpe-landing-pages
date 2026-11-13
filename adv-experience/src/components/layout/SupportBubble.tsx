@@ -20,7 +20,7 @@ const BUBBLE_CLASS =
  * Steps aside (CSS `support-bubble`) while the video mini-player uses that corner.
  */
 export function SupportBubble() {
-  const url = content.phone ? whatsappUrl(content.phone, content.message) : null;
+  const url = content.url || (content.phone ? whatsappUrl(content.phone, content.message) : null);
 
   return (
     <div className="support-bubble group fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 flex items-center gap-3 md:right-6 md:bottom-6">
