@@ -1,0 +1,700 @@
+/*
+ * Hub de times · estilos (identidade visual XP Inc.)
+ *
+ * TOKENS: cores, fontes e medidas ficam só aqui em cima. O resto do arquivo usa as variáveis,
+ * então trocar uma cor aqui troca em todo o hub. Valores tirados do site oficial xpinc.com:
+ * preto e branco, cinzas neutros e o verde-água do logo (degradê #02C8BB → #146260).
+ *
+ * Depois de editar, rode npm run preview e confira o resultado (também no iframe).
+ */
+:root {
+  /* Marca XP Inc. */
+  --cor-marca: #02c8bb; /* verde-água: destaques, ícones e foco no fundo preto */
+  --cor-marca-escura: #146260; /* fim do degradê do símbolo do logo */
+  --cor-tinta: #000000; /* preto: faixa do topo, selos e borda dos cards no hover */
+
+  /* Superfícies e textos. Os cards são brancos porque os logos dos times são a versão
+     para fundo claro (preto + verde-água); logo escuro em card preto some. */
+  --cor-fundo: #ffffff;
+  --cor-fundo-lista: #f0f0f0; /* faixa cinza-clara atrás dos cards */
+  --cor-superficie-suave: #e4e4e4;
+  --cor-borda: #e4e4e4;
+  --cor-borda-forte: #cccccc;
+  --cor-texto: #121212;
+  --cor-texto-suave: #3d3d3d;
+  --cor-texto-inverso: #ffffff;
+  --cor-texto-inverso-suave: #b8b8b8;
+  --cor-foco: #000000;
+
+  /* Tipografia: Interstate é a fonte da XP Inc. Ela não é baixada (o hub não carrega nada de fora);
+     aparece em quem a tem instalada e, nos demais, cai para Roboto/Segoe UI. */
+  --fonte: Interstate, Roboto, 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Forma, sombra e ritmo: cantos retos, como no xpinc.com */
+  --raio-card: 0px;
+  --raio-controle: 0px;
+  --sombra-card: 0 18px 36px -18px rgb(0 0 0 / 0.32);
+  --largura-max: 1680px;
+  --margem: clamp(16px, 4.5vw, 72px);
+  --vao-grade: clamp(12px, 1.4vw, 24px);
+  --altura-logo: 80px; /* espaço do logo de cada time (largura máxima: 240px) */
+  --altura-logo-marca: 28px; /* altura do logo da XP Inc. na barra branca */
+  --transicao: 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font: 400 1rem/1.5 var(--fonte);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--cor-marca);
+  color: var(--cor-tinta);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+img,
+svg {
+  display: block;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pular {
+  position: absolute;
+  top: 12px;
+  left: var(--margem);
+  z-index: 10;
+  padding: 10px 16px;
+  background: var(--cor-marca);
+  color: var(--cor-tinta);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.pular:focus {
+  transform: none;
+  outline: 3px solid var(--cor-tinta);
+  outline-offset: 2px;
+}
+
+/* A página ocupa pelo menos a altura toda do quadro (ou da janela). */
+.hub {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ── Barra branca com o logo da XP Inc. ───────────────────────────────── */
+.topo {
+  padding: 0 var(--margem);
+  border-bottom: 1px solid var(--cor-borda);
+  background: var(--cor-fundo);
+}
+
+.topo__conteudo {
+  display: flex;
+  align-items: center;
+  max-width: var(--largura-max);
+  min-height: 64px;
+  margin: 0 auto;
+}
+
+.marca__nome {
+  color: var(--cor-tinta);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.marca__logo {
+  width: auto;
+  max-width: 220px;
+  height: var(--altura-logo-marca);
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* ── Faixa preta ──────────────────────────────────────────────────────── */
+.hero {
+  --forma: clamp(150px, 21vw, 360px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: clamp(240px, 42vh, 480px);
+  padding: clamp(32px, 6vh, 72px) var(--margem) clamp(36px, 7vh, 80px);
+  background: var(--cor-tinta);
+  color: var(--cor-texto-inverso);
+}
+
+/* Paralelogramo em degradê verde-água (lembra o símbolo do logo XP Inc.), com um contorno fino ao lado. */
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -12%;
+  bottom: -12%;
+  width: var(--forma);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.hero::before {
+  right: calc(var(--forma) * -0.2);
+  background: linear-gradient(165deg, var(--cor-marca) 0%, var(--cor-marca-escura) 100%);
+}
+
+.hero::after {
+  right: calc(var(--forma) * 0.8 + 28px);
+  width: calc(var(--forma) * 0.32);
+  border: 1px solid color-mix(in srgb, var(--cor-marca) 45%, transparent);
+}
+
+.hero__conteudo {
+  display: grid;
+  justify-items: start;
+  gap: clamp(14px, 2.2vh, 22px);
+  width: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+}
+
+/* O texto para antes das formas da direita (--largura-texto muda por elemento). */
+.hero__conteudo > * {
+  max-width: min(var(--largura-texto, 46rem), 100% - var(--forma) * 1.25 - 96px + var(--margem));
+}
+
+.hero__rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cor-marca);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero__rotulo::before {
+  content: '';
+  flex: none;
+  width: 28px;
+  height: 3px;
+  background: currentColor;
+}
+
+.hero__titulo {
+  font-size: clamp(2.125rem, 1.2rem + 3.4vw, 4.25rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.hero__subtitulo {
+  --largura-texto: 40rem;
+  color: var(--cor-texto-inverso-suave);
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.1875rem);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ── Busca ────────────────────────────────────────────────────────────── */
+.busca {
+  width: min(36rem, 100%);
+  margin-top: clamp(4px, 1.4vh, 12px);
+}
+
+.busca__campo {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.busca__icone {
+  position: absolute;
+  left: 18px;
+  width: 20px;
+  height: 20px;
+  color: var(--cor-texto-suave);
+  pointer-events: none;
+}
+
+.busca__input {
+  width: 100%;
+  height: 56px;
+  padding: 0 52px 0 50px;
+  border: 2px solid transparent;
+  border-radius: var(--raio-controle);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-size: 1.0625rem;
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.busca__input::placeholder {
+  color: #6b6b6b;
+  opacity: 1;
+}
+
+.busca__input:focus {
+  outline: none;
+  border-color: var(--cor-marca);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cor-marca) 40%, transparent);
+}
+
+.busca__input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.busca__atalho {
+  position: absolute;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  border: 1px solid var(--cor-borda-forte);
+  background: var(--cor-superficie-suave);
+  color: var(--cor-texto-suave);
+  font: 600 0.8125rem/1 var(--fonte);
+  pointer-events: none;
+}
+
+.busca__input:focus + .busca__atalho,
+.busca__input:not(:placeholder-shown) + .busca__atalho {
+  display: none;
+}
+
+/* ── Lista de times ───────────────────────────────────────────────────── */
+.times {
+  flex: 1;
+  padding: clamp(28px, 5vh, 56px) var(--margem) clamp(40px, 8vh, 88px);
+  background: var(--cor-fundo-lista);
+}
+
+.times:focus {
+  outline: none;
+}
+
+.times__grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
+  gap: var(--vao-grade);
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* Sem busca (poucos times): os cards esticam para ocupar a largura toda e cabem lado a lado
+   a partir de ~720 px (3 times não deixam um card sozinho na segunda linha). */
+.times__grade--fixa {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+}
+
+.times__item[hidden] {
+  display: none;
+}
+
+/* ── Card (branco, canto reto; os logos dos times são para fundo claro) ── */
+.time {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+  min-height: 264px;
+  padding: clamp(22px, 2vw, 32px);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  transition: transform var(--transicao), box-shadow var(--transicao), border-color var(--transicao);
+}
+
+/* Faixa verde-água que aparece no topo do card ao passar o mouse. */
+.time--link::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  left: -1px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cor-marca), var(--cor-marca-escura));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transicao);
+}
+
+/* Espaço do logo: mesma altura em todos os cards, com ou sem imagem. */
+.time__logo {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: var(--altura-logo);
+}
+
+.time__logo-img {
+  width: auto;
+  max-width: min(240px, 100%);
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.time__sigla {
+  display: grid;
+  place-items: center;
+  width: var(--altura-logo);
+  height: var(--altura-logo);
+  border-radius: var(--raio-controle);
+  background: var(--cor-tinta);
+  color: var(--cor-marca);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.time__texto {
+  display: grid;
+  gap: 8px;
+}
+
+.time__nome {
+  font-size: clamp(1.1875rem, 1.05rem + 0.4vw, 1.4375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.time__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* O link do nome cobre o card inteiro. */
+.time__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.time__link:focus {
+  outline: none;
+}
+
+.time__link:focus-visible::after {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 4px;
+}
+
+.time__descricao {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--cor-texto-suave);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.time__acao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--cor-borda);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.time__seta {
+  display: grid;
+  flex: none;
+  place-items: center;
+  color: var(--cor-marca-escura); /* o verde escuro tem contraste no fundo branco */
+  transition: transform var(--transicao);
+}
+
+.time__seta svg {
+  width: 20px;
+  height: 20px;
+}
+
+.time--link:hover {
+  border-color: var(--cor-tinta);
+  box-shadow: var(--sombra-card);
+  transform: translateY(-3px);
+}
+
+.time--link:hover::before,
+.time--link:focus-within::before {
+  transform: scaleX(1);
+}
+
+.time--link:hover .time__sigla,
+.time--link:focus-within .time__sigla {
+  background: var(--cor-marca);
+  color: var(--cor-tinta);
+}
+
+.time--link:hover .time__seta,
+.time--link:focus-within .time__seta {
+  transform: translateX(4px);
+}
+
+.time--link:active {
+  transform: translateY(-1px);
+}
+
+/* Time ainda sem home: sem link, tracejado e um pouco apagado (o selo "Em breve" explica). */
+.time--em-breve {
+  border: 1px dashed var(--cor-borda-forte);
+  background: rgb(255 255 255 / 0.55);
+}
+
+.time--em-breve .time__logo {
+  opacity: 0.7;
+}
+
+.time--em-breve .time__sigla {
+  background: var(--cor-superficie-suave);
+  color: var(--cor-texto-suave);
+}
+
+.time--em-breve .time__nome {
+  color: var(--cor-texto-suave);
+}
+
+.time--em-breve .time__acao {
+  border-top-style: dashed;
+  border-top-color: var(--cor-borda-forte);
+}
+
+.time__selo {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  background: var(--cor-superficie-suave);
+  color: var(--cor-texto-suave);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Busca sem resultado ──────────────────────────────────────────────── */
+.vazio {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: clamp(32px, 6vh, 64px) 24px;
+  border: 1.5px dashed var(--cor-borda-forte);
+  text-align: center;
+}
+
+.vazio__titulo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.vazio__texto {
+  color: var(--cor-texto-suave);
+}
+
+.vazio__limpar {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cor-texto);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.vazio__limpar:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 2px;
+}
+
+/* ── Rodapé ───────────────────────────────────────────────────────────── */
+.rodape {
+  padding: 20px var(--margem) 28px;
+  border-top: 1px solid var(--cor-borda);
+  color: var(--cor-texto-suave);
+  font-size: 0.875rem;
+}
+
+.rodape__conteudo {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+}
+
+/* ── Telas e quadros estreitos (celular, iframe pequeno) ──────────────── */
+@media (max-width: 47.99em) {
+  /* Altura pelo conteúdo: num quadro alto do D2L não sobra faixa preta vazia. */
+  .hero {
+    --forma: 96px;
+    min-height: 0;
+  }
+
+  /* A forma vai para o canto superior direito, acima do texto. */
+  .hero::before {
+    top: -56px;
+    bottom: auto;
+    right: -36px;
+    height: 96px;
+  }
+
+  .hero::after {
+    display: none;
+  }
+
+  .hero__conteudo > * {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 34.99em) {
+  .topo__conteudo {
+    min-height: 56px;
+  }
+
+  .busca__atalho {
+    display: none;
+  }
+
+  /* Card vira uma linha compacta: logo · nome e descrição · seta. */
+  .time {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 14px;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  /* Largura fixa: com ou sem logo, os nomes dos times ficam alinhados. */
+  .time__logo {
+    --altura-logo: 44px;
+    width: 76px;
+  }
+
+  .time__sigla {
+    font-size: 0.9375rem;
+  }
+
+  .time__nome {
+    font-size: 1.0625rem;
+  }
+
+  .time__descricao {
+    font-size: 0.875rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .time__acao,
+  .time--em-breve .time__acao {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .time__acao-texto {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .busca__atalho {
+    display: none;
+  }
+}
+
+/* ── Preferências de acessibilidade ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  .time--link:hover,
+  .time--link:active {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hero::before,
+  .hero::after {
+    display: none;
+  }
+
+  .time {
+    border-color: CanvasText;
+  }
+
+  .time__link:focus-visible::after {
+    outline-color: Highlight;
+  }
+}
