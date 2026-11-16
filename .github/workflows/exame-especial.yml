@@ -1,0 +1,42 @@
+name: Exame Especial (check)
+
+# Valida exame-especial/ quando algo nessa pasta muda. Não publica nada:
+# a publicação continua no deploy.yml (que já roda check + build de todas as pastas).
+# Aqui entram o teste de fidelidade e a conferência de que os arquivos gerados
+# (index.html, assets, tabela do README) foram commitados atualizados.
+on:
+  pull_request:
+    paths: ['exame-especial/**', '.github/workflows/exame-especial.yml']
+  push:
+    branches: [main]
+    paths: ['exame-especial/**', '.github/workflows/exame-especial.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: exame-especial
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: exame-especial/.nvmrc
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+
+      - name: Arquivos gerados estão atualizados no commit
+        run: |
+          npm run build
+          if [ -n "$(git status --porcelain -- .)" ]; then
+            git status --short -- .
+            echo "::error::Rode 'npm run build' dentro de exame-especial e faça o commit dos arquivos gerados."
+            exit 1
+          fi
