@@ -9,6 +9,8 @@ https://xp-educacao.github.io/<repo>/<pasta>/
 | Pasta | URL |
 |---|---|
 | `pre-mba-ia-negocios/` | `https://xp-educacao.github.io/<repo>/pre-mba-ia-negocios/` |
+| `exame-especial/` | `https://xp-educacao.github.io/<repo>/exame-especial/<pagina>/` (várias páginas; veja `exame-especial/README.md`) |
+| `lading-pages-xpi/` | `https://xp-educacao.github.io/<repo>/lading-pages-xpi/` (hub dos times da XP Inc. no D2L; veja `lading-pages-xpi/README.md`) |
 | `evento-tech-community/` | `https://xp-educacao.github.io/<repo>/evento-tech-community/` |
 
 `<repo>` é o nome deste repositório. Se ele for renomeado, as URLs mudam sozinhas no próximo deploy (o endereço antigo deixa de funcionar).
