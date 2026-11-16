@@ -1,0 +1,26 @@
+/* 02 · Ajustes para telas de até 760px (bloco base)
+   Ordem da cascata = ordem dos arquivos (prefixo numérico). Valores iguais ao HTML original. */
+
+@media(max-width:760px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+
+  .hero-art {
+    max-width: 260px;
+  }
+
+  .section {
+    padding: 23px;
+  }
+
+  .steps,.tips,.cards,.date,.form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .support {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,159 @@
+/* 05 · Tipografia em Lato, na escala do D2L (Brightspace)
+   NÃO estava no HTML original. Pedido em 16/11/2026: a página toda em Lato, com corpo de 19px e
+   tamanhos harmônicos para títulos, descrições e textos de apoio, para parecer nativa do D2L.
+   Fica depois dos arquivos 01–04 para sobrepor os tamanhos de lá sem alterá-los.
+   Para desfazer: apague este arquivo e src/fonts/, tire a entrada dele de JUSTIFIED_CSS_FILES
+   em tools/verify-fidelity.mjs e rode npm run build (as fontes saem de assets/ sozinhas).
+
+   Escala (mesma do D2L, componentes BrightspaceUI/core, typography/styles.js):
+     título da página (h1 do topo) ....... 32 a 48px (cresce com a tela)
+     título de seção (h2) ................ 24 a 30px  (D2L heading-2: 30px)
+     título de card/bloco (h3) ........... 20px       (D2L heading-3: 20px)
+     texto principal ..................... 19px       (D2L body-standard: 19px)
+     texto de apoio dentro de cards ...... 16px       (D2L body-compact: 16px)
+     rótulos, notas e rodapé ............. 14px       (D2L body-small/label: 14px)
+   No celular (até 615px, o mesmo limite do D2L) o texto principal vai para 16px e o h3 para 18px.
+   Pesos: a Lato tem 400, 700 e 900; os 750/800/850 do original viram 700 (Bold).
+
+   A fonte é carregada de assets/ (o build copia src/fonts/*.woff2 e acrescenta ?v=<hash>), sem
+   Google Fonts: nenhuma requisição a terceiros e funciona dentro do iframe do D2L, que não
+   passa a própria fonte para a página. Arquivos: só os caracteres latinos (português incluído).
+
+   Lato — Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name "Lato".
+   Licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org). */
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(lato-400.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(lato-700.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(lato-900.woff2) format('woff2');
+}
+
+/* ── Escala: mude os tamanhos aqui ── */
+
+:root {
+  --fonte: Lato,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  --fs-display: clamp(32px,4.4vw,48px);
+  --fs-h2: clamp(24px,3vw,30px);
+  --fs-h3: 20px;
+  --fs-texto: 19px;
+  --fs-apoio: 16px;
+  --fs-rotulo: 14px;
+}
+
+@media(max-width:615px) {
+  :root {
+    --fs-h3: 18px;
+    --fs-texto: 16px;
+  }
+}
+
+/* ── Texto principal (19px): parágrafos de seção, aviso, FAQ, descrição do topo ── */
+
+body {
+  font-family: var(--fonte);
+  font-size: var(--fs-texto);
+  line-height: 1.5;
+}
+
+/* ── Títulos ── */
+
+.hero h1 {
+  font-size: var(--fs-display);
+  letter-spacing: -.02em;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -.015em;
+}
+
+h3,
+.bootcamp strong,
+.date-side strong {
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+}
+
+/* Perguntas do FAQ, título do painel de polos e cidade: texto principal em negrito. */
+summary,
+.polos-panel>summary {
+  font-weight: 700;
+}
+
+.polos-panel>summary,
+.polo-item strong {
+  font-size: var(--fs-texto);
+}
+
+/* ── Texto de apoio (16px): descrições dentro de cards e blocos menores, botões ── */
+
+.step p,
+.card p,
+.tip p,
+.date-main>span,
+.date-side>span,
+.support p,
+.polos-intro,
+.polo-item address,
+.embed-heading p,
+.embed-placeholder p,
+.tips~p.muted {
+  font-size: var(--fs-apoio);
+}
+
+.button {
+  font-size: var(--fs-apoio);
+  font-weight: 700;
+}
+
+.number {
+  font-size: var(--fs-apoio);
+}
+
+/* ── Rótulos, notas e rodapé (14px) ── */
+
+.eyebrow {
+  font-size: var(--fs-rotulo);
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.tag {
+  font-size: var(--fs-rotulo);
+  font-weight: 700;
+}
+
+.bootcamp em,
+.hint,
+.footer,
+.embed-placeholder code {
+  font-size: var(--fs-rotulo);
+}
+
+/* Mês e dia da ilustração do calendário (o SVG pede Arial; o CSS tem prioridade). */
+.hero-art text {
+  font-family: var(--fonte);
+}
+
+/* Triângulo do FAQ centralizado na primeira linha da pergunta (acompanha o tamanho do texto). */
+#faq details>summary::before {
+  margin-top: calc(var(--fs-texto)*.75 - 5px);
+}

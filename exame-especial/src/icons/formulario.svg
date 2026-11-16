@@ -1,0 +1,5 @@
+<!-- Ícone "formulário" (espaço reservado do Google Forms). O build usa só o conteúdo interno do <svg>. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#275d3e" stroke-width="1.6">
+  <rect x="4" y="3" width="16" height="18" rx="2"/>
+  <path d="M8 8h8M8 12h8M8 16h5"/>
+</svg>

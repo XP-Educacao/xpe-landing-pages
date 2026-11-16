@@ -1,0 +1,5 @@
+<!-- Ícone "livro" (caixa do bootcamp e 1ª dica). O build usa só o conteúdo interno do <svg>. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 7c-2.7-1.7-5.7-1.8-9-1v13c3.3-.8 6.3-.7 9 1 2.7-1.7 5.7-1.8 9-1V6c-3.3-.8-6.3-.7-9 1Z"/>
+  <path d="M12 7v13"/>
+</svg>

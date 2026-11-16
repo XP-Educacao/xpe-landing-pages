@@ -1,0 +1,12 @@
+/* 04 · Ajustes para telas de até 760px (polos e formulário)
+   Ordem da cascata = ordem dos arquivos (prefixo numérico). Valores iguais ao HTML original. */
+
+@media(max-width:760px) {
+  .polo-list {
+    grid-template-columns: 1fr;
+  }
+
+  .google-form-frame {
+    min-height: 1000px;
+  }
+}

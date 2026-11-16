@@ -1,0 +1,132 @@
+/* 03 · Painel de polos e área do Google Forms
+   Ordem da cascata = ordem dos arquivos (prefixo numérico). Valores iguais ao HTML original. */
+
+.polos-panel {
+  margin-top: 20px;
+  border: 1px solid #dce9d5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fbfdf9;
+}
+
+.polos-panel>summary {
+  padding: 9px 18px;
+  min-height: 46px;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  list-style: none;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.polos-panel>summary::-webkit-details-marker {
+  display: none;
+}
+
+.polos-panel>summary::after {
+  content: '+';
+  font-size: 20px;
+  line-height: 1;
+  color: #275d3e;
+}
+
+.polos-panel[open]>summary::after {
+  content: '−';
+}
+
+.polos-intro {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+  padding: 0 20px 14px;
+}
+
+.polo-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 16px 18px;
+}
+
+.polo-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 15px;
+}
+
+.polo-item strong {
+  display: block;
+  font-size: 15px;
+}
+
+.polo-item address {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: normal;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.embed-frame {
+  margin-top: 18px;
+  background: white;
+  border: 1px solid #dce9d5;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.embed-heading {
+  padding: 18px 20px 0;
+}
+
+.embed-heading h3 {
+  margin: 0;
+}
+
+.embed-heading p {
+  margin: 5px 0 14px;
+}
+
+.google-form-frame {
+  display: block;
+  width: 100%;
+  min-height: 800px;
+  border: 0;
+  background: white;
+}
+
+.embed-placeholder {
+  padding: 36px 24px 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 9px;
+  background: #fff;
+}
+
+.embed-placeholder svg {
+  width: 48px;
+  height: 48px;
+  stroke: #275d3e;
+  fill: none;
+  stroke-width: 1.6;
+}
+
+.embed-placeholder code {
+  font-size: 12px;
+  background: #eef6e8;
+  padding: 7px 10px;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+.embed-placeholder p {
+  max-width: 580px;
+  margin: 0;
+  color: var(--muted);
+}

@@ -1,0 +1,16 @@
+<!-- Ilustração do hero (calendário). {{mesAno}} e {{dia}} são preenchidos pelo build a partir de exam.date.
+     O build usa só o conteúdo interno do <svg>; classe, viewBox e aria-label vêm do template do hero. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320">
+  <circle cx="202" cy="159" r="137" fill="#3b7951" opacity=".45"/>
+  <circle cx="308" cy="52" r="13" fill="#a7e45b" opacity=".8"/>
+  <circle cx="65" cy="226" r="9" fill="#a7e45b"/>
+  <rect x="95" y="58" width="217" height="205" rx="19" fill="#f6fbef"/>
+  <path d="M95 78q0-20 20-20h177q20 0 20 20v42H95z" fill="#b6e78b"/>
+  <rect x="136" y="42" width="13" height="34" rx="6" fill="#315c3c"/>
+  <rect x="259" y="42" width="13" height="34" rx="6" fill="#315c3c"/>
+  <text x="205" y="106" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#1b5133">{{mesAno}}</text>
+  <text x="203" y="207" text-anchor="middle" font-family="Arial,sans-serif" font-size="81" font-weight="bold" fill="#245e3e">{{dia}}</text>
+  <rect x="224" y="212" width="130" height="74" rx="13" fill="#a7e45b" transform="rotate(-8 224 212)"/>
+  <path d="m250 244 17 15 38-35" stroke="#1d5434" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M67 275h109" stroke="#c2e6ae" stroke-width="7" stroke-linecap="round"/>
+</svg>

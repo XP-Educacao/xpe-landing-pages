@@ -1,0 +1,455 @@
+/* 01 · Estilos base da página
+   Ordem da cascata = ordem dos arquivos (prefixo numérico). Valores iguais ao HTML original. */
+
+/* ── Base: cores, caixa, tipografia, links e área principal ── */
+
+:root {
+  --dark: #11241c;
+  --green: #a7e45b;
+  --forest: #275d3e;
+  --text: #182820;
+  --muted: #5d6b62;
+  --bg: #f6f8f4;
+  --border: #e0e8df;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font: 16px/1.6 system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  color: var(--text);
+}
+
+a {
+  color: #236c3d;
+}
+
+header {
+  background: #11241c;
+  color: white;
+  padding: 18px max(22px,calc((100vw - 1080px)/2));
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+
+header span {
+  color: var(--green);
+}
+
+header small {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #b8c9bd;
+  margin-left: 12px;
+}
+
+main {
+  max-width: 1120px;
+  margin: auto;
+  padding: 28px 20px 70px;
+}
+
+/* ── Hero (abertura), botões e ilustração ── */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  align-items: center;
+  gap: 22px;
+  background: linear-gradient(125deg,#173c2a,#245e3e);
+  color: #fff;
+  border-radius: 24px;
+  padding: 42px 42px 34px;
+  overflow: hidden;
+}
+
+.eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-weight: 800;
+  color: #b9ec92;
+}
+
+.hero h1 {
+  font-size: clamp(32px,4.4vw,51px);
+  line-height: 1.12;
+  margin: 12px 0 18px;
+  letter-spacing: -.035em;
+}
+
+.hero p {
+  color: #e1efe3;
+  max-width: 580px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green);
+  color: #14271b;
+  border: 0;
+  border-radius: 11px;
+  text-decoration: none;
+  padding: 13px 21px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.secondary {
+  background: #fff;
+  color: #234b31;
+  border: 1px solid #cbd8ca;
+}
+
+.hero-art {
+  width: 100%;
+  max-width: 380px;
+  margin: auto;
+  display: block;
+}
+
+/* ── Caixa do bootcamp ── */
+
+.bootcamp {
+  margin-top: 22px;
+  padding: 17px 20px;
+  background: #f0f9e8;
+  border: 1px solid #d6ebc8;
+  border-radius: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.bootcamp strong {
+  display: block;
+}
+
+.bootcamp em {
+  font-style: normal;
+  color: #507b38;
+  font-size: 13px;
+}
+
+/* ── Seções e títulos ── */
+
+.section {
+  margin-top: 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+h2 {
+  font-size: clamp(24px,3vw,30px);
+  line-height: 1.25;
+  margin: 0 0 12px;
+  letter-spacing: -.025em;
+}
+
+h3 {
+  font-size: 17px;
+  margin: 0 0 7px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ── Data do exame e aviso ── */
+
+.date {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+}
+
+.date-main {
+  background: #e7f4df;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.date-main strong {
+  font-size: clamp(28px,4vw,40px);
+  line-height: 1.2;
+  display: block;
+  color: #1d5935;
+}
+
+.date-side {
+  background: #f4f6f2;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.date-side strong {
+  display: block;
+  font-size: 20px;
+}
+
+.notice {
+  border-left: 4px solid #c78b29;
+  background: #fff8e9;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-top: 18px;
+}
+
+/* ── Etapas, cards e dicas ── */
+
+.steps,.cards,.tips {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.step,.card,.tip {
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.number {
+  display: grid;
+  place-items: center;
+  background: #d9f4c5;
+  color: #22552e;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-weight: 900;
+  margin-bottom: 13px;
+}
+
+.step p,.card p,.tip p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.cards {
+  grid-template-columns: repeat(2,1fr);
+}
+
+/* ── Ícones das dicas e do bootcamp ── */
+
+.tip-symbol {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: #e8f5df;
+  color: #275d3e;
+}
+
+.bootcamp-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #dff0d3;
+  color: #275d3e;
+}
+
+.bootcamp-icon svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tip-symbol svg {
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Bloco de suporte ── */
+
+.support {
+  background: #f0f5ef;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.support p {
+  margin: 5px 0 0;
+}
+
+/* ── Formulário (estilos herdados do original; ver BACKLOG) ── */
+
+.form-area {
+  background: #f8fbf6;
+  border: 1px solid #dce9d5;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+label {
+  font-weight: 700;
+  display: block;
+  margin: 15px 0 6px;
+}
+
+input[type=text],input[type=email],select {
+  width: 100%;
+  border: 1px solid #b7c8b8;
+  border-radius: 10px;
+  padding: 12px 13px;
+  font: inherit;
+  background: #fff;
+}
+
+input:focus,select:focus {
+  outline: 3px solid #c7e8b7;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.check label {
+  margin: 0;
+  font-weight: 500;
+}
+
+.check input {
+  margin-top: 6px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.status {
+  display: none;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #e5f6de;
+}
+
+/* ── Detalhes (sanfonas) e FAQ ── */
+
+details {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+details:last-child {
+  border-bottom: 0;
+}
+
+summary {
+  font-weight: 750;
+  cursor: pointer;
+  list-style-position: outside;
+  padding-right: 10px;
+}
+
+details p {
+  color: var(--muted);
+  margin: 10px 0 0;
+}
+
+#faq details {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#faq details>summary {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0 10px 0 0;
+}
+
+#faq details>summary::-webkit-details-marker {
+  display: none;
+}
+
+#faq details>summary::before {
+  content: "";
+  display: block;
+  flex: 0 0 0;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid currentColor;
+  margin-top: 8px;
+}
+
+#faq details[open]>summary::before {
+  transform: rotate(90deg);
+}
+
+#faq details>p {
+  margin-left: 19px;
+  padding-right: 10px;
+}
+
+/* ── Rodapé e etiqueta ── */
+
+.footer {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 26px 8px;
+}
+
+.tag {
+  display: inline-block;
+  border-radius: 30px;
+  background: #d9f3c9;
+  color: #215a35;
+  padding: 5px 11px;
+  font-size: 12px;
+  font-weight: 800;
+}
