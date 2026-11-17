@@ -22,7 +22,8 @@ describe('parseCourse — valid content', () => {
       '4 webinars',
       'Assista quando e onde quiser',
     ]);
-    expect(course.lessons).toHaveLength(5);
+    // Content changes over time: every lesson in the file must survive parsing.
+    expect(course.lessons).toHaveLength(cloneRawCourse().lessons.length);
   });
 
   it('reads the sequential release, durations and course settings', () => {
@@ -72,7 +73,9 @@ describe('parseCourse — valid content', () => {
     raw.lessons[0]!.release = { type: 'fixed_date', date: '2026-10-13T00:00:00-03:00' };
     raw.lessons.reverse();
     const course = expectCourse(parseCourse(raw));
-    expect(course.lessons.map((lesson) => lesson.order)).toEqual([1, 2, 3, 4, 5]);
+    // Content changes over time: only check that the lessons come back sorted by `order`.
+    const orders = course.lessons.map((lesson) => lesson.order);
+    expect(orders).toEqual([...orders].sort((a, b) => a - b));
     const firstRelease = course.lessons[0]?.release;
     expect(firstRelease?.type === 'fixed_date' && firstRelease.date.toISOString()).toBe(
       '2026-10-13T03:00:00.000Z',
@@ -206,11 +209,16 @@ describe('parseCourse — invalid content (friendly errors)', () => {
 
   it('rejects duplicated lesson ids and orders', () => {
     const raw = cloneRawCourse();
-    raw.lessons[1]!.id = 'aula-1';
-    raw.lessons[1]!.order = 1;
+    const [first, second] = raw.lessons;
+    second!.id = first!.id;
+    second!.order = first!.order;
     const messages = expectIssues(parseCourse(raw)).map((issue) => issue.message);
-    expect(messages.some((message) => message.includes('id "aula-1" está repetido'))).toBe(true);
-    expect(messages.some((message) => message.includes('ordem 1 está repetida'))).toBe(true);
+    expect(messages.some((message) => message.includes(`id "${first!.id}" está repetido`))).toBe(
+      true,
+    );
+    expect(
+      messages.some((message) => message.includes(`ordem ${first!.order} está repetida`)),
+    ).toBe(true);
   });
 
   it('rejects an unknown release type and invalid video provider', () => {

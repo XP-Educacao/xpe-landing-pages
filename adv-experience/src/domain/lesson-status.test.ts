@@ -125,26 +125,20 @@ describe('course.json — sequential release', () => {
     resolveLessonStates({ ...course, progression: { unlockNextOn: trigger } }, context, record).map(
       (state) => state.status,
     );
+  // Content changes over time: the expected lists follow the number of lessons in course.json.
+  const lockedRest = (from: number) => Array<string>(course.lessons.length - from).fill('locked');
 
   it('first visit: lesson 1 open, the others locked', () => {
-    expect(statusesOf({})).toEqual(['available', 'locked', 'locked', 'locked', 'locked']);
+    expect(statusesOf({})).toEqual(['available', ...lockedRest(1)]);
   });
 
   it('"play" on lesson 1 makes lesson 2 ready; unlocking opens it', () => {
     const played = { 'aula-1': progress({ playStartedAt: 0 }) };
-    expect(statusesOf(played, 'play')).toEqual([
-      'in_progress',
-      'ready',
-      'locked',
-      'locked',
-      'locked',
-    ]);
+    expect(statusesOf(played, 'play')).toEqual(['in_progress', 'ready', ...lockedRest(2)]);
     expect(statusesOf({ ...played, 'aula-2': progress({ unlocked: true }) }, 'play')).toEqual([
       'in_progress',
       'available',
-      'locked',
-      'locked',
-      'locked',
+      ...lockedRest(2),
     ]);
   });
 
@@ -156,10 +150,7 @@ describe('course.json — sequential release', () => {
   it('never opens a lesson out of order (lesson 3 saved as unlocked, lesson 2 locked)', () => {
     expect(statusesOf({ 'aula-3': progress({ unlocked: true, completion }) })).toEqual([
       'available',
-      'locked',
-      'locked',
-      'locked',
-      'locked',
+      ...lockedRest(1),
     ]);
   });
 
