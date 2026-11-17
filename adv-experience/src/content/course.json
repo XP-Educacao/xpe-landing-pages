@@ -37,67 +37,53 @@
     {
       "id": "aula-1",
       "order": 1,
-      "numbered": false,
-      "title": "Boas-vindas e o futuro dos negócios",
-      "subtitle": "Comece sua jornada e conheça as oportunidades da IA nos negócios.",
-      "description": "Seja bem-vindo ao Pré-MBA em IA para Negócios! Nesta aula inaugural, apresentamos a proposta pedagógica da formação, o impacto da inteligência artificial na rotina executiva e a dinâmica de liberação das próximas etapas práticas.",
+      "title": "Playbook XP",
+      "subtitle": "Compartilhar os aprendizados, competências e experiências que ajudam a construir carreiras de sucesso no mercado financeiro.",
+      "description": "",
       "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
-        "duration": "04:38"
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a1d4db-65f7-7d7c-a2e7-206a129ee222;&subtitleLanguage=null",
+        "duration": "01:04:21"
       }
     },
     {
       "id": "aula-2",
       "order": 2,
-      "title": "Diagnosticar ",
-      "subtitle": "Dominando o Uso Estratético da IA",
+      "title": "O Advisor do Futuro",
+      "subtitle": "Um encontro para entender o que está mudando na profissão e quais competências vão fazer a diferença nos próximos anos.",
       "description": "",
       "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7609-7391-8287-a4d9cd4ba5de;&subtitleLanguage=null",
-        "duration": "07:47"
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a1d4db-65f7-7d7d-aed9-f7ce489355a1;&subtitleLanguage=null",
+        "duration": "01:56:04"
       }
     },
     {
       "id": "aula-3",
       "order": 3,
-      "title": "Analisar",
-      "subtitle": "Primeiros Passos com Dados e Prompts",
+      "title": "Do currículo à entrevista: como entrar no mercado financeiro",
+      "subtitle": "Preparação para ingressar no mercado financeiro e conquistar oportunidades profissionais",
       "description": "",
       "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7392-af5f-8acda0aa78c2;&subtitleLanguage=null",
-        "duration": "08:13"
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a1d4db-65f5-7d7c-a81c-7a666ab0dfcb;&subtitleLanguage=null",
+        "duration": "55:20"
       }
     },
     {
       "id": "aula-4",
       "order": 4,
-      "title": "Decidir",
-      "subtitle": "Dominando a Criação de Dashboards",
+      "title": "Como vencer no início da carreira de assessor",
+      "subtitle": "Prospecção, conquista dos primeiros clientes e aceleração da carteira",
       "description": "",
       "release": { "type": "sequential" },
       "video": {
         "provider": "spalla",
-        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-7612-7391-b93b-e4ddf6b4566f;&subtitleLanguage=null",
-        "duration": "06:40"
-      }
-    },
-    {
-      "id": "aula-5",
-      "order": 5,
-      "title": "Otimizar",
-      "subtitle": "Criando Rotinas e Análises Inteligentes",
-      "description": "",
-      "release": { "type": "sequential" },
-      "video": {
-        "provider": "spalla",
-        "embedUrl": "https://beyond.spalla.io/player/?video=01a17e6f-75de-738b-ae86-c0db87a15621;&subtitleLanguage=null",
-        "duration": "04:38"
+        "embedUrl": "https://beyond.spalla.io/player/?video=01a1d0be-5be9-789c-b755-62c6f8a338cc;&subtitleLanguage=null",
+        "duration": "01:19:05"
       }
     }
   ]
