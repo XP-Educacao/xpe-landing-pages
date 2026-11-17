@@ -9,6 +9,7 @@ https://xp-educacao.github.io/<repo>/<pasta>/
 | Pasta | URL |
 |---|---|
 | `pre-mba-ia-negocios/` | `https://xp-educacao.github.io/<repo>/pre-mba-ia-negocios/` |
+| `adv-experience/` | `https://xp-educacao.github.io/<repo>/adv-experience/` |
 | `exame-especial/` | `https://xp-educacao.github.io/<repo>/exame-especial/<pagina>/` (várias páginas; veja `exame-especial/README.md`) |
 | `lading-pages-xpi/` | `https://xp-educacao.github.io/<repo>/lading-pages-xpi/` (hub dos times da XP Inc. no D2L; veja `lading-pages-xpi/README.md`) |
 | `evento-tech-community/` | `https://xp-educacao.github.io/<repo>/evento-tech-community/` |
@@ -120,7 +121,9 @@ git push
 1. Copie uma página Vite existente como ponto de partida, ou crie com `npm create vite@latest nome-da-pagina`.
 2. No `vite.config.ts`, use `base` a partir da variável `VITE_BASE_PATH` (veja `pre-mba-ia-negocios/vite.config.ts`). O build injeta o valor certo.
 3. Garanta que o `package.json` tenha os scripts `build` e, de preferência, `check`.
-4. Rode `npm install` dentro da pasta e faça o commit do `package-lock.json` junto.
+4. Use o nome da pasta no campo `name` do `package.json` (não deixe o nome da página copiada).
+5. Rode `npm install` dentro da pasta e faça o commit do `package-lock.json` junto.
+6. Inclua a pasta no `.github/dependabot.yml` (copie um bloco `npm` e troque a pasta e o escopo).
 
 Para testar o site inteiro localmente, como no GitHub:
 
@@ -128,6 +131,12 @@ Para testar o site inteiro localmente, como no GitHub:
 node scripts/build-all.mjs
 npx serve _site
 ```
+
+## Dependências e segurança
+
+- **Alertas** (aba **Segurança e qualidade** › Dependabot): mostram pacotes com falha conhecida. Para corrigir, entre na pasta indicada no alerta (o `package-lock.json` do caminho) e rode `npm audit fix`. Depois rode `npm run check` e faça o commit do `package-lock.json`.
+- **Nunca use `npm audit fix --force`** sem revisar: ele instala versões grandes (major) que podem quebrar a página.
+- **PRs do Dependabot** (uma vez por mês, um por página): o GitHub roda as verificações e o build no PR. Se ficar verde, faça o merge e depois rode `git pull`. Se ficar vermelho, a atualização precisa de ajuste no código: peça ao time técnico.
 
 ## Problemas comuns
 

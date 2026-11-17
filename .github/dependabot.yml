@@ -1,0 +1,68 @@
+# Dependabot: mantém as dependências das páginas atualizadas com PRs automáticos.
+#
+# - Um PR por página por mês juntando as atualizações pequenas (minor e patch).
+#   Atualizações grandes (major) chegam em PRs separados: podem exigir ajuste no código.
+# - Cada PR roda o workflow "Deploy (GitHub Pages)" só com verificações e build.
+#   Nada é publicado até o merge na main. Verde = pode fazer o merge.
+# - Correções de segurança não esperam esta agenda: os alertas aparecem na hora na aba
+#   "Segurança e qualidade".
+# - O escopo do commit segue o padrão do README: o nome da pasta da página.
+#
+# Nova página com package.json? Copie um bloco "npm" abaixo e troque a pasta e o escopo.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /pre-mba-ia-negocios
+    schedule:
+      interval: monthly
+      timezone: America/Sao_Paulo
+    commit-message:
+      prefix: chore(pre-mba-ia-negocios)
+    groups:
+      atualizacoes-menores:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /adv-experience
+    schedule:
+      interval: monthly
+      timezone: America/Sao_Paulo
+    commit-message:
+      prefix: chore(adv-experience)
+    groups:
+      atualizacoes-menores:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /exame-especial
+    schedule:
+      interval: monthly
+      timezone: America/Sao_Paulo
+    commit-message:
+      prefix: chore(exame-especial)
+    groups:
+      atualizacoes-menores:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /lading-pages-xpi
+    schedule:
+      interval: monthly
+      timezone: America/Sao_Paulo
+    commit-message:
+      prefix: chore(lading-pages-xpi)
+    groups:
+      atualizacoes-menores:
+        update-types: [minor, patch]
+
+  # Ações usadas no workflow de deploy (checkout, setup-node, pages...).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      timezone: America/Sao_Paulo
+    commit-message:
+      prefix: chore(repo)
+    groups:
+      acoes-do-github:
+        patterns: ['*']
