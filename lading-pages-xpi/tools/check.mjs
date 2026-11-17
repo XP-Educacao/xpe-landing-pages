@@ -5,6 +5,7 @@
  * Erros sempre falham (exit 1). No GitHub isso impede a publicação e a versão anterior continua no ar.
  */
 import { configArg, displayPath } from './lib/project.mjs';
+import { VLIBRAS_PLUGIN } from './lib/render.mjs';
 import { printIssues, summary } from './lib/report.mjs';
 import { generateSite } from './lib/site.mjs';
 
@@ -13,8 +14,12 @@ const configFile = configArg();
 const site = await generateSite({ configFile });
 const issues = [...site.issues];
 
-/** Guardas do HTML gerado (protegem contra mudanças futuras no template). */
-function scanHtml(html) {
+/**
+ * Guardas do HTML gerado (protegem contra mudanças futuras no template).
+ * Única exceção a "nada de fora": o plugin oficial do VLibras, quando acessibilidade.vlibras é true.
+ */
+function scanHtml(html, { vlibras }) {
+  const allowedExternal = new Set(vlibras ? [VLIBRAS_PLUGIN] : []);
   const found = [];
   const add = (message, fix) => found.push({ level: 'erro', file: 'página gerada (index.html)', message, fix });
   const template = 'Ajuste o template em tools/lib/render.mjs.';
@@ -27,7 +32,8 @@ function scanHtml(html) {
   for (const [match] of html.matchAll(/\s(?:href|src)="\/(?!\/)[^"]*"/g)) {
     add(`Caminho absoluto ${match.trim()} quebra no GitHub Pages (o site fica numa subpasta).`, 'Use caminho relativo.');
   }
-  for (const [tag] of html.matchAll(/<(?:link|script|img)\b[^>]*\s(?:href|src)="(?:https?:)?\/\/[^"]*"[^>]*>/gi)) {
+  for (const [tag, address] of html.matchAll(/<(?:link|script|img)\b[^>]*\s(?:href|src)="((?:https?:)?\/\/[^"]*)"[^>]*>/gi)) {
+    if (allowedExternal.has(address)) continue;
     add(`Recurso externo: ${tag}. O hub não carrega nada de fora (sem CDN, fontes ou rastreadores).`, 'Coloque o arquivo na pasta do projeto.');
   }
   for (const [tag] of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
@@ -36,7 +42,7 @@ function scanHtml(html) {
   return found;
 }
 
-if (site.ok) issues.push(...scanHtml(site.html));
+if (site.ok) issues.push(...scanHtml(site.html, { vlibras: site.data.acessibilidade.vlibras }));
 
 const { errors, warnings } = printIssues(issues, displayPath(configFile));
 const failed = errors > 0 || (strict && warnings > 0);

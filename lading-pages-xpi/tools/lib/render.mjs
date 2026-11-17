@@ -12,6 +12,50 @@
  */
 import { escapeAttr as attr, escapeHtml as html } from './text.mjs';
 
+/* VLibras (opcional): o único recurso de fora que o hub aceita, e só com acessibilidade.vlibras. */
+export const VLIBRAS_PLUGIN = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+
+/**
+ * Content-Security-Policy da página.
+ * Sem VLibras: só o próprio hub (CSS liberado pelo hash, scripts só do mesmo endereço).
+ * Com VLibras: libera os servidores do gov.br para scripts, estilos, imagens, fontes, a tradução
+ * e o iframe do avatar. O avatar 3D roda DENTRO desse iframe, com as regras do gov.br, então a
+ * página do hub não precisa liberar eval, WebAssembly nem workers (conferido em teste no navegador).
+ */
+function buildCsp({ cssHash, script, vlibras }) {
+  const base = ["default-src 'none'", "base-uri 'none'", "form-action 'none'"];
+  if (!vlibras) {
+    return [
+      ...base,
+      `style-src '${cssHash}'`,
+      script ? "script-src 'self'" : "script-src 'none'",
+      "img-src 'self' data:",
+    ];
+  }
+  /* vlibras.gov.br redireciona o plugin para o repositório oficial do governo no jsDelivr;
+     só esse caminho do CDN é liberado, não o jsDelivr inteiro. */
+  const gov = 'https://vlibras.gov.br https://*.vlibras.gov.br https://cdn.jsdelivr.net/gh/spbgovbr-vlibras/';
+  return [
+    ...base,
+    /* Com um hash na lista, o navegador ignora 'unsafe-inline'; o VLibras injeta estilos próprios. */
+    `style-src 'unsafe-inline' ${gov}`,
+    `script-src 'self' ${gov}`,
+    `img-src 'self' data: ${gov}`,
+    `font-src ${gov}`,
+    `connect-src ${gov}`,
+    'frame-src https://vlibras.gov.br https://*.vlibras.gov.br',
+  ];
+}
+
+/** Bloco oficial do VLibras (o plugin monta o botão e o avatar dentro dele). */
+const VLIBRAS_MARKUP = `
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>`;
+
 const ICON_SEARCH =
   '<svg class="busca__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const ICON_ARROW =
@@ -74,19 +118,20 @@ function renderBrand({ nome, logoSrc }) {
  * @param {string} options.css      CSS final, exatamente como vai dentro de <style>
  * @param {string} options.cssHash  'sha256-…' do CSS, para a Content-Security-Policy
  * @param {string} options.script   caminho do hub.js com ?v= (vazio = sem busca)
+ * @param {string} options.vlibras  caminho do vlibras.js com ?v= (vazio = VLibras desligado)
  */
-export function renderPage({ data, css, cssHash, script }) {
+export function renderPage({ data, css, cssHash, script, vlibras = '' }) {
   const { textos, marca, busca, d2l, times } = data;
   const searchOn = Boolean(script);
-
-  const csp = [
-    "default-src 'none'",
-    `style-src '${cssHash}'`,
-    script ? "script-src 'self'" : "script-src 'none'",
-    "img-src 'self' data:",
-    "base-uri 'none'",
-    "form-action 'none'",
-  ].join('; ');
+  const csp = buildCsp({ cssHash, script, vlibras }).join('; ');
+  const scripts = [
+    script ? `<script src="${attr(script)}" defer></script>` : '',
+    vlibras ? `<script src="${VLIBRAS_PLUGIN}" defer></script>` : '',
+    vlibras ? `<script src="${attr(vlibras)}" defer></script>` : '',
+  ]
+    .filter(Boolean)
+    .map((tag) => `\n    ${tag}`)
+    .join('');
 
   const searchBox = searchOn
     ? `
@@ -127,7 +172,7 @@ export function renderPage({ data, css, cssHash, script }) {
     <meta name="robots" content="noindex, nofollow" />
     <title>${html(textos.tituloAba)}</title>
     <link rel="icon" href="data:," />
-    <style>${css}</style>${script ? `\n    <script src="${attr(script)}" defer></script>` : ''}
+    <style>${css}</style>${scripts}
   </head>
   <body>
     <a class="pular" href="#times">Ir para a lista de times</a>
@@ -144,7 +189,7 @@ export function renderPage({ data, css, cssHash, script }) {
 ${times.map((team) => renderTeam(team, { textos, d2l })).join('\n')}
         </ul>${emptyState}
       </main>${footer}
-    </div>
+    </div>${vlibras ? VLIBRAS_MARKUP : ''}
   </body>
 </html>
 `;

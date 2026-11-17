@@ -26,5 +26,6 @@ export function summary(data) {
   const linked = data.times.filter((team) => team.url).length;
   const parts = [`${total} ${total === 1 ? 'time' : 'times'}`, `${linked} com link`, `${total - linked} em breve`];
   if (data.busca.ativa) parts.push('busca ativa');
+  if (data.acessibilidade.vlibras) parts.push('VLibras ligado');
   return parts.join(' · ');
 }

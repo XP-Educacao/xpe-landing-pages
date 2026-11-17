@@ -59,7 +59,15 @@ export async function generateSite({ configFile = CONFIG_FILE } = {}) {
   data.marca.logoSrc = addImage(data.marca.logo);
   for (const team of data.times) team.logoSrc = addImage(team.logo);
 
-  const html = renderPage({ data, css, cssHash: cspHash(css), script });
+  /* VLibras (opcional): o plugin vem do gov.br; aqui só entra o arquivo que o inicia. */
+  let vlibras = '';
+  if (data.acessibilidade.vlibras) {
+    const js = readFileSync(join(SRC_DIR, 'vlibras.js'));
+    files.set('assets/vlibras.js', js);
+    vlibras = `assets/vlibras.js?v=${version(js)}`;
+  }
+
+  const html = renderPage({ data, css, cssHash: cspHash(css), script, vlibras });
   files.set('index.html', html);
   return { ok: true, issues, data, html, files };
 }

@@ -129,6 +129,27 @@ Coloque os arquivos na pasta **`imagens/`** e escreva só o nome deles na config
 
 Sem `marca.logo`, o topo fica só com o texto (hoje está assim, porque o logo da XP Inc. disponível é o preto). Sem `logo` no time, o card mostra a sigla. O `check` avisa se o arquivo não existir ou tiver mais de 300 KB.
 
+## Libras (VLibras)
+
+O hub pode mostrar o **VLibras**, o tradutor de português para Libras do governo federal. Ele aparece como um botão azul na lateral direita; ao abrir, um avatar 3D traduz o texto em que a pessoa clicar.
+
+Para ligar ou desligar, use o bloco `acessibilidade` em `times.config.mjs`:
+
+```js
+acessibilidade: {
+  vlibras: true, // false = desligado
+},
+```
+
+Como funciona e o que muda:
+
+- O código é o oficial do gov.br. Só a linha `new window.VLibras.Widget(...)` fica num arquivo do hub (`src/vlibras.js`), porque a segurança da página não deixa rodar script escrito direto no HTML.
+- **Ligado, a página passa a carregar coisas de fora:** o plugin e o avatar vêm de `vlibras.gov.br` e do repositório oficial do governo no jsDelivr (`cdn.jsdelivr.net/gh/spbgovbr-vlibras/`). A Content-Security-Policy libera só esses endereços. O `check` aceita esse script, e só ele.
+- **Privacidade:** o texto em que a pessoa clica é enviado ao servidor de tradução do governo (`traducao2.vlibras.gov.br`). O hub só tem textos públicos (nomes de times), então nada pessoal sai daqui.
+- **Com o VLibras aberto, clicar num card traduz o texto em vez de abrir a home do time.** Esse é o comportamento padrão do VLibras. Para entrar no time, feche o VLibras (o **X** no canto) e clique de novo.
+- Dentro do D2L, o botão e o avatar ficam dentro do quadro do hub. Num quadro baixo (menos de ~450 px de altura) o avatar fica apertado; prefira o iframe com `height: 85vh` do exemplo acima.
+- Se o gov.br estiver fora do ar ou bloqueado na rede, o botão simplesmente não aparece. O resto do hub funciona normalmente.
+
 ## Identidade visual
 
 As cores seguem o site oficial da XP Inc. (xpinc.com): preto e branco, cinzas neutros e o verde-água do logo, com o degradê `#02C8BB → #146260` no paralelogramo do topo. A fonte é a Interstate, a da XP Inc.: quem a tiver instalada vê o hub nela, e os demais veem Roboto/Segoe UI, porque o hub não baixa fontes de fora. Os cantos são retos, como no site. Os cards são brancos sobre uma faixa cinza-clara porque os logos dos times são a versão para fundo claro (preto + verde-água). Se um dia vierem versões brancas dos logos, dá para voltar a usar cards pretos mudando os tokens.
@@ -143,7 +164,8 @@ lading-pages-xpi/
 ├── imagens/                 ← logos da XP Inc. e dos times (veja LEIA-ME.md)
 ├── src/
 │   ├── estilos.css          ← design tokens + componentes (vai embutido no HTML)
-│   └── hub.js               ← busca de times (só carrega com 8+ times; ajuste em busca.aPartirDe)
+│   ├── hub.js               ← busca de times (só carrega com 8+ times; ajuste em busca.aPartirDe)
+│   └── vlibras.js           ← inicia o VLibras (só publicado com acessibilidade.vlibras: true)
 ├── tools/
 │   ├── build.mjs            ← npm run build: gera dist/
 │   ├── check.mjs            ← npm run check: valida config e página gerada
@@ -155,10 +177,10 @@ lading-pages-xpi/
 ```
 
 - **Zero dependências:** só Node (veja `.nvmrc`). Nada para atualizar e nenhum `npm audit fix`.
-- **Segura no iframe:** a página não carrega nada de fora (sem CDN, fontes externas ou rastreadores). Todo texto da config é escapado e uma Content-Security-Policy bloqueia scripts e estilos que não sejam os do próprio hub. O script não acessa a página do D2L.
+- **Segura no iframe:** a página não carrega nada de fora (sem CDN, fontes externas ou rastreadores), com uma única exceção opcional, o VLibras (veja acima). Todo texto da config é escapado e uma Content-Security-Policy bloqueia scripts e estilos que não sejam os do próprio hub. O script não acessa a página do D2L.
 - **Funciona sem JavaScript:** a lista é HTML pronto. O script só acrescenta a busca.
 - **Busca:** compara o começo das palavras do nome, da sigla, da descrição e das palavras-chave, sem diferenciar acentos. Atalhos: `/` foca a busca, `Esc` limpa e `Enter` abre o time quando sobra um só.
-- **Acessível:** navegação por teclado com foco visível, link para pular para a lista, anúncio do número de resultados para leitor de tela, contraste AA e respeito a “reduzir movimento”.
+- **Acessível:** navegação por teclado com foco visível, link para pular para a lista, anúncio do número de resultados para leitor de tela, contraste AA, respeito a “reduzir movimento” e, se ligado, tradução para Libras com o VLibras.
 - **Não indexada:** `noindex` (é uma página de uso interno).
 
 ## Problemas comuns

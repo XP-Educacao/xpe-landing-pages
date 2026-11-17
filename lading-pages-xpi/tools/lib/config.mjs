@@ -22,6 +22,7 @@ const SECTIONS = {
   marca: ['nome', 'logo'],
   textos: ['tituloAba', 'rotulo', 'titulo', 'subtitulo', 'botao', 'emBreve', 'rodape'],
   busca: ['aPartirDe', 'placeholder'],
+  acessibilidade: ['vlibras'], /* opcional: sem o bloco, tudo desligado */
 };
 const ROOT_FIELDS = [...Object.keys(SECTIONS), 'ordem', 'times'];
 
@@ -235,6 +236,13 @@ export function validateConfig(raw, { imagesDir }) {
     error('ordem', `O valor ${JSON.stringify(ordem)} não existe.`, "Use 'alfabetica' ou 'manual'.");
   }
 
+  /* ── acessibilidade (bloco opcional) ─────────────────────────────────── */
+  const acessibilidade = raw.acessibilidade === undefined ? {} : section('acessibilidade');
+  const vlibras = acessibilidade.vlibras ?? false;
+  if (typeof vlibras !== 'boolean') {
+    error('acessibilidade → vlibras', 'Precisa ser true (ligado) ou false (desligado), sem aspas.', 'Exemplo: vlibras: true,');
+  }
+
   /* ── times ───────────────────────────────────────────────────────────── */
   const teams = [];
   const emptyHome = [];
@@ -385,6 +393,7 @@ export function validateConfig(raw, { imagesDir }) {
       marca: { nome: brandName, logo },
       textos: texts,
       busca: { aPartirDe: searchFrom, placeholder, ativa: searchActive },
+      acessibilidade: { vlibras: vlibras === true },
       ordem,
       times: teams,
     },

@@ -241,6 +241,43 @@ test('muitos times ligam a busca (e o script); poucos times esticam a grade', as
   }
 });
 
+test('VLibras: desligado sem o bloco acessibilidade; valor inválido é recusado', () => {
+  assert.equal(validate(baseConfig()).data.acessibilidade.vlibras, false);
+  const result = validate(baseConfig({ acessibilidade: { vlibras: 'sim' } }));
+  assert.match(errorsOf(result)[0].message, /true \(ligado\) ou false/);
+});
+
+test('VLibras ligado: plugin oficial + arquivo de início, bloco do widget e CSP só com o gov.br', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'hub-vlibras-'));
+  try {
+    const file = join(dir, 'vlibras.config.mjs');
+    writeFileSync(file, `export default ${JSON.stringify(baseConfig({ acessibilidade: { vlibras: true } }))};\n`);
+    const site = await generateSite({ configFile: file });
+    assert.equal(site.ok, true, JSON.stringify(site.issues, null, 2));
+    const { html } = site;
+
+    const plugin = html.indexOf('<script src="https://vlibras.gov.br/app/vlibras-plugin.js" defer></script>');
+    const init = html.search(/<script src="assets\/vlibras\.js\?v=[0-9a-f]{10}" defer><\/script>/);
+    assert.ok(plugin > 0 && init > plugin, 'o plugin precisa vir antes do arquivo que o inicia');
+    assert.ok(site.files.has('assets/vlibras.js'));
+    assert.match(html, /<div vw class="enabled">\s*<div vw-access-button class="active"><\/div>/);
+
+    const csp = html.match(/Content-Security-Policy" content="([^"]+)"/)[1];
+    assert.match(csp, /frame-src https:\/\/vlibras\.gov\.br/);
+    assert.match(csp, /https:\/\/cdn\.jsdelivr\.net\/gh\/spbgovbr-vlibras\//);
+    assert.doesNotMatch(csp, /unsafe-eval|wasm|blob:|https:\/\/cdn\.jsdelivr\.net[ ;]/, 'nada além do necessário');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('VLibras desligado: nenhum script ou endereço do gov.br na página', () => {
+  const { data } = validate(baseConfig());
+  const html = renderPage({ data, css: '', cssHash: 'sha256-x', script: '' });
+  assert.doesNotMatch(html, /vlibras|<div vw/i);
+  assert.match(html, /style-src 'sha256-x'/);
+});
+
 test('a página da demo: hash do CSS confere com a CSP, logos publicados, links no _top e nada sobre cursos', async () => {
   const site = await generateSite({ configFile: DEMO });
   assert.equal(site.ok, true, JSON.stringify(site.issues, null, 2));

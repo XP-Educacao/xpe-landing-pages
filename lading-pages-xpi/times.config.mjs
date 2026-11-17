@@ -62,6 +62,15 @@ export default {
     placeholder: 'Buscar time',
   },
 
+  acessibilidade: {
+    /* VLibras: tradutor de português para Libras do governo federal (vlibras.gov.br).
+         true  → mostra o botão de Libras na lateral da página
+         false → desligado (o hub não carrega nada de fora)
+       Ligado, a página carrega o VLibras dos servidores do gov.br, e o texto que a pessoa
+       clicar é enviado a eles para a tradução (o hub só tem textos públicos). */
+    vlibras: true,
+  },
+
   /* Ordem dos cards:
        'alfabetica' → por nome, automaticamente (recomendado: time novo entra em qualquer lugar da lista)
        'manual'     → na ordem em que os times aparecem abaixo */
