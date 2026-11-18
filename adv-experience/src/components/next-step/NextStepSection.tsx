@@ -103,15 +103,6 @@ export function NextStepSection({ offerUrl, justRevealed, onRevealEnd }: NextSte
               {content.primaryCta}
               <ArrowRight aria-hidden="true" className="size-4 shrink-0" />
             </ExternalButton>
-            <ExternalButton
-              url={content.secondaryCta.url}
-              className={cn(
-                BUTTON_BASE,
-                'justify-center border border-neutral-700 text-white hover:border-neutral-500 hover:bg-white/5',
-              )}
-            >
-              {content.secondaryCta.label}
-            </ExternalButton>
           </div>
         </div>
 

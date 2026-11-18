@@ -13,11 +13,6 @@ export const nextStepContent = {
     'assessoria de investimentos, com preparatórios para as certificações ANBIMA, mentorias, ' +
     'ferramentas práticas e imersão presencial na XP.',
   primaryCta: 'Quero minha condição especial',
-  secondaryCta: {
-    label: 'Saiba mais sobre a formação',
-    /** Paste the course page link here. `null` = button shown as "em breve" (not clickable). */
-    url: null as string | null,
-  },
   stats: [
     { value: '143h', label: 'de preparatórios para as certificações CPA, CProR e CProI' },
     { value: '3 dias', label: 'completos de imersão presencial na XP' },
